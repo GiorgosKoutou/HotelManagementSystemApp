@@ -21,7 +21,19 @@ namespace DataAccessLibrary.Models
         public required string LastName { get; set; }
 
         [Required]
-        [Column(TypeName = "varchar()")]
-        public required string Afm { get; set; }
+        [Column(TypeName = "varchar(50)")]
+        public required string Tin { get; set; }
+
+        [Column(TypeName = "varchar(50)")]
+        public string Country { get; set; } = string.Empty;
+
+        [Column(TypeName = "varchar(50)")]
+        public string City { get; set; } = string.Empty;
+
+        [Column(TypeName = "varchar(50)")]
+        public string Address { get; set; } = string.Empty;
+
+        
+        public string PhoneNumber { get; set; } = string.Empty;
     }
 }
