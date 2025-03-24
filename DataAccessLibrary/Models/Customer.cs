@@ -33,7 +33,7 @@ namespace DataAccessLibrary.Models
         [Column(TypeName = "varchar(50)")]
         public string Address { get; set; } = string.Empty;
 
-        
+        [Column(TypeName = "varchar(50)")]
         public string PhoneNumber { get; set; } = string.Empty;
     }
 }
