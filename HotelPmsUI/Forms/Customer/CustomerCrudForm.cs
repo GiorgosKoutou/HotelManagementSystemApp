@@ -28,15 +28,11 @@ namespace HotelPmsUI.Forms.Customer
             if (id > 0)
             {
                 CustomerService.Instance.EdiData<HpmsDbContext, DataAccessLibrary.Models.Customer>(customerBindingSource);
-                MessageBox.Show("Customer Update Successfully");
                 id = 0;
                 customerBindingSource.AddNew();
             }
             else
-            {
                 CustomerService.Instance.AddData<HpmsDbContext, DataAccessLibrary.Models.Customer>(customerBindingSource);
-                MessageBox.Show("Customer Added Successfully.");
-            }
                 
 
         }

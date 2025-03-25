@@ -21,6 +21,7 @@ namespace HotelPms.ModelServices
                 source.DataSource = entity;
             }
         }
+
         public virtual void AddData<TContext, TClass>(BindingSource source) where TContext : new() where TClass : class
         {
             using (var context = new TContext() as DbContext)
@@ -41,6 +42,7 @@ namespace HotelPms.ModelServices
                 context.SaveChanges();
             }
         }
+
 
         public virtual void DeleteData<TContext, TClass, TvarName>(TvarName propName) where TContext : new() where TClass : class where TvarName : struct
         {

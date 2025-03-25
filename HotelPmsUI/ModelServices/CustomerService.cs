@@ -40,8 +40,9 @@ namespace HotelPms.ModelServices
         public override void AddData<TContext, TClass>(BindingSource source)
         {
             try
-            {
+            { 
                 base.AddData<TContext, TClass>(source);
+                MessageBox.Show("Customer Added Successfully.");
             }
             catch (DbUpdateException e)
             {
@@ -82,7 +83,7 @@ namespace HotelPms.ModelServices
             try
             {
                 base.EdiData<TContext, TClass>(source);
-                CustomerService.Instance.CustomerId = 0;
+                MessageBox.Show("Customer Update Successfully");
             }
             catch (DbUpdateException e)
             {

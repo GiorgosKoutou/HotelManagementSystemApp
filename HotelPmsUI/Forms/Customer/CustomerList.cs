@@ -42,21 +42,35 @@ namespace HotelPmsUI.Forms.Customer
         private void deleteButton_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show("Do you want to delete the customer?", "Question", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes) 
+            if (result == DialogResult.Yes)
             {
                 CustomerService.Instance.DeleteData<HpmsDbContext, DataAccessLibrary.Models.Customer, int>(CustomerService.Instance.CustomerId);
                 CustomerListForm customerListForm = new CustomerListForm();
                 CustomerService.Instance.ViewData<HpmsDbContext, DataAccessLibrary.Models.Customer>(customerListForm.CustomerDataBindingSource);
                 MessageBox.Show("Customer Deleted Successfully");
                 customerListForm.Show();
-            } else
+            }
+            else
                 return;
-            
+
         }
 
         private void CustomerListForm_Load(object sender, EventArgs e)
         {
             CustomerTable.ClearSelection();
+        }
+
+        private void CustomerListForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            CustomerService.Instance.CustomerId = 0;
+        }
+
+        private void CustomerTable_DoubleClick(object sender, EventArgs e)
+        {
+            CustomerCrudForm customerCrudForm = new CustomerCrudForm();
+            var customer = CustomerService.Instance.FindData<HpmsDbContext, DataAccessLibrary.Models.Customer, int>(CustomerService.Instance.CustomerId);
+            customerCrudForm.CustomerBindingSource.DataSource = customer;
+            customerCrudForm.Show();
         }
     }
 }
