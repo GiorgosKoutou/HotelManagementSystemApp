@@ -26,16 +26,26 @@ namespace HotelPmsUI.Forms.Customer
             int id = CustomerService.Instance.CustomerId;
 
             if (id > 0)
-                CustomerService.EditCustomer<HpmsDbContext>(customerBindingSource);
-
+            {
+                CustomerService.Instance.EdiData<HpmsDbContext, DataAccessLibrary.Models.Customer>(customerBindingSource);
+                MessageBox.Show("Customer Update Successfully");
+                id = 0;
+                customerBindingSource.AddNew();
+            }
             else
-                CustomerService.AddCustomer<HpmsDbContext>(customerBindingSource);
+            {
+                CustomerService.Instance.AddData<HpmsDbContext, DataAccessLibrary.Models.Customer>(customerBindingSource);
+                MessageBox.Show("Customer Added Successfully.");
+            }
+                
 
         }
 
         private void ViewButton_Click(object sender, EventArgs e)
         {
-            CustomerService.ViewCustomers<HpmsDbContext, CustomerListForm>();
+            CustomerListForm frm = new CustomerListForm();
+            CustomerService.Instance.ViewData<HpmsDbContext, DataAccessLibrary.Models.Customer>(frm.CustomerDataBindingSource);
+            frm.Show();
         }
     }
 }

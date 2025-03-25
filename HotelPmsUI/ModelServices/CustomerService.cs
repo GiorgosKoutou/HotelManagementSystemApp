@@ -1,42 +1,51 @@
 ﻿using DataAccessLibrary.Context;
+using DataAccessLibrary.Models;
 using HotelPmsUI.Forms.Customer;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices.Marshalling;
 
 namespace HotelPms.ModelServices
 {
-    public class CustomerService
+    public class CustomerService : Service
     {
         private static CustomerService instance = new();
         private CustomerService() { }
 
         public static CustomerService Instance { get => instance; }
 
-        public int CustomerId { get; set; }
+        public int CustomerId { get; set; } = 0;
+
 
         /// <summary>
-        /// Adds a new customer to the database.
+        /// Views data from the database using the specified BindingSource.
         /// </summary>
-        /// <typeparam name="T">The type of the DbContext to use.</typeparam>
-        /// <param name="source">The BindingSource containing the customer data.</param>
-        public static void AddCustomer<T>(BindingSource source) where T : new()
+        /// <typeparam name="TContext">The type of the DbContext to use.</typeparam>
+        /// <typeparam name="TClass">The type of the entity to view.</typeparam>
+        /// <param name="source">The BindingSource containing the data to view.</param>
+        public override void ViewData<TContext, TClass>(BindingSource source)
+        {
+            base.ViewData<TContext, TClass>(source);
+        }
+
+        /// <summary>
+        /// Adds data to the database using the specified BindingSource.
+        /// </summary>
+        /// <typeparam name="T1">The type of the DbContext to use.</typeparam>
+        /// <typeparam name="T2">The type of the entity to add.</typeparam>
+        /// <param name="source">The BindingSource containing the data to add.</param>
+        /// <exception cref="DbUpdateException">
+        /// Thrown when an error occurs while updating the database. 
+        /// Specific error messages are displayed based on the exception details.
+        /// </exception>
+        public override void AddData<TContext, TClass>(BindingSource source)
         {
             try
             {
-                using (var context = new T() as HpmsDbContext)
-                {
-                    var customer = (DataAccessLibrary.Models.Customer)source.Current;
-                    context.Add(customer);
-                    context.SaveChanges();
-                    MessageBox.Show("Customer Added Successfully.");
-                    source.AddNew();
-                }
-
+                base.AddData<TContext, TClass>(source);
             }
             catch (DbUpdateException e)
             {
-                var inner = e.InnerException;
-                string message = inner.Message;
+                string message = e.InnerException.Message;
 
                 if (message.Contains("FirstName"))
                     MessageBox.Show("First Name cannot be empty");
@@ -44,10 +53,9 @@ namespace HotelPms.ModelServices
                 if (message.Contains("LastName"))
                     MessageBox.Show("Last Name cannot be empty");
 
-
                 if (message.Contains("Tin"))
                 {
-                    if (message.Contains("Column Tin"))
+                    if (message.Contains("null"))
                         MessageBox.Show("Tax Identificational Number cannot be empty");
 
                     else if (message.Contains("customers.IX_Customers_Tin"))
@@ -55,92 +63,87 @@ namespace HotelPms.ModelServices
 
                     else
                         MessageBox.Show(message);
-
                 }
-
-
             }
-
         }
 
         /// <summary>
-        /// Displays a list of customers.
+        /// Edits data in the database using the specified BindingSource.
         /// </summary>
         /// <typeparam name="T1">The type of the DbContext to use.</typeparam>
-        /// <typeparam name="T2">The type of the form to display the customer list.</typeparam>
-        public static void ViewCustomers<T1, T2>() where T1 : new() where T2 : new()
+        /// <typeparam name="T2">The type of the entity to edit.</typeparam>
+        /// <param name="source">The BindingSource containing the data to edit.</param>
+        /// <exception cref="DbUpdateException">
+        /// Thrown when an error occurs while updating the database. 
+        /// Specific error messages are displayed based on the exception details.
+        /// </exception>
+        public override void EdiData<TContext, TClass>(BindingSource source)
         {
-            using (var context = new T1() as HpmsDbContext)
+            try
             {
-                var customerList = new T2() as CustomerListForm;
-
-                customerList.CustomerDataBindingSource.DataSource = context.Customers.ToList();
-                customerList.Show();
-
+                base.EdiData<TContext, TClass>(source);
+                CustomerService.Instance.CustomerId = 0;
             }
-
-        }
-
-        /// <summary>
-        /// Edits an existing customer in the database.
-        /// </summary>
-        /// <typeparam name="T">The type of the DbContext to use.</typeparam>
-        /// <param name="source">The BindingSource containing the customer data.</param>
-        public static void EditCustomer<T>(BindingSource source) where T : new()
-        {
-            using (var context = new T() as HpmsDbContext)
+            catch (DbUpdateException e)
             {
-                try
+                string message = e.InnerException.Message;
+
+                if (message.Contains("FirstName"))
+                    MessageBox.Show("First Name cannot be empty");
+
+                if (message.Contains("LastName"))
+                    MessageBox.Show("Last Name cannot be empty");
+
+                if (message.Contains("Tin"))
                 {
-                    var customer = (DataAccessLibrary.Models.Customer)source.Current;
-                    context.Customers.Update(customer);
-                    context.SaveChanges();
-                    MessageBox.Show("Customer Update Success");
+                    if (message.Contains("null"))
+                        MessageBox.Show("Tax Identificational Number cannot be empty");
+
+                    else if (message.Contains("customers.IX_Customers_Tin"))
+                        MessageBox.Show("Tax Identificational Number already exists");
+
+                    else
+                        MessageBox.Show(message);
                 }
-                catch (DbUpdateException e)
-                {
-                    var inner = e.InnerException;
-                    string message = inner.Message;
-
-                    if (message.Contains("FirstName"))
-                        MessageBox.Show("First Name cannot be empty");
-
-                    if (message.Contains("LastName"))
-                        MessageBox.Show("Last Name cannot be empty");
-
-
-                    if (message.Contains("Tin"))
-                    {
-                        if (message.Contains("Column Tin"))
-                            MessageBox.Show("Tax Identificational Number cannot be empty");
-
-                        else if (message.Contains("customers.IX_Customers_Tin"))
-                            MessageBox.Show("Tax Identificational Number already exists");
-
-                        else
-                            MessageBox.Show(message);
-
-                    }
-
-
-                }
-
             }
         }
 
         /// <summary>
-        /// Deletes a customer from the database.
+        /// Deletes data from the database using the specified property name.
         /// </summary>
-        /// <typeparam name="T">The type of the DbContext to use.</typeparam>
-        public static void DeleteCustomer<T>() where T : new()
+        /// <typeparam name="TContext">The type of the DbContext to use.</typeparam>
+        /// <typeparam name="TClass">The type of the entity to delete.</typeparam>
+        /// <typeparam name="TvarName">The type of the property name to use for deletion.</typeparam>
+        /// <param name="propName">The property name used to identify the entity to delete.</param>
+        /// <exception cref="NullReferenceException">
+        /// Thrown when the entity to delete is not found in the database.
+        /// </exception>
+        public override void DeleteData<TContext, TClass, TvarName>(TvarName propName)
         {
-            using (var context = new T() as HpmsDbContext)
+            try
             {
-                var customer = context.Customers.FirstOrDefault(c => c.Id == CustomerService.Instance.CustomerId);
-                context.Customers.Remove(customer);
-                context.SaveChanges();
-                MessageBox.Show("Customer Deleted");
+                base.DeleteData<TContext, TClass, TvarName>(propName);   
+            }
+            catch (NullReferenceException e)
+            {
+                MessageBox.Show("Customer Not Found");
             }
         }
+
+        public override TClass FindData<TContext, TClass, TvarName>(TvarName propName)
+        {
+            try
+            {
+                return base.FindData<TContext, TClass, TvarName>(propName);
+            }
+            catch (NullReferenceException e)
+            {
+                MessageBox.Show("Customer Not Found");
+                throw e;
+            }
+
+        }
+
+
     }
 }

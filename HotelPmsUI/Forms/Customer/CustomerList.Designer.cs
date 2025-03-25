@@ -50,15 +50,17 @@
             CustomerTable.AllowUserToAddRows = false;
             CustomerTable.AllowUserToDeleteRows = false;
             CustomerTable.AutoGenerateColumns = false;
+            CustomerTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             CustomerTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             CustomerTable.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, firstNameDataGridViewTextBoxColumn, lastNameDataGridViewTextBoxColumn, tinDataGridViewTextBoxColumn, countryDataGridViewTextBoxColumn, cityDataGridViewTextBoxColumn, addressDataGridViewTextBoxColumn, phoneNumberDataGridViewTextBoxColumn });
             CustomerTable.DataSource = customerBindingSource;
-            CustomerTable.Dock = DockStyle.Top;
             CustomerTable.Location = new Point(0, 0);
+            CustomerTable.MultiSelect = false;
             CustomerTable.Name = "CustomerTable";
             CustomerTable.ReadOnly = true;
+            CustomerTable.RowHeadersVisible = false;
             CustomerTable.RowHeadersWidth = 51;
-            CustomerTable.Size = new Size(1056, 322);
+            CustomerTable.Size = new Size(1053, 322);
             CustomerTable.TabIndex = 0;
             CustomerTable.RowEnter += CustomerTable_RowEnter;
             // 
@@ -69,7 +71,7 @@
             idDataGridViewTextBoxColumn.MinimumWidth = 6;
             idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
             idDataGridViewTextBoxColumn.ReadOnly = true;
-            idDataGridViewTextBoxColumn.Width = 125;
+            idDataGridViewTextBoxColumn.Width = 51;
             // 
             // firstNameDataGridViewTextBoxColumn
             // 
@@ -78,7 +80,7 @@
             firstNameDataGridViewTextBoxColumn.MinimumWidth = 6;
             firstNameDataGridViewTextBoxColumn.Name = "firstNameDataGridViewTextBoxColumn";
             firstNameDataGridViewTextBoxColumn.ReadOnly = true;
-            firstNameDataGridViewTextBoxColumn.Width = 125;
+            firstNameDataGridViewTextBoxColumn.Width = 105;
             // 
             // lastNameDataGridViewTextBoxColumn
             // 
@@ -87,7 +89,7 @@
             lastNameDataGridViewTextBoxColumn.MinimumWidth = 6;
             lastNameDataGridViewTextBoxColumn.Name = "lastNameDataGridViewTextBoxColumn";
             lastNameDataGridViewTextBoxColumn.ReadOnly = true;
-            lastNameDataGridViewTextBoxColumn.Width = 125;
+            lastNameDataGridViewTextBoxColumn.Width = 104;
             // 
             // tinDataGridViewTextBoxColumn
             // 
@@ -96,7 +98,7 @@
             tinDataGridViewTextBoxColumn.MinimumWidth = 6;
             tinDataGridViewTextBoxColumn.Name = "tinDataGridViewTextBoxColumn";
             tinDataGridViewTextBoxColumn.ReadOnly = true;
-            tinDataGridViewTextBoxColumn.Width = 125;
+            tinDataGridViewTextBoxColumn.Width = 58;
             // 
             // countryDataGridViewTextBoxColumn
             // 
@@ -105,7 +107,7 @@
             countryDataGridViewTextBoxColumn.MinimumWidth = 6;
             countryDataGridViewTextBoxColumn.Name = "countryDataGridViewTextBoxColumn";
             countryDataGridViewTextBoxColumn.ReadOnly = true;
-            countryDataGridViewTextBoxColumn.Width = 125;
+            countryDataGridViewTextBoxColumn.Width = 89;
             // 
             // cityDataGridViewTextBoxColumn
             // 
@@ -114,7 +116,7 @@
             cityDataGridViewTextBoxColumn.MinimumWidth = 6;
             cityDataGridViewTextBoxColumn.Name = "cityDataGridViewTextBoxColumn";
             cityDataGridViewTextBoxColumn.ReadOnly = true;
-            cityDataGridViewTextBoxColumn.Width = 125;
+            cityDataGridViewTextBoxColumn.Width = 63;
             // 
             // addressDataGridViewTextBoxColumn
             // 
@@ -123,7 +125,7 @@
             addressDataGridViewTextBoxColumn.MinimumWidth = 6;
             addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
             addressDataGridViewTextBoxColumn.ReadOnly = true;
-            addressDataGridViewTextBoxColumn.Width = 125;
+            addressDataGridViewTextBoxColumn.Width = 91;
             // 
             // phoneNumberDataGridViewTextBoxColumn
             // 
@@ -132,7 +134,7 @@
             phoneNumberDataGridViewTextBoxColumn.MinimumWidth = 6;
             phoneNumberDataGridViewTextBoxColumn.Name = "phoneNumberDataGridViewTextBoxColumn";
             phoneNumberDataGridViewTextBoxColumn.ReadOnly = true;
-            phoneNumberDataGridViewTextBoxColumn.Width = 125;
+            phoneNumberDataGridViewTextBoxColumn.Width = 133;
             // 
             // customerBindingSource
             // 
@@ -168,6 +170,7 @@
             Controls.Add(CustomerTable);
             Name = "CustomerListForm";
             Text = "CustomerList";
+            Load += CustomerListForm_Load;
             ((System.ComponentModel.ISupportInitialize)CustomerTable).EndInit();
             ((System.ComponentModel.ISupportInitialize)customerBindingSource).EndInit();
             ResumeLayout(false);
