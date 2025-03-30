@@ -63,6 +63,7 @@
             customerButton.TabIndex = 0;
             customerButton.Text = "Customer";
             customerButton.UseVisualStyleBackColor = true;
+            customerButton.Click += customerButton_Click;
             // 
             // backroundPanel
             // 
@@ -96,7 +97,7 @@
             // 
             // deleteButton
             // 
-            deleteButton.Anchor = AnchorStyles.Right;
+            deleteButton.Anchor = AnchorStyles.None;
             deleteButton.AutoSize = true;
             deleteButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             deleteButton.Location = new Point(452, 12);
@@ -105,6 +106,7 @@
             deleteButton.TabIndex = 2;
             deleteButton.Text = "Delete";
             deleteButton.UseVisualStyleBackColor = true;
+            deleteButton.Click += deleteButton_Click;
             // 
             // editButton
             // 
@@ -117,10 +119,11 @@
             editButton.TabIndex = 1;
             editButton.Text = "Edit";
             editButton.UseVisualStyleBackColor = true;
+            editButton.Click += editButton_Click;
             // 
             // newButton
             // 
-            newButton.Anchor = AnchorStyles.Left;
+            newButton.Anchor = AnchorStyles.None;
             newButton.AutoSize = true;
             newButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             newButton.Location = new Point(179, 12);
@@ -129,6 +132,7 @@
             newButton.TabIndex = 0;
             newButton.Text = "New";
             newButton.UseVisualStyleBackColor = true;
+            newButton.Click += newButton_Click;
             // 
             // MainForm
             // 

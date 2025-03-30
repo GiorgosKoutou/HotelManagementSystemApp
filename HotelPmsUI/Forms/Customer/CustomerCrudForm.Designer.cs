@@ -206,7 +206,7 @@
             addButton.Name = "addButton";
             addButton.Size = new Size(283, 54);
             addButton.TabIndex = 14;
-            addButton.Text = "Add";
+            addButton.Text = "Save";
             addButton.UseVisualStyleBackColor = true;
             addButton.Click += AddButton_Click;
             // 
@@ -216,7 +216,7 @@
             viewButton.Name = "viewButton";
             viewButton.Size = new Size(289, 54);
             viewButton.TabIndex = 15;
-            viewButton.Text = "View";
+            viewButton.Text = "Cancel";
             viewButton.UseVisualStyleBackColor = true;
             viewButton.Click += ViewButton_Click;
             // 

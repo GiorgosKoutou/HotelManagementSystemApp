@@ -1,50 +1,56 @@
-﻿using DataAccessLibrary.Context;
-using HotelPmsUI.ModelServices;
+﻿using HotelPmsUI.ModelServices;
+using HotelPmsUI.Modules;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace HotelPmsUI.Forms.Customer
 {
     public partial class CustomerCrudForm : Form
     {
         public BindingSource CustomerBindingSource { get => customerBindingSource; }
-        private readonly CustomerService customer;
 
-        public CustomerCrudForm(CustomerService customer)
+        private readonly CustomerService customerService;
+        private readonly CustomerListForm customerListForm;
+
+        private readonly CustomerModule customerModule;
+
+
+
+        public CustomerCrudForm(CustomerService customer, CustomerListForm customerListForm, CustomerModule customerModule)
         {
             InitializeComponent();
-            this.customer = customer;
+            this.customerService = customer;
+            this.customerListForm = customerListForm;
+
             customerBindingSource.AddNew();
+            this.customerModule = customerModule;
         }
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            int id = customer.CustomerId;
+            int id = customerService.CustomerId;
+            var mainForm = Program.ServiceProvider.GetRequiredService<MainForm>();
+
 
             if (id > 0)
             {
-                customer.EdiData<DataAccessLibrary.Models.Customer>(customerBindingSource);
+                customerService.EdiData(customerBindingSource);
                 id = 0;
-                customerBindingSource.AddNew();
+
+                customerModule.ShowForm(mainForm.MainPanel, customerListForm);
+                customerService.ViewData(customerListForm.CustomerDataBindingSource);
             }
             else
-                customer.AddData<DataAccessLibrary.Models.Customer>(customerBindingSource);
-
-
+            {
+                customerService.AddData(customerBindingSource);
+                customerService.ViewData(customerListForm.CustomerDataBindingSource);
+                customerModule.ShowForm(mainForm.MainPanel, customerListForm);
+            }
         }
 
         private void ViewButton_Click(object sender, EventArgs e)
         {
             var form = Program.ServiceProvider.GetRequiredService<CustomerListForm>();
-            customer.ViewData<DataAccessLibrary.Models.Customer>(form.CustomerDataBindingSource);
+            customerService.ViewData(form.CustomerDataBindingSource);
             form.Show();
         }
     }

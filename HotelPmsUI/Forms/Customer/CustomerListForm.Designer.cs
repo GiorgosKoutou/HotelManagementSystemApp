@@ -39,8 +39,6 @@
             phoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             GridEditButton = new DataGridViewButtonColumn();
             customerBindingSource = new BindingSource(components);
-            editButton = new Button();
-            deleteButton = new Button();
             ((System.ComponentModel.ISupportInitialize)CustomerTable).BeginInit();
             ((System.ComponentModel.ISupportInitialize)customerBindingSource).BeginInit();
             SuspendLayout();
@@ -61,10 +59,9 @@
             CustomerTable.ReadOnly = true;
             CustomerTable.RowHeadersVisible = false;
             CustomerTable.RowHeadersWidth = 51;
-            CustomerTable.Size = new Size(1056, 460);
+            CustomerTable.Size = new Size(1056, 338);
             CustomerTable.TabIndex = 0;
-            CustomerTable.RowEnter += CustomerTable_RowEnter;
-            CustomerTable.DoubleClick += CustomerTable_DoubleClick;
+            CustomerTable.CellClick += CustomerTable_CellClick;
             // 
             // firstNameDataGridViewTextBoxColumn
             // 
@@ -152,33 +149,11 @@
             // 
             customerBindingSource.DataSource = typeof(DataAccessLibrary.Models.Customer);
             // 
-            // editButton
-            // 
-            editButton.Location = new Point(211, 375);
-            editButton.Name = "editButton";
-            editButton.Size = new Size(182, 47);
-            editButton.TabIndex = 1;
-            editButton.Text = "Edit";
-            editButton.UseVisualStyleBackColor = true;
-            editButton.Click += editButton_Click;
-            // 
-            // deleteButton
-            // 
-            deleteButton.Location = new Point(630, 375);
-            deleteButton.Name = "deleteButton";
-            deleteButton.Size = new Size(209, 47);
-            deleteButton.TabIndex = 2;
-            deleteButton.Text = "Delete";
-            deleteButton.UseVisualStyleBackColor = true;
-            deleteButton.Click += deleteButton_Click;
-            // 
             // CustomerListForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1056, 460);
-            Controls.Add(deleteButton);
-            Controls.Add(editButton);
+            ClientSize = new Size(1056, 528);
             Controls.Add(CustomerTable);
             Name = "CustomerListForm";
             Text = "CustomerList";
@@ -192,8 +167,6 @@
 
         private DataGridView CustomerTable;
         private BindingSource customerBindingSource;
-        private Button editButton;
-        private Button deleteButton;
         private DataGridViewTextBoxColumn firstNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn lastNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn tinDataGridViewTextBoxColumn;
