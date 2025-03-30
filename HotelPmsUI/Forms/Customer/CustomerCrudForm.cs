@@ -1,5 +1,6 @@
 ﻿using DataAccessLibrary.Context;
-using HotelPms.ModelServices;
+using HotelPmsUI.ModelServices;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,34 +15,37 @@ namespace HotelPmsUI.Forms.Customer
 {
     public partial class CustomerCrudForm : Form
     {
-        public CustomerCrudForm()
+        public BindingSource CustomerBindingSource { get => customerBindingSource; }
+        private readonly CustomerService customer;
+
+        public CustomerCrudForm(CustomerService customer)
         {
             InitializeComponent();
+            this.customer = customer;
             customerBindingSource.AddNew();
         }
 
-        public BindingSource CustomerBindingSource { get => customerBindingSource; }
         private void AddButton_Click(object sender, EventArgs e)
         {
-            int id = CustomerService.Instance.CustomerId;
+            int id = customer.CustomerId;
 
             if (id > 0)
             {
-                CustomerService.Instance.EdiData<HpmsDbContext, DataAccessLibrary.Models.Customer>(customerBindingSource);
+                customer.EdiData<DataAccessLibrary.Models.Customer>(customerBindingSource);
                 id = 0;
                 customerBindingSource.AddNew();
             }
             else
-                CustomerService.Instance.AddData<HpmsDbContext, DataAccessLibrary.Models.Customer>(customerBindingSource);
-                
+                customer.AddData<DataAccessLibrary.Models.Customer>(customerBindingSource);
+
 
         }
 
         private void ViewButton_Click(object sender, EventArgs e)
         {
-            CustomerListForm frm = new CustomerListForm();
-            CustomerService.Instance.ViewData<HpmsDbContext, DataAccessLibrary.Models.Customer>(frm.CustomerDataBindingSource);
-            frm.Show();
+            var form = Program.ServiceProvider.GetRequiredService<CustomerListForm>();
+            customer.ViewData<DataAccessLibrary.Models.Customer>(form.CustomerDataBindingSource);
+            form.Show();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace HotelPmsUI
+﻿namespace HotelPmsUI.Forms
 {
     partial class MainForm
     {
@@ -28,32 +28,139 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            menuPanel = new Panel();
+            customerButton = new Button();
+            backroundPanel = new Panel();
+            mainPanel = new Panel();
+            buttonPanel = new Panel();
+            deleteButton = new Button();
+            editButton = new Button();
+            newButton = new Button();
+            menuPanel.SuspendLayout();
+            backroundPanel.SuspendLayout();
+            buttonPanel.SuspendLayout();
             SuspendLayout();
             // 
-            // button1
+            // menuPanel
             // 
-            button1.Location = new Point(424, 169);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 0;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            menuPanel.BorderStyle = BorderStyle.FixedSingle;
+            menuPanel.Controls.Add(customerButton);
+            menuPanel.Dock = DockStyle.Left;
+            menuPanel.Location = new Point(0, 0);
+            menuPanel.Margin = new Padding(5);
+            menuPanel.Name = "menuPanel";
+            menuPanel.Size = new Size(145, 507);
+            menuPanel.TabIndex = 0;
+            // 
+            // customerButton
+            // 
+            customerButton.Anchor = AnchorStyles.None;
+            customerButton.AutoSize = true;
+            customerButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            customerButton.Location = new Point(11, 95);
+            customerButton.Name = "customerButton";
+            customerButton.Size = new Size(122, 41);
+            customerButton.TabIndex = 0;
+            customerButton.Text = "Customer";
+            customerButton.UseVisualStyleBackColor = true;
+            // 
+            // backroundPanel
+            // 
+            backroundPanel.Controls.Add(mainPanel);
+            backroundPanel.Controls.Add(buttonPanel);
+            backroundPanel.Dock = DockStyle.Fill;
+            backroundPanel.Location = new Point(145, 0);
+            backroundPanel.Name = "backroundPanel";
+            backroundPanel.Size = new Size(826, 507);
+            backroundPanel.TabIndex = 1;
+            // 
+            // mainPanel
+            // 
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.Location = new Point(0, 63);
+            mainPanel.Name = "mainPanel";
+            mainPanel.Size = new Size(826, 444);
+            mainPanel.TabIndex = 1;
+            // 
+            // buttonPanel
+            // 
+            buttonPanel.Controls.Add(deleteButton);
+            buttonPanel.Controls.Add(editButton);
+            buttonPanel.Controls.Add(newButton);
+            buttonPanel.Dock = DockStyle.Top;
+            buttonPanel.Location = new Point(0, 0);
+            buttonPanel.Margin = new Padding(10);
+            buttonPanel.Name = "buttonPanel";
+            buttonPanel.Size = new Size(826, 63);
+            buttonPanel.TabIndex = 0;
+            // 
+            // deleteButton
+            // 
+            deleteButton.Anchor = AnchorStyles.Right;
+            deleteButton.AutoSize = true;
+            deleteButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            deleteButton.Location = new Point(452, 12);
+            deleteButton.Name = "deleteButton";
+            deleteButton.Size = new Size(94, 38);
+            deleteButton.TabIndex = 2;
+            deleteButton.Text = "Delete";
+            deleteButton.UseVisualStyleBackColor = true;
+            // 
+            // editButton
+            // 
+            editButton.Anchor = AnchorStyles.None;
+            editButton.AutoSize = true;
+            editButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            editButton.Location = new Point(313, 12);
+            editButton.Name = "editButton";
+            editButton.Size = new Size(94, 38);
+            editButton.TabIndex = 1;
+            editButton.Text = "Edit";
+            editButton.UseVisualStyleBackColor = true;
+            // 
+            // newButton
+            // 
+            newButton.Anchor = AnchorStyles.Left;
+            newButton.AutoSize = true;
+            newButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            newButton.Location = new Point(179, 12);
+            newButton.Name = "newButton";
+            newButton.Size = new Size(94, 38);
+            newButton.TabIndex = 0;
+            newButton.Text = "New";
+            newButton.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(971, 507);
-            Controls.Add(button1);
+            Controls.Add(backroundPanel);
+            Controls.Add(menuPanel);
             Name = "MainForm";
             Text = "Form1";
+            menuPanel.ResumeLayout(false);
+            menuPanel.PerformLayout();
+            backroundPanel.ResumeLayout(false);
+            buttonPanel.ResumeLayout(false);
+            buttonPanel.PerformLayout();
             ResumeLayout(false);
+        }
+
+        private void button1_(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
 
-        private Button button1;
+        private Panel menuPanel;
+        private Panel backroundPanel;
+        private Button customerButton;
+        private Panel mainPanel;
+        private Panel buttonPanel;
+        private Button deleteButton;
+        private Button editButton;
+        private Button newButton;
     }
 }

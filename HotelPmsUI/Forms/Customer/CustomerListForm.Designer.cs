@@ -30,9 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             CustomerTable = new DataGridView();
-            customerBindingSource = new BindingSource(components);
-            editButton = new Button();
-            deleteButton = new Button();
             firstNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             lastNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             tinDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -41,6 +38,9 @@
             addressDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             phoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             GridEditButton = new DataGridViewButtonColumn();
+            customerBindingSource = new BindingSource(components);
+            editButton = new Button();
+            deleteButton = new Button();
             ((System.ComponentModel.ISupportInitialize)CustomerTable).BeginInit();
             ((System.ComponentModel.ISupportInitialize)customerBindingSource).BeginInit();
             SuspendLayout();
@@ -61,34 +61,10 @@
             CustomerTable.ReadOnly = true;
             CustomerTable.RowHeadersVisible = false;
             CustomerTable.RowHeadersWidth = 51;
-            CustomerTable.Size = new Size(1056, 322);
+            CustomerTable.Size = new Size(1056, 460);
             CustomerTable.TabIndex = 0;
             CustomerTable.RowEnter += CustomerTable_RowEnter;
             CustomerTable.DoubleClick += CustomerTable_DoubleClick;
-            // 
-            // customerBindingSource
-            // 
-            customerBindingSource.DataSource = typeof(DataAccessLibrary.Models.Customer);
-            // 
-            // editButton
-            // 
-            editButton.Location = new Point(211, 375);
-            editButton.Name = "editButton";
-            editButton.Size = new Size(182, 47);
-            editButton.TabIndex = 1;
-            editButton.Text = "Edit";
-            editButton.UseVisualStyleBackColor = true;
-            editButton.Click += editButton_Click;
-            // 
-            // deleteButton
-            // 
-            deleteButton.Location = new Point(630, 375);
-            deleteButton.Name = "deleteButton";
-            deleteButton.Size = new Size(209, 47);
-            deleteButton.TabIndex = 2;
-            deleteButton.Text = "Delete";
-            deleteButton.UseVisualStyleBackColor = true;
-            deleteButton.Click += deleteButton_Click;
             // 
             // firstNameDataGridViewTextBoxColumn
             // 
@@ -172,6 +148,30 @@
             GridEditButton.UseColumnTextForButtonValue = true;
             GridEditButton.Width = 59;
             // 
+            // customerBindingSource
+            // 
+            customerBindingSource.DataSource = typeof(DataAccessLibrary.Models.Customer);
+            // 
+            // editButton
+            // 
+            editButton.Location = new Point(211, 375);
+            editButton.Name = "editButton";
+            editButton.Size = new Size(182, 47);
+            editButton.TabIndex = 1;
+            editButton.Text = "Edit";
+            editButton.UseVisualStyleBackColor = true;
+            editButton.Click += editButton_Click;
+            // 
+            // deleteButton
+            // 
+            deleteButton.Location = new Point(630, 375);
+            deleteButton.Name = "deleteButton";
+            deleteButton.Size = new Size(209, 47);
+            deleteButton.TabIndex = 2;
+            deleteButton.Text = "Delete";
+            deleteButton.UseVisualStyleBackColor = true;
+            deleteButton.Click += deleteButton_Click;
+            // 
             // CustomerListForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -183,7 +183,6 @@
             Name = "CustomerListForm";
             Text = "CustomerList";
             FormClosed += CustomerListForm_FormClosed;
-            Load += CustomerListForm_Load;
             ((System.ComponentModel.ISupportInitialize)CustomerTable).EndInit();
             ((System.ComponentModel.ISupportInitialize)customerBindingSource).EndInit();
             ResumeLayout(false);
