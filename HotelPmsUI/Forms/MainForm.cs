@@ -1,11 +1,13 @@
 using HotelPmsUI.Forms.Customer;
 using HotelPmsUI.ModelServices;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace HotelPmsUI.Forms
 {
     public partial class MainForm : Form
     {
         public Control MainPanel { get => mainPanel; }
+
 
         private readonly Forms.Customer.CustomerListForm customerListForm;
         private readonly ModelServices.CustomerService customerService;
@@ -27,8 +29,8 @@ namespace HotelPmsUI.Forms
         private void customerButton_Click(object sender, EventArgs e)
         {
             customerModule.ShowForm(mainPanel, customerListForm);
-            customerService.ViewData(customerListForm.CustomerDataBindingSource);   
-            
+            customerService.ViewData(customerListForm.CustomerDataBindingSource);
+
         }
 
         private void newButton_Click(object sender, EventArgs e)
@@ -48,7 +50,8 @@ namespace HotelPmsUI.Forms
         {
             var result = MessageBox.Show("Do you want to delete the data?", "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (result == DialogResult.Yes) {
+            if (result == DialogResult.Yes)
+            {
                 customerService.DeleteData(customerService.CustomerId);
                 customerModule.ShowForm(mainPanel, customerListForm);
                 customerService.ViewData(customerListForm.CustomerDataBindingSource);
@@ -58,7 +61,11 @@ namespace HotelPmsUI.Forms
                 return;
             }
         }
-           
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            var seed = Program.ServiceProvider.GetRequiredService<DataSeed>();
+        }
     }
 }
 

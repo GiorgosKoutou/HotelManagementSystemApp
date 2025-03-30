@@ -143,6 +143,7 @@
             Controls.Add(menuPanel);
             Name = "MainForm";
             Text = "Form1";
+            Load += MainForm_Load;
             menuPanel.ResumeLayout(false);
             menuPanel.PerformLayout();
             backroundPanel.ResumeLayout(false);

@@ -1,5 +1,4 @@
 ﻿using HotelPmsUI.ModelServices;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace HotelPmsUI.Forms.Customer
 {
@@ -13,15 +12,18 @@ namespace HotelPmsUI.Forms.Customer
             this.customerService = customer;
         }
 
-        public BindingSource CustomerDataBindingSource
+        public BindingSource CustomerDataBindingSource { get => customerBindingSource; }
+
+        private void CustomerListForm_Load(object sender, EventArgs e)
         {
-            get { return customerBindingSource; }
+            previousPageButton.Enabled = false;
         }
 
 
         private void CustomerListForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             customerService.CustomerId = 0;
+
         }
 
         private void CustomerTable_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -30,6 +32,19 @@ namespace HotelPmsUI.Forms.Customer
             customerService.CustomerId = currId;
         }
 
+        private void previousPageButton_Click(object sender, EventArgs e)
+        {
+            customerService.CurrentPageDecrement = 1;
+            customerService.ViewData(CustomerDataBindingSource);
+        }
+
+        private void nextPageButton_Click(object sender, EventArgs e)
+        {
+            previousPageButton.Enabled = true;
+
+            customerService.CurrentPageIncrement = 1;
+            customerService.ViewData(CustomerDataBindingSource);
+        }
     }
 }
 

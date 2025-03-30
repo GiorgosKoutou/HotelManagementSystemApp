@@ -47,11 +47,17 @@ namespace HotelPmsUI.Forms.Customer
             }
         }
 
-        private void ViewButton_Click(object sender, EventArgs e)
+        private void CancelButton_Click(object sender, EventArgs e)
         {
-            var form = Program.ServiceProvider.GetRequiredService<CustomerListForm>();
-            customerService.ViewData(form.CustomerDataBindingSource);
-            form.Show();
+            var result = MessageBox.Show("Are you sure you want to cancel?","Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                var mainForm = Program.ServiceProvider.GetRequiredService<MainForm>();
+                customerModule.ShowForm(mainForm.MainPanel, customerListForm);
+                customerService.ViewData(customerListForm.CustomerDataBindingSource);
+            }else
+                return;
         }
     }
 }

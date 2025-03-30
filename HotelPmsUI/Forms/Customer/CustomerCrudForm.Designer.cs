@@ -45,7 +45,7 @@
             addressText = new TextBox();
             phoneNumberText = new TextBox();
             addButton = new Button();
-            viewButton = new Button();
+            cancelButton = new Button();
             ((System.ComponentModel.ISupportInitialize)customerBindingSource).BeginInit();
             SuspendLayout();
             // 
@@ -210,22 +210,22 @@
             addButton.UseVisualStyleBackColor = true;
             addButton.Click += AddButton_Click;
             // 
-            // viewButton
+            // cancelButton
             // 
-            viewButton.Location = new Point(616, 601);
-            viewButton.Name = "viewButton";
-            viewButton.Size = new Size(289, 54);
-            viewButton.TabIndex = 15;
-            viewButton.Text = "Cancel";
-            viewButton.UseVisualStyleBackColor = true;
-            viewButton.Click += ViewButton_Click;
+            cancelButton.Location = new Point(616, 601);
+            cancelButton.Name = "cancelButton";
+            cancelButton.Size = new Size(289, 54);
+            cancelButton.TabIndex = 15;
+            cancelButton.Text = "Cancel";
+            cancelButton.UseVisualStyleBackColor = true;
+            cancelButton.Click += CancelButton_Click;
             // 
             // CustomerCrudForm
             // 
             AutoScaleDimensions = new SizeF(13F, 31F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1300, 697);
-            Controls.Add(viewButton);
+            Controls.Add(cancelButton);
             Controls.Add(addButton);
             Controls.Add(phoneNumberText);
             Controls.Add(addressText);
@@ -268,6 +268,6 @@
         private TextBox phoneNumberText;
         private Button addButton;
         private BindingSource customerBindingSource;
-        private Button viewButton;
+        private Button cancelButton;
     }
 }

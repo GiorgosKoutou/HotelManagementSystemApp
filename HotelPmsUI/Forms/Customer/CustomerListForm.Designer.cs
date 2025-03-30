@@ -39,6 +39,8 @@
             phoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             GridEditButton = new DataGridViewButtonColumn();
             customerBindingSource = new BindingSource(components);
+            previousPageButton = new Button();
+            nextPageButton = new Button();
             ((System.ComponentModel.ISupportInitialize)CustomerTable).BeginInit();
             ((System.ComponentModel.ISupportInitialize)customerBindingSource).BeginInit();
             SuspendLayout();
@@ -52,14 +54,14 @@
             CustomerTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             CustomerTable.Columns.AddRange(new DataGridViewColumn[] { firstNameDataGridViewTextBoxColumn, lastNameDataGridViewTextBoxColumn, tinDataGridViewTextBoxColumn, countryDataGridViewTextBoxColumn, cityDataGridViewTextBoxColumn, addressDataGridViewTextBoxColumn, phoneNumberDataGridViewTextBoxColumn, GridEditButton });
             CustomerTable.DataSource = customerBindingSource;
-            CustomerTable.Dock = DockStyle.Top;
+            CustomerTable.Dock = DockStyle.Fill;
             CustomerTable.Location = new Point(0, 0);
             CustomerTable.MultiSelect = false;
             CustomerTable.Name = "CustomerTable";
             CustomerTable.ReadOnly = true;
             CustomerTable.RowHeadersVisible = false;
             CustomerTable.RowHeadersWidth = 51;
-            CustomerTable.Size = new Size(1056, 338);
+            CustomerTable.Size = new Size(934, 587);
             CustomerTable.TabIndex = 0;
             CustomerTable.CellClick += CustomerTable_CellClick;
             // 
@@ -149,15 +151,40 @@
             // 
             customerBindingSource.DataSource = typeof(DataAccessLibrary.Models.Customer);
             // 
+            // previousPageButton
+            // 
+            previousPageButton.Anchor = AnchorStyles.None;
+            previousPageButton.Location = new Point(348, 344);
+            previousPageButton.Name = "previousPageButton";
+            previousPageButton.Size = new Size(94, 29);
+            previousPageButton.TabIndex = 1;
+            previousPageButton.Text = "<";
+            previousPageButton.UseVisualStyleBackColor = true;
+            previousPageButton.Click += previousPageButton_Click;
+            // 
+            // nextPageButton
+            // 
+            nextPageButton.Anchor = AnchorStyles.None;
+            nextPageButton.Location = new Point(473, 344);
+            nextPageButton.Name = "nextPageButton";
+            nextPageButton.Size = new Size(94, 29);
+            nextPageButton.TabIndex = 2;
+            nextPageButton.Text = ">";
+            nextPageButton.UseVisualStyleBackColor = true;
+            nextPageButton.Click += nextPageButton_Click;
+            // 
             // CustomerListForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1056, 528);
+            ClientSize = new Size(934, 587);
+            Controls.Add(nextPageButton);
+            Controls.Add(previousPageButton);
             Controls.Add(CustomerTable);
             Name = "CustomerListForm";
             Text = "CustomerList";
             FormClosed += CustomerListForm_FormClosed;
+            Load += CustomerListForm_Load;
             ((System.ComponentModel.ISupportInitialize)CustomerTable).EndInit();
             ((System.ComponentModel.ISupportInitialize)customerBindingSource).EndInit();
             ResumeLayout(false);
@@ -175,5 +202,7 @@
         private DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn phoneNumberDataGridViewTextBoxColumn;
         private DataGridViewButtonColumn GridEditButton;
+        private Button previousPageButton;
+        private Button nextPageButton;
     }
 }
