@@ -1,11 +1,28 @@
-﻿namespace HotelPmsUI.ModelServices
+﻿using DataAccessLibrary.Context;
+
+namespace HotelPmsUI.ModelServices
 {
     public class Service<TClass, TValueType>(DataAccessLibrary.Context.HpmsDbContext context) where TClass : class
     {
 
+        private int currentPage = 0;
+        private int skippedRecords;
+        private int recordsPerPage = 30;
+        private int totalRecords = context.Set<TClass>().Count();
+        private int totalPages = 0;
+        public int CurrentPage { get => currentPage; }
+        public int CurrentPageIncrement { set => currentPage += value; }
+        public int CurrentPageDecrement { set => currentPage -= value; }
+        public int RecordsPerPage { get => recordsPerPage; }
+        public int TotalRecords { get => totalRecords; }
+        public int TotalPages { get => totalPages; }
+
+
         public virtual void ViewData(BindingSource source)
         {
-            var entity = context.Set<TClass>().ToList();
+            CalculatePages();
+            skippedRecords = currentPage * recordsPerPage;
+            var entity = context.Set<TClass>().Skip(skippedRecords).Take(recordsPerPage).ToList();
             source.DataSource = entity;
         }
 
@@ -39,5 +56,9 @@
             return entity;
         }
 
+        private void CalculatePages()
+        {
+            totalPages = totalRecords / recordsPerPage;
+        }
     }
 }
