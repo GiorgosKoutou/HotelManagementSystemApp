@@ -1,4 +1,3 @@
-using HotelPmsUI.ModelServices;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HotelPmsUI
