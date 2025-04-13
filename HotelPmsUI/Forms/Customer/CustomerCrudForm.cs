@@ -15,6 +15,7 @@ namespace HotelPmsUI.Forms.Customer
 
 
 
+
         public CustomerCrudForm(CustomerService customer, CustomerListForm customerListForm, CustomerModule customerModule)
         {
             InitializeComponent();
@@ -56,7 +57,9 @@ namespace HotelPmsUI.Forms.Customer
                 var mainForm = Program.ServiceProvider.GetRequiredService<MainForm>();
                 customerModule.ShowForm(mainForm.MainPanel, customerListForm);
                 customerService.ViewData(customerListForm.CustomerDataBindingSource);
-            }else
+                customerBindingSource.AddNew();
+                customerService.CustomerId = 0;
+            }else 
                 return;
         }
     }

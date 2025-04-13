@@ -4,12 +4,14 @@ namespace HotelPmsUI.Forms.Customer
 {
     public partial class CustomerListForm : Form
     {
-        private readonly CustomerService customerService;
+        private readonly CustomerService customer;
+
+        public DataGridView CustomerTable { get => customerTable; }
 
         public CustomerListForm(CustomerService customer)
         {
             InitializeComponent();
-            this.customerService = customer;
+            this.customer = customer;
         }
 
         public BindingSource CustomerDataBindingSource { get => customerBindingSource; }
@@ -22,28 +24,42 @@ namespace HotelPmsUI.Forms.Customer
 
         private void CustomerListForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            customerService.CustomerId = 0;
+            customer.CustomerId = 0;
 
         }
 
         private void CustomerTable_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             var currId = ((DataAccessLibrary.Models.Customer)CustomerDataBindingSource[e.RowIndex]).Id;
-            customerService.CustomerId = currId;
+            customer.CustomerId = currId;
         }
 
         private void previousPageButton_Click(object sender, EventArgs e)
         {
-            customerService.CurrentPageDecrement = 1;
-            customerService.ViewData(CustomerDataBindingSource);
+            nextPageButton.Enabled = true;
+            customer.CurrentPageDecrement = 1;
+
+            customer.ViewData(CustomerDataBindingSource);
+            customerTable.ClearSelection();
+            customerTable.CurrentCell = null;
+
+            if (customer.CurrentPage == 0)
+                previousPageButton.Enabled = false; 
         }
 
         private void nextPageButton_Click(object sender, EventArgs e)
         {
             previousPageButton.Enabled = true;
+            customer.CurrentPageIncrement = 1;
 
-            customerService.CurrentPageIncrement = 1;
-            customerService.ViewData(CustomerDataBindingSource);
+            customer.ViewData(CustomerDataBindingSource);
+
+            if (customer.CurrentPage == customer.TotalPages)
+                nextPageButton.Enabled = false;
+
+            customerTable.ClearSelection();
+            customerTable.CurrentCell = null;
+
         }
     }
 }

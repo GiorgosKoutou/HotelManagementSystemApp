@@ -14,7 +14,7 @@ namespace HotelPmsUI.Forms
         private readonly Forms.Customer.CustomerCrudForm customerCrudForm;
 
         private readonly Modules.CustomerModule customerModule;
-        private readonly Form testForm = new();
+        
 
 
         public MainForm(Forms.Customer.CustomerListForm form, CustomerService customer, CustomerCrudForm customerCrudForm, Modules.CustomerModule customerModule)
@@ -30,6 +30,8 @@ namespace HotelPmsUI.Forms
         {
             customerModule.ShowForm(mainPanel, customerListForm);
             customerService.ViewData(customerListForm.CustomerDataBindingSource);
+            customerListForm.CustomerTable.ClearSelection();
+            customerListForm.CustomerTable.CurrentCell = null;
 
         }
 
