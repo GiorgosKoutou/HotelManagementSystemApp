@@ -34,23 +34,14 @@ namespace HotelPmsUI
             // Customer Services
             service.AddScoped<ModelServices.CustomerService>();
 
-
-            /* Register of the Modules with the service collection */
-
-            // Customer Module
-            service.AddScoped<Modules.CustomerModule>();
-
-
             /* Register of the forms with the service collection */
 
             // Main Form
-            service.AddScoped<Forms.MainForm>();
+            service.AddTransient<Forms.MainForm>();
 
             // Customer Forms
             service.AddTransient<Forms.Customer.CustomerCrudForm>();
             service.AddTransient<Forms.Customer.CustomerListForm>();
-
-
 
 
             service.AddScoped<DataSeed>();
