@@ -37,7 +37,6 @@
             cityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             addressDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             phoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            GridEditButton = new DataGridViewButtonColumn();
             customerBindingSource = new BindingSource(components);
             previousPageButton = new Button();
             nextPageButton = new Button();
@@ -50,9 +49,9 @@
             customerTable.AllowUserToAddRows = false;
             customerTable.AllowUserToDeleteRows = false;
             customerTable.AutoGenerateColumns = false;
-            customerTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            customerTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             customerTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            customerTable.Columns.AddRange(new DataGridViewColumn[] { firstNameDataGridViewTextBoxColumn, lastNameDataGridViewTextBoxColumn, tinDataGridViewTextBoxColumn, countryDataGridViewTextBoxColumn, cityDataGridViewTextBoxColumn, addressDataGridViewTextBoxColumn, phoneNumberDataGridViewTextBoxColumn, GridEditButton });
+            customerTable.Columns.AddRange(new DataGridViewColumn[] { firstNameDataGridViewTextBoxColumn, lastNameDataGridViewTextBoxColumn, tinDataGridViewTextBoxColumn, countryDataGridViewTextBoxColumn, cityDataGridViewTextBoxColumn, addressDataGridViewTextBoxColumn, phoneNumberDataGridViewTextBoxColumn });
             customerTable.DataSource = customerBindingSource;
             customerTable.Dock = DockStyle.Top;
             customerTable.Location = new Point(0, 0);
@@ -61,91 +60,66 @@
             customerTable.ReadOnly = true;
             customerTable.RowHeadersVisible = false;
             customerTable.RowHeadersWidth = 51;
-            customerTable.Size = new Size(934, 381);
+            customerTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            customerTable.Size = new Size(1261, 795);
             customerTable.TabIndex = 0;
-            customerTable.CellClick += CustomerTable_CellClick;
+            customerTable.RowEnter += customerTable_RowEnter;
             // 
             // firstNameDataGridViewTextBoxColumn
             // 
             firstNameDataGridViewTextBoxColumn.DataPropertyName = "FirstName";
-            firstNameDataGridViewTextBoxColumn.Frozen = true;
             firstNameDataGridViewTextBoxColumn.HeaderText = "FirstName";
             firstNameDataGridViewTextBoxColumn.MinimumWidth = 6;
             firstNameDataGridViewTextBoxColumn.Name = "firstNameDataGridViewTextBoxColumn";
             firstNameDataGridViewTextBoxColumn.ReadOnly = true;
-            firstNameDataGridViewTextBoxColumn.Width = 105;
             // 
             // lastNameDataGridViewTextBoxColumn
             // 
             lastNameDataGridViewTextBoxColumn.DataPropertyName = "LastName";
-            lastNameDataGridViewTextBoxColumn.Frozen = true;
             lastNameDataGridViewTextBoxColumn.HeaderText = "LastName";
             lastNameDataGridViewTextBoxColumn.MinimumWidth = 6;
             lastNameDataGridViewTextBoxColumn.Name = "lastNameDataGridViewTextBoxColumn";
             lastNameDataGridViewTextBoxColumn.ReadOnly = true;
-            lastNameDataGridViewTextBoxColumn.Width = 104;
             // 
             // tinDataGridViewTextBoxColumn
             // 
             tinDataGridViewTextBoxColumn.DataPropertyName = "Tin";
-            tinDataGridViewTextBoxColumn.Frozen = true;
             tinDataGridViewTextBoxColumn.HeaderText = "Tin";
             tinDataGridViewTextBoxColumn.MinimumWidth = 6;
             tinDataGridViewTextBoxColumn.Name = "tinDataGridViewTextBoxColumn";
             tinDataGridViewTextBoxColumn.ReadOnly = true;
-            tinDataGridViewTextBoxColumn.Width = 58;
             // 
             // countryDataGridViewTextBoxColumn
             // 
             countryDataGridViewTextBoxColumn.DataPropertyName = "Country";
-            countryDataGridViewTextBoxColumn.Frozen = true;
             countryDataGridViewTextBoxColumn.HeaderText = "Country";
             countryDataGridViewTextBoxColumn.MinimumWidth = 6;
             countryDataGridViewTextBoxColumn.Name = "countryDataGridViewTextBoxColumn";
             countryDataGridViewTextBoxColumn.ReadOnly = true;
-            countryDataGridViewTextBoxColumn.Width = 89;
             // 
             // cityDataGridViewTextBoxColumn
             // 
             cityDataGridViewTextBoxColumn.DataPropertyName = "City";
-            cityDataGridViewTextBoxColumn.Frozen = true;
             cityDataGridViewTextBoxColumn.HeaderText = "City";
             cityDataGridViewTextBoxColumn.MinimumWidth = 6;
             cityDataGridViewTextBoxColumn.Name = "cityDataGridViewTextBoxColumn";
             cityDataGridViewTextBoxColumn.ReadOnly = true;
-            cityDataGridViewTextBoxColumn.Width = 63;
             // 
             // addressDataGridViewTextBoxColumn
             // 
             addressDataGridViewTextBoxColumn.DataPropertyName = "Address";
-            addressDataGridViewTextBoxColumn.Frozen = true;
             addressDataGridViewTextBoxColumn.HeaderText = "Address";
             addressDataGridViewTextBoxColumn.MinimumWidth = 6;
             addressDataGridViewTextBoxColumn.Name = "addressDataGridViewTextBoxColumn";
             addressDataGridViewTextBoxColumn.ReadOnly = true;
-            addressDataGridViewTextBoxColumn.Width = 91;
             // 
             // phoneNumberDataGridViewTextBoxColumn
             // 
             phoneNumberDataGridViewTextBoxColumn.DataPropertyName = "PhoneNumber";
-            phoneNumberDataGridViewTextBoxColumn.Frozen = true;
             phoneNumberDataGridViewTextBoxColumn.HeaderText = "PhoneNumber";
             phoneNumberDataGridViewTextBoxColumn.MinimumWidth = 6;
             phoneNumberDataGridViewTextBoxColumn.Name = "phoneNumberDataGridViewTextBoxColumn";
             phoneNumberDataGridViewTextBoxColumn.ReadOnly = true;
-            phoneNumberDataGridViewTextBoxColumn.Width = 133;
-            // 
-            // GridEditButton
-            // 
-            GridEditButton.DataPropertyName = "Id";
-            GridEditButton.Frozen = true;
-            GridEditButton.HeaderText = "Button";
-            GridEditButton.MinimumWidth = 6;
-            GridEditButton.Name = "GridEditButton";
-            GridEditButton.ReadOnly = true;
-            GridEditButton.Text = "Edit";
-            GridEditButton.UseColumnTextForButtonValue = true;
-            GridEditButton.Width = 59;
             // 
             // customerBindingSource
             // 
@@ -154,7 +128,7 @@
             // previousPageButton
             // 
             previousPageButton.Anchor = AnchorStyles.None;
-            previousPageButton.Location = new Point(346, 407);
+            previousPageButton.Location = new Point(494, 877);
             previousPageButton.Name = "previousPageButton";
             previousPageButton.Size = new Size(94, 29);
             previousPageButton.TabIndex = 1;
@@ -165,7 +139,7 @@
             // nextPageButton
             // 
             nextPageButton.Anchor = AnchorStyles.None;
-            nextPageButton.Location = new Point(471, 407);
+            nextPageButton.Location = new Point(619, 877);
             nextPageButton.Name = "nextPageButton";
             nextPageButton.Size = new Size(94, 29);
             nextPageButton.TabIndex = 2;
@@ -177,13 +151,12 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(934, 587);
+            ClientSize = new Size(1261, 1011);
             Controls.Add(nextPageButton);
             Controls.Add(previousPageButton);
             Controls.Add(customerTable);
             Name = "CustomerListForm";
             Text = "CustomerList";
-            FormClosed += CustomerListForm_FormClosed;
             Load += CustomerListForm_Load;
             ((System.ComponentModel.ISupportInitialize)customerTable).EndInit();
             ((System.ComponentModel.ISupportInitialize)customerBindingSource).EndInit();
@@ -194,6 +167,8 @@
 
         private DataGridView customerTable;
         private BindingSource customerBindingSource;
+        private Button previousPageButton;
+        private Button nextPageButton;
         private DataGridViewTextBoxColumn firstNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn lastNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn tinDataGridViewTextBoxColumn;
@@ -201,8 +176,5 @@
         private DataGridViewTextBoxColumn cityDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn phoneNumberDataGridViewTextBoxColumn;
-        private DataGridViewButtonColumn GridEditButton;
-        private Button previousPageButton;
-        private Button nextPageButton;
     }
 }

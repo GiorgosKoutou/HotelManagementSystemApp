@@ -1,51 +1,56 @@
 using HotelPmsUI.Forms.Customer;
 using HotelPmsUI.ModelServices;
 using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.CompilerServices;
 
 namespace HotelPmsUI.Forms
 {
     public partial class MainForm : Form
     {
-        public Control MainPanel { get => mainPanel; }
+
+        private ModelServices.IService? currentModule;
 
 
         private readonly Forms.Customer.CustomerListForm customerListForm;
-        private readonly ModelServices.CustomerService customerService;
         private readonly Forms.Customer.CustomerCrudForm customerCrudForm;
 
-        private readonly Modules.CustomerModule customerModule;
-        
 
+        private static MainForm? instance = null;
 
-        public MainForm(Forms.Customer.CustomerListForm form, CustomerService customer, CustomerCrudForm customerCrudForm, Modules.CustomerModule customerModule)
+        public MainForm(Forms.Customer.CustomerListForm form, CustomerCrudForm customerCrudForm)
         {
             InitializeComponent();
             this.customerListForm = form;
-            this.customerService = customer;
             this.customerCrudForm = customerCrudForm;
-            this.customerModule = customerModule;
+            instance = this;
         }
+
+        public static Control? Mainpanel { get => instance?.mainPanel; }
 
         private void customerButton_Click(object sender, EventArgs e)
         {
-            customerModule.ShowForm(mainPanel, customerListForm);
-            customerService.ViewData(customerListForm.CustomerDataBindingSource);
-            customerListForm.CustomerTable.ClearSelection();
-            customerListForm.CustomerTable.CurrentCell = null;
+            newButton.Enabled = true;
+            editButton.Enabled = true;
 
+            currentModule = Program.ServiceProvider.GetService<ModelServices.CustomerService>();
+
+            currentModule.SetBindingSource(customerListForm.CustomerDataBindingSource, customerCrudForm.CustomerBindingSource);
+            currentModule.SetPanel(mainPanel);
+            currentModule.SetForms(customerCrudForm, customerListForm);
+
+            currentModule?.ViewData();
         }
 
         private void newButton_Click(object sender, EventArgs e)
-        {
-            customerModule.ShowForm(mainPanel, customerCrudForm);
+        {   
+            editButton.Enabled = false;
+            currentModule?.NewData();
         }
 
         private void editButton_Click(object sender, EventArgs e)
         {
-            var customer = customerService.FindData(customerService.CustomerId);
-            customerCrudForm.CustomerBindingSource.DataSource = customer;
-            customerModule.ShowForm(mainPanel, customerCrudForm);
-
+            newButton.Enabled = false;
+            currentModule?.EditData();
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -54,14 +59,13 @@ namespace HotelPmsUI.Forms
 
             if (result == DialogResult.Yes)
             {
-                customerService.DeleteData(customerService.CustomerId);
-                customerModule.ShowForm(mainPanel, customerListForm);
-                customerService.ViewData(customerListForm.CustomerDataBindingSource);
+                currentModule?.DeleteData();
             }
             else
             {
                 return;
             }
+
         }
 
         private void MainForm_Load(object sender, EventArgs e)
