@@ -1,29 +1,25 @@
 ﻿using DataAccessLibrary.Context;
-using DataAccessLibrary.Models;
-using HotelPmsUI.Forms.Customer;
+using HotelPmsUI.Forms;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices.Marshalling;
 
 namespace HotelPmsUI.ModelServices
 {
     // The generics in the Service class and its derived classes allow for type-safe operations on entities.
     // TClass represents the type of the entity (e.g., Customer), and TValueType represents the type of the entity's key (e.g., int).
     // This enables the Service class to be reused for different entities and key types, providing flexibility and reducing code duplication.
-    public class CustomerService : Service <DataAccessLibrary.Models.Customer, int>
-    
+    public class CustomerService : BaseService<DataAccessLibrary.Models.Customer, Forms.Customer.CustomerCrudForm, Forms.Customer.CustomerListForm>
     {
-        public CustomerService(HpmsDbContext context) : base(context) {}
 
-        public int CustomerId { get; set; } = 0;
-
+        public CustomerService(HpmsDbContext context) : base(context) { }
+        
 
         /// <summary>
         /// Views data from the database using the specified BindingSource.
         /// </summary>
         /// <param name="source">The BindingSource containing the data to view.</param>
-        public override void ViewData(BindingSource source)
+        public override void ViewData()
         {
-            base.ViewData(source);
+            base.ViewData();
         }
 
         /// <summary>
@@ -34,12 +30,11 @@ namespace HotelPmsUI.ModelServices
         /// Thrown when an error occurs while updating the database. 
         /// Specific error messages are displayed based on the exception details.
         /// </exception>
-        public override void AddData(BindingSource source)
+        public override void SaveData()
         {
             try
-            { 
-                base.AddData(source);
-                MessageBox.Show("Customer Added Successfully.");
+            {
+                base.SaveData();
             }
             catch (DbUpdateException e)
             {
@@ -73,12 +68,13 @@ namespace HotelPmsUI.ModelServices
         /// Thrown when an error occurs while updating the database. 
         /// Specific error messages are displayed based on the exception details.
         /// </exception>
-        public override void EdiData(BindingSource source)
+        public override void EditData()
         {
+            //SetCrudBindingSource(CustomerCrudForm.CustomerBindingSource);
             try
             {
-                base.EdiData(source);
-                MessageBox.Show("Customer Update Successfully");
+                base.EditData();
+                //MessageBox.Show("Customer Update Successfully");
             }
             catch (DbUpdateException e)
             {
@@ -111,39 +107,22 @@ namespace HotelPmsUI.ModelServices
         /// <exception cref="NullReferenceException">
         /// Thrown when the entity to delete is not found in the database.
         /// </exception>
-        public override void DeleteData(int propName)
+        public override void DeleteData()
         {
+
             try
             {
-                base.DeleteData(propName);   
+                base.DeleteData();
+                MessageBox.Show("Delete Success");
             }
-            catch (NullReferenceException e)
+            catch (ArgumentNullException e)
             {
-                MessageBox.Show("Customer Not Found");
+                MessageBox.Show("Please select a customer");
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Customer not found");
             }
         }
-
-        /// <summary>
-        /// Finds data in the database using the specified property name.
-        /// </summary/>
-        /// <param name="propName">The property name used to identify the entity to find.</param>
-        /// <returns>The found entity of type <typeparamref name="Customer"/>.</returns>
-        /// <exception cref="NullReferenceException">
-        /// Thrown when the entity to find is not found in the database.
-        /// </exception>
-        public override DataAccessLibrary.Models.Customer FindData(int propName)
-        {
-            try
-            {
-                return base.FindData(propName);
-            }
-            catch (NullReferenceException e)
-            {
-                MessageBox.Show("Customer Not Found");
-                throw;
-            }
-        }
-
-
     }
 }
