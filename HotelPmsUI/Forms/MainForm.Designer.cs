@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             menuPanel = new Panel();
+            roomCategoriesButton = new Button();
+            roomButton = new Button();
+            categoryButton = new Button();
             customerButton = new Button();
             backroundPanel = new Panel();
             mainPanel = new Panel();
@@ -44,22 +47,58 @@
             // menuPanel
             // 
             menuPanel.BorderStyle = BorderStyle.FixedSingle;
+            menuPanel.Controls.Add(roomCategoriesButton);
+            menuPanel.Controls.Add(roomButton);
+            menuPanel.Controls.Add(categoryButton);
             menuPanel.Controls.Add(customerButton);
             menuPanel.Dock = DockStyle.Left;
             menuPanel.Location = new Point(0, 0);
             menuPanel.Margin = new Padding(5);
             menuPanel.Name = "menuPanel";
-            menuPanel.Size = new Size(145, 507);
+            menuPanel.Size = new Size(233, 507);
             menuPanel.TabIndex = 0;
+            // 
+            // roomCategoriesButton
+            // 
+            roomCategoriesButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roomCategoriesButton.Location = new Point(15, 214);
+            roomCategoriesButton.Name = "roomCategoriesButton";
+            roomCategoriesButton.Size = new Size(200, 41);
+            roomCategoriesButton.TabIndex = 3;
+            roomCategoriesButton.Text = "Room Categories";
+            roomCategoriesButton.UseVisualStyleBackColor = true;
+            roomCategoriesButton.Click += roomCategoriesButton_Click;
+            // 
+            // roomButton
+            // 
+            roomButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            roomButton.Location = new Point(11, 88);
+            roomButton.Name = "roomButton";
+            roomButton.Size = new Size(185, 41);
+            roomButton.TabIndex = 2;
+            roomButton.Text = "Rooms";
+            roomButton.UseVisualStyleBackColor = true;
+            roomButton.Click += roomButton_Click;
+            // 
+            // categoryButton
+            // 
+            categoryButton.AutoSize = true;
+            categoryButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            categoryButton.Location = new Point(15, 152);
+            categoryButton.Name = "categoryButton";
+            categoryButton.Size = new Size(185, 41);
+            categoryButton.TabIndex = 1;
+            categoryButton.Text = "User Categories";
+            categoryButton.UseVisualStyleBackColor = true;
+            categoryButton.Click += categoryButton_Click;
             // 
             // customerButton
             // 
-            customerButton.Anchor = AnchorStyles.None;
             customerButton.AutoSize = true;
             customerButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            customerButton.Location = new Point(11, 95);
+            customerButton.Location = new Point(11, 20);
             customerButton.Name = "customerButton";
-            customerButton.Size = new Size(122, 41);
+            customerButton.Size = new Size(185, 41);
             customerButton.TabIndex = 0;
             customerButton.Text = "Customer";
             customerButton.UseVisualStyleBackColor = true;
@@ -70,17 +109,17 @@
             backroundPanel.Controls.Add(mainPanel);
             backroundPanel.Controls.Add(buttonPanel);
             backroundPanel.Dock = DockStyle.Fill;
-            backroundPanel.Location = new Point(145, 0);
+            backroundPanel.Location = new Point(233, 0);
             backroundPanel.Name = "backroundPanel";
-            backroundPanel.Size = new Size(826, 507);
+            backroundPanel.Size = new Size(738, 507);
             backroundPanel.TabIndex = 1;
             // 
             // mainPanel
             // 
             mainPanel.Dock = DockStyle.Fill;
-            mainPanel.Location = new Point(0, 63);
+            mainPanel.Location = new Point(0, 0);
             mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(826, 444);
+            mainPanel.Size = new Size(738, 444);
             mainPanel.TabIndex = 1;
             // 
             // buttonPanel
@@ -88,11 +127,11 @@
             buttonPanel.Controls.Add(deleteButton);
             buttonPanel.Controls.Add(editButton);
             buttonPanel.Controls.Add(newButton);
-            buttonPanel.Dock = DockStyle.Top;
-            buttonPanel.Location = new Point(0, 0);
+            buttonPanel.Dock = DockStyle.Bottom;
+            buttonPanel.Location = new Point(0, 444);
             buttonPanel.Margin = new Padding(10);
             buttonPanel.Name = "buttonPanel";
-            buttonPanel.Size = new Size(826, 63);
+            buttonPanel.Size = new Size(738, 63);
             buttonPanel.TabIndex = 0;
             // 
             // deleteButton
@@ -100,7 +139,7 @@
             deleteButton.Anchor = AnchorStyles.None;
             deleteButton.AutoSize = true;
             deleteButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            deleteButton.Location = new Point(452, 12);
+            deleteButton.Location = new Point(408, 12);
             deleteButton.Name = "deleteButton";
             deleteButton.Size = new Size(94, 38);
             deleteButton.TabIndex = 2;
@@ -113,7 +152,7 @@
             editButton.Anchor = AnchorStyles.None;
             editButton.AutoSize = true;
             editButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            editButton.Location = new Point(313, 12);
+            editButton.Location = new Point(269, 12);
             editButton.Name = "editButton";
             editButton.Size = new Size(94, 38);
             editButton.TabIndex = 1;
@@ -126,7 +165,7 @@
             newButton.Anchor = AnchorStyles.None;
             newButton.AutoSize = true;
             newButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            newButton.Location = new Point(179, 12);
+            newButton.Location = new Point(135, 12);
             newButton.Name = "newButton";
             newButton.Size = new Size(94, 38);
             newButton.TabIndex = 0;
@@ -167,5 +206,8 @@
         private Button deleteButton;
         private Button editButton;
         private Button newButton;
+        private Button categoryButton;
+        private Button roomButton;
+        private Button roomCategoriesButton;
     }
 }

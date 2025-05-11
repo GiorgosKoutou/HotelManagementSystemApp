@@ -9,40 +9,33 @@ namespace HotelPmsUI.Forms
     {
 
         private ModelServices.IService? currentModule;
-
-
-        private readonly Forms.Customer.CustomerListForm customerListForm;
-        private readonly Forms.Customer.CustomerCrudForm customerCrudForm;
-
-
-        private static MainForm? instance = null;
-
-        public MainForm(Forms.Customer.CustomerListForm form, CustomerCrudForm customerCrudForm)
+        public Control? NewButton { get => newButton; }
+        public Control? EditButton { get => editButton; }
+        public MainForm()
         {
             InitializeComponent();
-            this.customerListForm = form;
-            this.customerCrudForm = customerCrudForm;
-            instance = this;
-        }
 
-        public static Control? Mainpanel { get => instance?.mainPanel; }
+        }
 
         private void customerButton_Click(object sender, EventArgs e)
         {
-            newButton.Enabled = true;
+            buttonPanel.Visible = true;
+
             editButton.Enabled = true;
+            newButton.Enabled = true;
 
-            currentModule = Program.ServiceProvider.GetService<ModelServices.CustomerService>();
+            currentModule = Program.ServiceProvider?.GetService<ModelServices.CustomerService>();
 
-            currentModule.SetBindingSource(customerListForm.CustomerDataBindingSource, customerCrudForm.CustomerBindingSource);
-            currentModule.SetPanel(mainPanel);
-            currentModule.SetForms(customerCrudForm, customerListForm);
+            currentModule?.SetPanel(mainPanel);
 
             currentModule?.ViewData();
+
+
+
         }
 
         private void newButton_Click(object sender, EventArgs e)
-        {   
+        {
             editButton.Enabled = false;
             currentModule?.NewData();
         }
@@ -70,7 +63,56 @@ namespace HotelPmsUI.Forms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            buttonPanel.Visible = false;
             var seed = Program.ServiceProvider.GetRequiredService<DataSeed>();
+
+        }
+
+        private void categoryButton_Click(object sender, EventArgs e)
+        {
+            buttonPanel.Visible = true;
+
+            editButton.Enabled = true;
+            newButton.Enabled = true;
+
+
+            currentModule = Program.ServiceProvider.GetService<ModelServices.CategoryService>();
+
+            currentModule.SetPanel(mainPanel);
+            currentModule.CategoryType = 3;
+
+            currentModule?.ViewData();
+        }
+
+        private void roomCategoriesButton_Click(object sender, EventArgs e)
+        {
+
+            buttonPanel.Visible = true;
+
+            editButton.Enabled = true;
+            newButton.Enabled = true;
+
+
+            currentModule = Program.ServiceProvider.GetService<ModelServices.CategoryService>();
+
+            currentModule.SetPanel(mainPanel);
+            currentModule.CategoryType = 2;
+
+            currentModule?.ViewData();
+        }
+
+        private void roomButton_Click(object sender, EventArgs e)
+        {
+            buttonPanel.Visible = true;
+
+            editButton.Enabled = true;
+            newButton.Enabled = true;
+
+            currentModule = Program.ServiceProvider?.GetService<ModelServices.RoomService>();
+
+            currentModule?.SetPanel(mainPanel);
+
+            currentModule?.ViewData();
         }
     }
 }
