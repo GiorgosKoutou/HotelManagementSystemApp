@@ -26,22 +26,47 @@ namespace HotelPmsUI
 
         private static void ConfigurationServices(ServiceCollection service)
         {
-            /* Register of the DbContext with the service collection */
+            /* Register of the DbContext DI*/
             service.AddDbContext<DataAccessLibrary.Context.HpmsDbContext>();
 
-            /* Register of the CrudServices with the service collection */
+            /* Register of the DB Models DI */
+            
+            // Customer Model
+            service.AddScoped<DataAccessLibrary.Models.Customer>();
+
+            // Room Model
+            service.AddScoped<DataAccessLibrary.Models.Room>();
+
+            //TypeCategory Model
+            service.AddScoped<DataAccessLibrary.Models.TypeCatgory>();
+
+            /* Register of the Services DI */
 
             // Customer Services
             service.AddScoped<ModelServices.CustomerService>();
 
+            // Room Services
+            service.AddScoped<ModelServices.RoomService>();
+
+            // TypeCategory Services
+            service.AddScoped<ModelServices.CategoryService>();
+
             /* Register of the forms with the service collection */
 
             // Main Form
-            service.AddTransient<Forms.MainForm>();
+            service.AddScoped<Forms.MainForm>();
 
             // Customer Forms
             service.AddTransient<Forms.Customer.CustomerCrudForm>();
             service.AddTransient<Forms.Customer.CustomerListForm>();
+
+            // Room Forms
+            service.AddTransient<Forms.Room.RoomListForm>();
+            service.AddTransient<Forms.Room.RoomCrudForm>();
+
+            // Type Category Forms
+            service.AddTransient<Forms.TypeCategories.CatrgoriesCrudForm>();
+            service.AddTransient<Forms.TypeCategories.CategoriesListForm>();
 
 
             service.AddScoped<DataSeed>();
