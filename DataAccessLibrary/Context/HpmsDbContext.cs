@@ -13,6 +13,8 @@ namespace DataAccessLibrary.Context
     public class HpmsDbContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<TypeCatgory> TypeCategories { get; set; }
+        public DbSet<Room> Rooms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,6 +23,11 @@ namespace DataAccessLibrary.Context
             modelBuilder.Entity<Customer>()
                         .HasIndex(c => c.Tin)
                         .IsUnique();
+
+            modelBuilder.Entity<Room>()
+                        .HasOne(r => r.RoomTypeCategory)
+                        .WithMany()
+                        .HasForeignKey(r => new { r.RoomTypeId, r.RoomType });
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

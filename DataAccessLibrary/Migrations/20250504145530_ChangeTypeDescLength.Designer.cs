@@ -3,6 +3,7 @@ using DataAccessLibrary.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLibrary.Migrations
 {
     [DbContext(typeof(HpmsDbContext))]
-    partial class HpmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250504145530_ChangeTypeDescLength")]
+    partial class ChangeTypeDescLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,40 +68,6 @@ namespace DataAccessLibrary.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("DataAccessLibrary.Models.Room", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BathNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BedNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Floor")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RoomNumber")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<int>("RoomType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoomTypeId", "RoomType");
-
-                    b.ToTable("Rooms");
-                });
-
             modelBuilder.Entity("DataAccessLibrary.Models.TypeCatgory", b =>
                 {
                     b.Property<int>("id")
@@ -114,17 +83,6 @@ namespace DataAccessLibrary.Migrations
                     b.HasKey("id", "Type");
 
                     b.ToTable("TypeCategories");
-                });
-
-            modelBuilder.Entity("DataAccessLibrary.Models.Room", b =>
-                {
-                    b.HasOne("DataAccessLibrary.Models.TypeCatgory", "RoomTypeCategory")
-                        .WithMany()
-                        .HasForeignKey("RoomTypeId", "RoomType")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("RoomTypeCategory");
                 });
 #pragma warning restore 612, 618
         }

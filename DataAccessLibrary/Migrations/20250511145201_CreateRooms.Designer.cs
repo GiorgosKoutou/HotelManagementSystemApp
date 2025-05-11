@@ -3,6 +3,7 @@ using DataAccessLibrary.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLibrary.Migrations
 {
     [DbContext(typeof(HpmsDbContext))]
-    partial class HpmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250511145201_CreateRooms")]
+    partial class CreateRooms
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,15 +89,15 @@ namespace DataAccessLibrary.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(20)");
 
-                    b.Property<int>("RoomType")
+                    b.Property<int>("RoomTypeType")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomTypeId")
+                    b.Property<int>("RoomTypeid")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomTypeId", "RoomType");
+                    b.HasIndex("RoomTypeid", "RoomTypeType");
 
                     b.ToTable("Rooms");
                 });
@@ -118,13 +121,13 @@ namespace DataAccessLibrary.Migrations
 
             modelBuilder.Entity("DataAccessLibrary.Models.Room", b =>
                 {
-                    b.HasOne("DataAccessLibrary.Models.TypeCatgory", "RoomTypeCategory")
+                    b.HasOne("DataAccessLibrary.Models.TypeCatgory", "RoomType")
                         .WithMany()
-                        .HasForeignKey("RoomTypeId", "RoomType")
+                        .HasForeignKey("RoomTypeid", "RoomTypeType")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("RoomTypeCategory");
+                    b.Navigation("RoomType");
                 });
 #pragma warning restore 612, 618
         }
