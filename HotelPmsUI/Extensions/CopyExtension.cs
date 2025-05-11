@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelPMSCore.Extensions
+namespace HotelPmsUI.Extensions
 {
     public static class CopyExtension
     {
