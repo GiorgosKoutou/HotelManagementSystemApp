@@ -1,9 +1,11 @@
-﻿using HotelPMSCore.Extensions;
+﻿using HotelPmsUI.Extensions;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 
 namespace HotelPmsUI.ModelServices
@@ -11,6 +13,7 @@ namespace HotelPmsUI.ModelServices
     public class BaseService<TModel, TFormCrud, TFormList>(DataAccessLibrary.Context.HpmsDbContext context) : IService
             where TModel : class where TFormCrud : Form where TFormList : Form
     {
+        internal Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction? transaction;
 
         private int currentPage = 0;
         private int skippedRecords;
@@ -18,13 +21,16 @@ namespace HotelPmsUI.ModelServices
         private int totalRecords = context.Set<TModel>().Count();
         private int totalPages = 0;
         private int currentIndex = -1;
-        private bool isNew = false;
+        internal bool isNew = false;
+        private int categoryType;
+        internal bool isAdded = false;
 
-        private TModel? initialRecord;
-        private TModel? model;
+        internal TModel? initialRecord;
+        internal IQueryable<TModel>? records;
 
         private TFormCrud? formCrud;
         private TFormList? formList;
+        private Forms.MainForm? mainForm = Program.ServiceProvider?.GetRequiredService<Forms.MainForm>();
         private Control? mainPanel;
 
         private BindingSource? bindingSource = new();
@@ -39,15 +45,21 @@ namespace HotelPmsUI.ModelServices
 
         public int CurrentIndex { get => currentIndex; }
 
-        public TModel? Model { get => model; }
         public TFormList? FormList { get; set; }
-
+        public BindingSource? BindingSource { get => bindingSource; }
+        public int CategoryType { get => categoryType; set => categoryType = value; }
 
         public virtual void ViewData()
         {
+            mainForm.NewButton.Enabled = true;
+            mainForm.EditButton.Enabled = true;
+
             CalculatePages();
             skippedRecords = currentPage * recordsPerPage;
-            var entity = context.Set<TModel>().Skip(skippedRecords).Take(recordsPerPage).ToList();
+
+            records ??= context.Set<TModel>();
+
+            var entity = records.Skip(skippedRecords).Take(recordsPerPage).ToList();
             bindingSource.DataSource = entity;
 
             ShowListForm();
@@ -55,21 +67,22 @@ namespace HotelPmsUI.ModelServices
 
         public virtual void SaveData()
         {
+            transaction = context.Database.BeginTransaction();
             var currentRecord = (TModel)bindingSource.Current;
 
             if (isNew)
-            { 
+            {
                 context.Add(currentRecord);
+                context.SaveChanges();
                 bindingSource.DataSource = initialRecord;
-                MessageBox.Show("Customer added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 isNew = false;
-            }else
+            }
+            else
             {
                 context.Update(currentRecord);
-                MessageBox.Show("Customer update successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                context.SaveChanges();
             }
 
-            context.SaveChanges();
         }
 
         public virtual void NewData()
@@ -97,10 +110,9 @@ namespace HotelPmsUI.ModelServices
             var entity = (TModel)bindingSource[currentIndex];
             context.Set<TModel>().Remove(entity);
             context.SaveChanges();
-            //bindingSource.RemoveCurrent();
             ViewData();
-            
-            
+
+
         }
 
         private void CalculatePages()
@@ -110,24 +122,29 @@ namespace HotelPmsUI.ModelServices
 
         public virtual void ShowCrudForm()
         {
+            formList?.Close();
             mainPanel?.Controls.Clear();
 
-            //formCrud = Program.ServiceProvider?.GetRequiredService<TFormCrud>();
+            formCrud = Program.ServiceProvider?.GetRequiredService<TFormCrud>();
+            //var formSource = Program.ServiceProvider?.GetRequiredService<Forms.MainForm>();
+            mainForm.CenterForm(formCrud);
+            formCrud.ShowDialog();
 
-            formCrud.TopLevel = false;
-            formCrud.TopMost = false;
-            formCrud.FormBorderStyle = FormBorderStyle.None;
-            formCrud.Dock = DockStyle.Fill;
+            //formCrud.TopLevel = false;
+            //formCrud.TopMost = false;
+            //formCrud.FormBorderStyle = FormBorderStyle.None;
+            //formCrud.Dock = DockStyle.Fill;
 
-            mainPanel?.Controls.Add(formCrud);
-            formCrud.Show();
+            //mainPanel?.Controls.Add(formCrud);
+            //formCrud.Show();
         }
 
         public void ShowListForm()
         {
+            formCrud?.Close();
             mainPanel?.Controls.Clear();
 
-            //formList = Program.ServiceProvider?.GetRequiredService<TFormList>();
+            formList = Program.ServiceProvider?.GetRequiredService<TFormList>();
 
             formList.TopLevel = false;
             formList.TopMost = false;
@@ -145,7 +162,7 @@ namespace HotelPmsUI.ModelServices
 
         public void SetBindingSource(BindingSource gridSource, BindingSource crudSource)
         {
-            
+
             gridSource.DataSource = bindingSource;
             crudSource.DataSource = bindingSource;
         }
@@ -159,6 +176,11 @@ namespace HotelPmsUI.ModelServices
         {
             formCrud = (TFormCrud?)crudForm;
             formList = (TFormList?)listForm;
+        }
+
+        internal void SetRecords<T>(IQueryable<T> records)
+        {
+            this.records = (IQueryable<TModel>?)records;
         }
     }
 }
