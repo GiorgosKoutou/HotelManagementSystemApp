@@ -10,13 +10,20 @@ namespace HotelPmsUI.Forms.Customer
         {
             InitializeComponent();
             this.customer = customer;
+            customerBindingSource.DataSource = customer.BindingSource;
         }
 
         public BindingSource? CustomerDataBindingSource { get => customerBindingSource; }
 
         private void CustomerListForm_Load(object sender, EventArgs e)
         {
-            previousPageButton.Enabled = false;
+            
+            if (customer.CurrentPage == 0)
+                previousPageButton.Enabled = false;
+
+            if (customer.CurrentPage == customer.TotalPages)
+                nextPageButton.Enabled = false;
+
         }
 
 
@@ -26,11 +33,9 @@ namespace HotelPmsUI.Forms.Customer
             customer.CurrentPageDecrement = 1;
 
             customer.ViewData();
+
             customerTable.ClearSelection();
             customerTable.CurrentCell = null;
-
-            if (customer.CurrentPage == 0)
-                previousPageButton.Enabled = false;
         }
 
         private void nextPageButton_Click(object sender, EventArgs e)
@@ -39,9 +44,6 @@ namespace HotelPmsUI.Forms.Customer
             customer.CurrentPageIncrement = 1;
 
             customer.ViewData();
-
-            if (customer.CurrentPage == customer.TotalPages)
-                nextPageButton.Enabled = false;
 
             customerTable.ClearSelection();
             customerTable.CurrentCell = null;

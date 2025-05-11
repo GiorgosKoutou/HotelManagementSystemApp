@@ -40,8 +40,10 @@
             customerBindingSource = new BindingSource(components);
             previousPageButton = new Button();
             nextPageButton = new Button();
+            buttonpanel = new Panel();
             ((System.ComponentModel.ISupportInitialize)customerTable).BeginInit();
             ((System.ComponentModel.ISupportInitialize)customerBindingSource).BeginInit();
+            buttonpanel.SuspendLayout();
             SuspendLayout();
             // 
             // customerTable
@@ -53,15 +55,14 @@
             customerTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             customerTable.Columns.AddRange(new DataGridViewColumn[] { firstNameDataGridViewTextBoxColumn, lastNameDataGridViewTextBoxColumn, tinDataGridViewTextBoxColumn, countryDataGridViewTextBoxColumn, cityDataGridViewTextBoxColumn, addressDataGridViewTextBoxColumn, phoneNumberDataGridViewTextBoxColumn });
             customerTable.DataSource = customerBindingSource;
-            customerTable.Dock = DockStyle.Top;
+            customerTable.Dock = DockStyle.Fill;
             customerTable.Location = new Point(0, 0);
             customerTable.MultiSelect = false;
             customerTable.Name = "customerTable";
             customerTable.ReadOnly = true;
-            customerTable.RowHeadersVisible = false;
             customerTable.RowHeadersWidth = 51;
             customerTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            customerTable.Size = new Size(1261, 795);
+            customerTable.Size = new Size(1220, 1011);
             customerTable.TabIndex = 0;
             customerTable.RowEnter += customerTable_RowEnter;
             // 
@@ -127,8 +128,8 @@
             // 
             // previousPageButton
             // 
-            previousPageButton.Anchor = AnchorStyles.None;
-            previousPageButton.Location = new Point(494, 877);
+            previousPageButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            previousPageButton.Location = new Point(1023, 5);
             previousPageButton.Name = "previousPageButton";
             previousPageButton.Size = new Size(94, 29);
             previousPageButton.TabIndex = 1;
@@ -138,8 +139,8 @@
             // 
             // nextPageButton
             // 
-            nextPageButton.Anchor = AnchorStyles.None;
-            nextPageButton.Location = new Point(619, 877);
+            nextPageButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            nextPageButton.Location = new Point(1123, 5);
             nextPageButton.Name = "nextPageButton";
             nextPageButton.Size = new Size(94, 29);
             nextPageButton.TabIndex = 2;
@@ -147,19 +148,29 @@
             nextPageButton.UseVisualStyleBackColor = true;
             nextPageButton.Click += nextPageButton_Click;
             // 
+            // buttonpanel
+            // 
+            buttonpanel.Controls.Add(previousPageButton);
+            buttonpanel.Controls.Add(nextPageButton);
+            buttonpanel.Dock = DockStyle.Bottom;
+            buttonpanel.Location = new Point(0, 974);
+            buttonpanel.Name = "buttonpanel";
+            buttonpanel.Size = new Size(1220, 37);
+            buttonpanel.TabIndex = 3;
+            // 
             // CustomerListForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1261, 1011);
-            Controls.Add(nextPageButton);
-            Controls.Add(previousPageButton);
+            ClientSize = new Size(1220, 1011);
+            Controls.Add(buttonpanel);
             Controls.Add(customerTable);
             Name = "CustomerListForm";
             Text = "CustomerList";
             Load += CustomerListForm_Load;
             ((System.ComponentModel.ISupportInitialize)customerTable).EndInit();
             ((System.ComponentModel.ISupportInitialize)customerBindingSource).EndInit();
+            buttonpanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -176,5 +187,6 @@
         private DataGridViewTextBoxColumn cityDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn phoneNumberDataGridViewTextBoxColumn;
+        private Panel buttonpanel;
     }
 }

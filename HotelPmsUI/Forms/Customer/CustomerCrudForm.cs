@@ -5,22 +5,26 @@ namespace HotelPmsUI.Forms.Customer
 {
     public partial class CustomerCrudForm : Form
     {
-        
+
 
         private readonly CustomerService customer;
+        private readonly DataAccessLibrary.Models.Customer customerModel;
 
 
-        public CustomerCrudForm(CustomerService customer)
+        public CustomerCrudForm(CustomerService customer, DataAccessLibrary.Models.Customer customerModel)
         {
             InitializeComponent();
             this.customer = customer;
+            customerBindingSource.DataSource = customer.BindingSource;
+            this.customerModel = customerModel;
         }
         public BindingSource? CustomerBindingSource { get => customerBindingSource; }
 
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            customer.SaveData();   
+            if (CheckFields())
+                customer.SaveData();
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
@@ -28,11 +32,31 @@ namespace HotelPmsUI.Forms.Customer
             var result = MessageBox.Show("Are you sure you want to cancel?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
-            {  
+            {
                 customer.ViewData();
             }
             else
                 return;
+        }
+
+        private bool CheckFields()
+        {
+            customerModel.FirstName = firstNameText.Text;
+            customerModel.LastName = lastNameText.Text;
+
+            if (string.IsNullOrEmpty(customerModel.FirstName))
+            {
+                MessageBox.Show("First Name cannot be empty");
+                return false;
+            }
+            if (string.IsNullOrEmpty(customerModel.LastName))
+            {
+
+                MessageBox.Show("Last Name cannot be empty");
+                return false;
+            }
+
+            return true;
         }
     }
 }
