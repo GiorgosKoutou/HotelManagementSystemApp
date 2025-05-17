@@ -1,10 +1,13 @@
 ﻿using DataAccessLibrary.Context;
+using ArgonLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace HotelPmsUI
 {
@@ -15,9 +18,11 @@ namespace HotelPmsUI
         public DataSeed(HpmsDbContext context)
         {
             this.context = context;
+            SeedCategories();
             SeedCustomers();
             SeedRooms();
-            SeedCategories();
+            SeedUser();
+            
         }
 
 
@@ -71,6 +76,31 @@ namespace HotelPmsUI
             }
         }
 
+        private void SeedUser()
+        {
+            var role = context.TypeCategories.FirstOrDefault(tc => tc.id == 1 && tc.Type == 3);
+
+            if (role == null) return;
+
+            if (!context.Users.Any())
+            {
+                DataAccessLibrary.Models.User user = new()
+                {
+                    UserName = "Admin",
+                    Password = "Admin",
+                    FullName = "Administrator",
+                    UserRole = role
+                };
+
+                Argon2 hash = new();
+                user.Password = hash.HashPassword(user.Password);
+
+                context.Add(user);
+                context.SaveChanges();
+
+            }
+        }
+
         private void SeedCategories()
         {
             if (!context.TypeCategories.Where(x => x.Type == 3).Any())
@@ -82,6 +112,17 @@ namespace HotelPmsUI
                 ];
 
                 context.AddRange(roles);
+                context.SaveChanges();
+            }
+
+            if (!context.TypeCategories.Where(x => x.Type == 2).Any())
+            {
+                List<DataAccessLibrary.Models.TypeCatgory> roomCategories =
+                [
+                    new(){ id = 3, Description = "Regular", Type = 2 }
+                ];
+
+                context.AddRange(roomCategories);
                 context.SaveChanges();
             }
         }

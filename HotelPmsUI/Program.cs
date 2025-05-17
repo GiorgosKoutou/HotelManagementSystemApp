@@ -31,42 +31,29 @@ namespace HotelPmsUI
 
             /* Register of the DB Models DI */
             
-            // Customer Model
             service.AddScoped<DataAccessLibrary.Models.Customer>();
-
-            // Room Model
             service.AddScoped<DataAccessLibrary.Models.Room>();
-
-            //TypeCategory Model
             service.AddScoped<DataAccessLibrary.Models.TypeCatgory>();
+            service.AddScoped<DataAccessLibrary.Models.User>();
 
             /* Register of the Services DI */
 
-            // Customer Services
             service.AddScoped<ModelServices.CustomerService>();
-
-            // Room Services
             service.AddScoped<ModelServices.RoomService>();
-
-            // TypeCategory Services
             service.AddScoped<ModelServices.CategoryService>();
+            service.AddScoped<ModelServices.UserService>();
 
-            /* Register of the forms with the service collection */
+            /* Register of the Forms DI */
 
-            // Main Form
             service.AddScoped<Forms.MainForm>();
-
-            // Customer Forms
             service.AddTransient<Forms.Customer.CustomerCrudForm>();
             service.AddTransient<Forms.Customer.CustomerListForm>();
-
-            // Room Forms
             service.AddTransient<Forms.Room.RoomListForm>();
             service.AddTransient<Forms.Room.RoomCrudForm>();
-
-            // Type Category Forms
             service.AddTransient<Forms.TypeCategories.CatrgoriesCrudForm>();
             service.AddTransient<Forms.TypeCategories.CategoriesListForm>();
+            service.AddTransient<Forms.User.UserCrudForm>();
+            service.AddTransient<Forms.User.UserListForm>();
 
 
             service.AddScoped<DataSeed>();
