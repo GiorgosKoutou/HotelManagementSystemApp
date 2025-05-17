@@ -14,15 +14,18 @@ namespace DataAccessLibrary.Models
 
         [Required]
         [Column(TypeName = "varchar(50)")]
-        public required string FirstName { get; set; }
+        [Display(Name = "Firts Name")]
+        public required string FirstName { get; set; } = string.Empty;
 
         [Required]
         [Column(TypeName = "varchar(50)")]
-        public required string LastName { get; set; }
+        [Display(Name = "Last Name")]
+        public required string LastName { get; set; } = string.Empty;
 
         [Required]
         [Column(TypeName = "varchar(50)")]
-        public required string Tin { get; set; }
+        [Display(Name = "Tax Identification Number")]
+        public required string Tin { get; set; } = string.Empty;
 
         [Column(TypeName = "varchar(50)")]
         public string Country { get; set; } = string.Empty;
