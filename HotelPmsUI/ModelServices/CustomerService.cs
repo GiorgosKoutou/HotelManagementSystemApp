@@ -21,9 +21,9 @@ namespace HotelPmsUI.ModelServices
         public override void SaveData()
         {
             var currentRecord = (DataAccessLibrary.Models.Customer)BindingSource!.Current;
-            currentRecord.FirstName = currentRecord.FirstName.Trim();
-            currentRecord.LastName = currentRecord.LastName.Trim();
-            currentRecord.Tin = currentRecord.Tin.Trim();
+            currentRecord.FirstName = currentRecord.FirstName?.Trim();
+            currentRecord.LastName = currentRecord.LastName?.Trim();
+            currentRecord.Tin = currentRecord.Tin?.Trim();
 
             var message = CheckFields();
 
@@ -58,7 +58,7 @@ namespace HotelPmsUI.ModelServices
             catch (DbUpdateException e)
             {
 
-                string errorMessage = e.InnerException.Message;
+                string errorMessage = e.InnerException!.Message;
                 isAdded = false;
                 MessageBox.Show($"Error: {errorMessage}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 transaction?.Rollback();

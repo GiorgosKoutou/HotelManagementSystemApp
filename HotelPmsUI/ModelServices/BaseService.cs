@@ -53,11 +53,8 @@ namespace HotelPmsUI.ModelServices
         public DataAccessLibrary.Context.HpmsDbContext Context { get => context; }
         public int CategoryType { get => categoryType; set => categoryType = value; }
 
-        public virtual void ViewData()
+        private void LoadData()
         {
-            mainForm.NewButton!.Enabled = true;
-            mainForm.EditButton!.Enabled = true;
-
             CalculatePages();
             skippedRecords = currentPage * recordsPerPage;
 
@@ -65,6 +62,15 @@ namespace HotelPmsUI.ModelServices
 
             var entity = records.Skip(skippedRecords).Take(recordsPerPage).ToList();
             bindingSource!.DataSource = entity;
+        }
+
+        public virtual void ViewData()
+        {
+
+            LoadData();
+
+            mainForm!.NewButton!.Enabled = true;
+            mainForm!.EditButton!.Enabled = true;
 
             ShowListForm();
         }
@@ -72,7 +78,7 @@ namespace HotelPmsUI.ModelServices
         public virtual void SaveData()
         {
             transaction = context.Database.BeginTransaction();
-            var currentRecord = (TModel)bindingSource.Current;
+            var currentRecord = (TModel)bindingSource!.Current;
 
             if (isNew)
             {
@@ -102,7 +108,7 @@ namespace HotelPmsUI.ModelServices
         public virtual void EditData()
         {
             isNew = false;
-            var entity = (TModel)bindingSource[currentIndex];
+            var entity = (TModel)bindingSource![currentIndex];
             bindingSource.DataSource = entity;
 
             ShowCrudForm();
@@ -111,7 +117,7 @@ namespace HotelPmsUI.ModelServices
 
         public virtual void DeleteData()
         {
-            var entity = (TModel)bindingSource[currentIndex];
+            var entity = (TModel)bindingSource![currentIndex];
             context.Set<TModel>().Remove(entity);
             context.SaveChanges();
             ViewData();
@@ -130,7 +136,7 @@ namespace HotelPmsUI.ModelServices
             mainPanel?.Controls.Clear();
 
             formCrud = Program.ServiceProvider?.GetRequiredService<TFormCrud>();
-            mainForm?.CenterForm(formCrud);
+            mainForm?.CenterForm(formCrud!);
             formCrud?.ShowDialog();
 
         }
@@ -178,7 +184,9 @@ namespace HotelPmsUI.ModelServices
                 var value = prop?.GetValue(bindingSource?.Current);
 
 
-                if (prop!.IsDefined(typeof(RequiredAttribute), true) && string.IsNullOrEmpty(value?.ToString()))
+                if ((prop!.IsDefined(typeof(RequiredAttribute), true) 
+                        || prop.IsDefined(typeof(DataAccessLibrary.AttributeMarkerClasses.RequiredForReflection)) )
+                        && string.IsNullOrEmpty(value?.ToString()))
                 {
 
                     var displayName = prop?.GetCustomAttribute<DisplayAttribute>()!.Name;
@@ -204,7 +212,7 @@ namespace HotelPmsUI.ModelServices
 
                 return message;
             }
-                return null;
+                return null!;
         }
     }
 }
