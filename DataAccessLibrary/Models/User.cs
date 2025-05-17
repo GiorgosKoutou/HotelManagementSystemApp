@@ -1,0 +1,36 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataAccessLibrary.Models
+{
+    [Index(nameof(UserName), IsUnique = true)]
+    public class User
+    { 
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "User Name")]
+        [Column(TypeName = "varchar(100)")]
+        public string UserName { get; set; } = string.Empty;
+
+        [Required]
+        [Display(Name = "Password")]
+        [Column(TypeName = "varchar(100)")]
+        public string Password { get; set; } = string.Empty;
+
+        [DataAccessLibrary.AttributeMarkerClasses.RequiredForReflection]
+        [Display(Name = "Full Name")]
+        [Column(TypeName = "varchar(100)")]
+        public string? FullName { get; set; }
+        public TypeCatgory UserRole { get; set; } = null!;
+
+        public string Description { get => UserRole.Description; }
+    }
+}

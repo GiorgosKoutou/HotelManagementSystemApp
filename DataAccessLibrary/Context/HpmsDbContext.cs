@@ -15,6 +15,7 @@ namespace DataAccessLibrary.Context
         public DbSet<Customer> Customers { get; set; }
         public DbSet<TypeCatgory> TypeCategories { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
