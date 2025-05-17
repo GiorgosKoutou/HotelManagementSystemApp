@@ -20,6 +20,29 @@ namespace HotelPmsUI.ModelServices
 
         public override void SaveData()
         {
+            var currentRecord = (DataAccessLibrary.Models.Customer)BindingSource!.Current;
+            currentRecord.FirstName = currentRecord.FirstName.Trim();
+            currentRecord.LastName = currentRecord.LastName.Trim();
+            currentRecord.Tin = currentRecord.Tin.Trim();
+
+            var message = CheckFields();
+
+            var tinExists = Context.Customers.FirstOrDefault(c => c.Tin == currentRecord.Tin);
+
+            if(message != null)
+            {
+                MessageBox.Show(message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                transaction?.Rollback();
+                return;
+            }
+
+            if ( tinExists != null )
+            {
+                MessageBox.Show("Tax Identification Number already exists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                transaction?.Rollback();
+                return;
+            }
+
             try
             {
                 if (isNew)
@@ -35,30 +58,10 @@ namespace HotelPmsUI.ModelServices
             catch (DbUpdateException e)
             {
 
-                string message = e.InnerException.Message;
+                string errorMessage = e.InnerException.Message;
                 isAdded = false;
-
-                if (message.Contains("Tin"))
-                {
-                    if (message.Contains("null"))
-                    {
-                        MessageBox.Show("Tax Identificational Number cannot be empty");
-                        transaction?.Rollback();
-                    }
-                        
-                    else if (message.Contains("customers.IX_Customers_Tin"))
-                    {
-                        MessageBox.Show("Tax Identificational Number already exists");
-                        transaction?.Rollback();
-                    }
-
-                    else
-                    {
-                        MessageBox.Show(message);
-                        transaction?.Rollback();
-                    }
-                        
-                }
+                MessageBox.Show($"Error: {errorMessage}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                transaction?.Rollback();
             }
         }
 

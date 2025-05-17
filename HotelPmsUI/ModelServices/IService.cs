@@ -17,9 +17,7 @@ namespace HotelPmsUI.ModelServices
 
         void ShowListForm();
         void ShowCrudForm();
-        void SetBindingSource(BindingSource gridSource, BindingSource crudSource);
         void SetPanel(Control panel);
-        void SetForms(Form crudForm, Form listForm);
 
         int CategoryType { get; set; }
 

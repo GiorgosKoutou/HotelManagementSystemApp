@@ -3,9 +3,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.Json;
 
 namespace HotelPmsUI.ModelServices
@@ -28,6 +31,7 @@ namespace HotelPmsUI.ModelServices
         internal TModel? initialRecord;
         internal IQueryable<TModel>? records;
 
+
         private TFormCrud? formCrud;
         private TFormList? formList;
         private Forms.MainForm? mainForm = Program.ServiceProvider?.GetRequiredService<Forms.MainForm>();
@@ -45,14 +49,14 @@ namespace HotelPmsUI.ModelServices
 
         public int CurrentIndex { get => currentIndex; }
 
-        public TFormList? FormList { get; set; }
         public BindingSource? BindingSource { get => bindingSource; }
+        public DataAccessLibrary.Context.HpmsDbContext Context { get => context; }
         public int CategoryType { get => categoryType; set => categoryType = value; }
 
         public virtual void ViewData()
         {
-            mainForm.NewButton.Enabled = true;
-            mainForm.EditButton.Enabled = true;
+            mainForm.NewButton!.Enabled = true;
+            mainForm.EditButton!.Enabled = true;
 
             CalculatePages();
             skippedRecords = currentPage * recordsPerPage;
@@ -60,7 +64,7 @@ namespace HotelPmsUI.ModelServices
             records ??= context.Set<TModel>();
 
             var entity = records.Skip(skippedRecords).Take(recordsPerPage).ToList();
-            bindingSource.DataSource = entity;
+            bindingSource!.DataSource = entity;
 
             ShowListForm();
         }
@@ -88,9 +92,9 @@ namespace HotelPmsUI.ModelServices
         public virtual void NewData()
         {
             isNew = true;
-            var newRecord = bindingSource.AddNew();
+            var newRecord = bindingSource?.AddNew();
             initialRecord = ((TModel)newRecord).CopyData();
-            bindingSource.DataSource = newRecord;
+            bindingSource!.DataSource = newRecord;
 
             ShowCrudForm();
         }
@@ -126,17 +130,9 @@ namespace HotelPmsUI.ModelServices
             mainPanel?.Controls.Clear();
 
             formCrud = Program.ServiceProvider?.GetRequiredService<TFormCrud>();
-            //var formSource = Program.ServiceProvider?.GetRequiredService<Forms.MainForm>();
-            mainForm.CenterForm(formCrud);
-            formCrud.ShowDialog();
+            mainForm?.CenterForm(formCrud);
+            formCrud?.ShowDialog();
 
-            //formCrud.TopLevel = false;
-            //formCrud.TopMost = false;
-            //formCrud.FormBorderStyle = FormBorderStyle.None;
-            //formCrud.Dock = DockStyle.Fill;
-
-            //mainPanel?.Controls.Add(formCrud);
-            //formCrud.Show();
         }
 
         public void ShowListForm()
@@ -146,13 +142,13 @@ namespace HotelPmsUI.ModelServices
 
             formList = Program.ServiceProvider?.GetRequiredService<TFormList>();
 
-            formList.TopLevel = false;
-            formList.TopMost = false;
-            formList.FormBorderStyle = FormBorderStyle.None;
-            formList.Dock = DockStyle.Fill;
+            formList!.TopLevel = false;
+            formList!.TopMost = false;
+            formList!.FormBorderStyle = FormBorderStyle.None;
+            formList!.Dock = DockStyle.Fill;
 
             mainPanel?.Controls.Add(formList);
-            formList.Show();
+            formList?.Show();
         }
 
         public void SetIndex(int index)
@@ -160,27 +156,55 @@ namespace HotelPmsUI.ModelServices
             currentIndex = index;
         }
 
-        public void SetBindingSource(BindingSource gridSource, BindingSource crudSource)
-        {
-
-            gridSource.DataSource = bindingSource;
-            crudSource.DataSource = bindingSource;
-        }
-
         public void SetPanel(Control panel)
         {
             mainPanel = panel;
         }
 
-        public void SetForms(Form crudForm, Form listForm)
-        {
-            formCrud = (TFormCrud?)crudForm;
-            formList = (TFormList?)listForm;
-        }
-
         internal void SetRecords<T>(IQueryable<T> records)
         {
             this.records = (IQueryable<TModel>?)records;
+        }
+
+        internal StringBuilder CheckFields()
+        {
+            StringBuilder message = new();
+            int count = 0;
+
+            var type = typeof(TModel);
+
+            foreach (var prop in type.GetProperties()) {
+                
+                var value = prop?.GetValue(bindingSource?.Current);
+
+
+                if (prop!.IsDefined(typeof(RequiredAttribute), true) && string.IsNullOrEmpty(value?.ToString()))
+                {
+
+                    var displayName = prop?.GetCustomAttribute<DisplayAttribute>()!.Name;
+
+                    message.Append($"{displayName}, ");
+                    count++;
+                }
+            }
+
+            if (count == 1)
+            {
+                message.Length -= 2;
+                message.Insert(0, "Field: ");
+                message.Append(" cannot be empty.");
+
+                return message;
+            }
+            else if (count > 1)
+            {
+                message.Length -= 2;
+                message.Insert(0, "Fields: ");
+                message.Append(" cannot be empty.");
+
+                return message;
+            }
+                return null;
         }
     }
 }
