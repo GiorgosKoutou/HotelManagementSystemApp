@@ -193,14 +193,11 @@
         private Label roomNumberLabel;
         private Label floorLabel;
         private Label bedNumberLabel;
-        private Label label4;
         private Label roomTypeIdLabel;
         private Label bathNumberLabel;
         private TextBox roomNumberText;
-        private TextBox textBox2;
         private TextBox roomTypeIdText;
         private TextBox bathNumberText;
-        private TextBox textBox5;
         private TextBox floorText;
         private Button saveButton;
         private Button cancelButton;

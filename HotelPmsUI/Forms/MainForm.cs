@@ -64,7 +64,7 @@ namespace HotelPmsUI.Forms
         private void MainForm_Load(object sender, EventArgs e)
         {
             buttonPanel.Visible = false;
-            var seed = Program.ServiceProvider.GetRequiredService<DataSeed>();
+            var seed = Program.ServiceProvider?.GetRequiredService<DataSeed>();
 
         }
 
@@ -76,10 +76,10 @@ namespace HotelPmsUI.Forms
             newButton.Enabled = true;
 
 
-            currentModule = Program.ServiceProvider.GetService<ModelServices.CategoryService>();
+            currentModule = Program.ServiceProvider?.GetService<ModelServices.CategoryService>();
 
-            currentModule.SetPanel(mainPanel);
-            currentModule.CategoryType = 3;
+            currentModule?.SetPanel(mainPanel);
+            currentModule!.CategoryType = 3;
 
             currentModule?.ViewData();
         }
@@ -93,10 +93,10 @@ namespace HotelPmsUI.Forms
             newButton.Enabled = true;
 
 
-            currentModule = Program.ServiceProvider.GetService<ModelServices.CategoryService>();
+            currentModule = Program.ServiceProvider?.GetService<ModelServices.CategoryService>();
 
-            currentModule.SetPanel(mainPanel);
-            currentModule.CategoryType = 2;
+            currentModule?.SetPanel(mainPanel);
+            currentModule!.CategoryType = 2;
 
             currentModule?.ViewData();
         }
@@ -109,6 +109,20 @@ namespace HotelPmsUI.Forms
             newButton.Enabled = true;
 
             currentModule = Program.ServiceProvider?.GetService<ModelServices.RoomService>();
+
+            currentModule?.SetPanel(mainPanel);
+
+            currentModule?.ViewData();
+        }
+
+        private void userButton_Click(object sender, EventArgs e)
+        {
+            buttonPanel.Visible = true;
+
+            editButton.Enabled = true;
+            newButton.Enabled = true;
+
+            currentModule = Program.ServiceProvider?.GetService<ModelServices.UserService>();
 
             currentModule?.SetPanel(mainPanel);
 

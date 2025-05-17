@@ -23,8 +23,7 @@ namespace HotelPmsUI.Forms.Customer
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            if (CheckFields())
-                customer.SaveData();
+            customer.SaveData();
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
@@ -39,25 +38,6 @@ namespace HotelPmsUI.Forms.Customer
                 return;
         }
 
-        private bool CheckFields()
-        {
-            customerModel.FirstName = firstNameText.Text;
-            customerModel.LastName = lastNameText.Text;
-
-            if (string.IsNullOrEmpty(customerModel.FirstName))
-            {
-                MessageBox.Show("First Name cannot be empty");
-                return false;
-            }
-            if (string.IsNullOrEmpty(customerModel.LastName))
-            {
-
-                MessageBox.Show("Last Name cannot be empty");
-                return false;
-            }
-
-            return true;
-        }
     }
 }
 

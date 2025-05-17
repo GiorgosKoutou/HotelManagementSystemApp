@@ -39,6 +39,7 @@
             deleteButton = new Button();
             editButton = new Button();
             newButton = new Button();
+            userButton = new Button();
             menuPanel.SuspendLayout();
             backroundPanel.SuspendLayout();
             buttonPanel.SuspendLayout();
@@ -47,6 +48,7 @@
             // menuPanel
             // 
             menuPanel.BorderStyle = BorderStyle.FixedSingle;
+            menuPanel.Controls.Add(userButton);
             menuPanel.Controls.Add(roomCategoriesButton);
             menuPanel.Controls.Add(roomButton);
             menuPanel.Controls.Add(categoryButton);
@@ -173,6 +175,17 @@
             newButton.UseVisualStyleBackColor = true;
             newButton.Click += newButton_Click;
             // 
+            // userButton
+            // 
+            userButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            userButton.Location = new Point(15, 271);
+            userButton.Name = "userButton";
+            userButton.Size = new Size(200, 41);
+            userButton.TabIndex = 4;
+            userButton.Text = "Users";
+            userButton.UseVisualStyleBackColor = true;
+            userButton.Click += userButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -209,5 +222,6 @@
         private Button categoryButton;
         private Button roomButton;
         private Button roomCategoriesButton;
+        private Button userButton;
     }
 }
