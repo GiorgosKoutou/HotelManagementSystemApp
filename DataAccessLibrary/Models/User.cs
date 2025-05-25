@@ -25,7 +25,7 @@ namespace DataAccessLibrary.Models
         [Column(TypeName = "varchar(100)")]
         public string Password { get; set; } = string.Empty;
 
-        [DataAccessLibrary.AttributeMarkerClasses.RequiredForReflection]
+        [DataAccessLibrary.AttributeMarkerClasses.RequiredForValidation]
         [Display(Name = "Full Name")]
         [Column(TypeName = "varchar(100)")]
         public string? FullName { get; set; }

@@ -12,7 +12,7 @@ namespace DataAccessLibrary.AttributeMarkerClasses
     /// such as serialization, mapping, or other runtime inspection scenarios.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class RequiredForReflection : Attribute
+    public class RequiredForValidation : Attribute
     {
     }
 }

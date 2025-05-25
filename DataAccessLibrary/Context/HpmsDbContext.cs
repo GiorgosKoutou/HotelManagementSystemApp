@@ -25,10 +25,6 @@ namespace DataAccessLibrary.Context
                         .HasIndex(c => c.Tin)
                         .IsUnique();
 
-            modelBuilder.Entity<Room>()
-                        .HasOne(r => r.RoomTypeCategory)
-                        .WithMany()
-                        .HasForeignKey(r => new { r.RoomTypeId, r.RoomType });
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
