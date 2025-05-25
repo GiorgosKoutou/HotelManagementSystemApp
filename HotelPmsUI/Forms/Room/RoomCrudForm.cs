@@ -1,4 +1,5 @@
 ﻿using DataAccessLibrary.Models;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,8 +19,10 @@ namespace HotelPmsUI.Forms.Room
         public RoomCrudForm(ModelServices.RoomService roomService, DataAccessLibrary.Models.Room model)
         {
             InitializeComponent();
+            var roomDesc = Program.ServiceProvider?.GetRequiredService<StartupData>();
             this.roomService = roomService;
             roomBindingSource.DataSource = roomService.BindingSource;
+            typeCatgoryBindingSource.DataSource = roomDesc!.RoomDescList;
             this.model = model;
         }
 

@@ -32,17 +32,19 @@
             roomNumberLabel = new Label();
             floorLabel = new Label();
             bedNumberLabel = new Label();
-            roomTypeIdLabel = new Label();
+            roomTypeLabel = new Label();
             bathNumberLabel = new Label();
             roomNumberText = new TextBox();
             roomBindingSource = new BindingSource(components);
-            roomTypeIdText = new TextBox();
             bathNumberText = new TextBox();
             floorText = new TextBox();
             saveButton = new Button();
             cancelButton = new Button();
             bedNumberText = new TextBox();
+            roomTypeComboBox = new ComboBox();
+            typeCatgoryBindingSource = new BindingSource(components);
             ((System.ComponentModel.ISupportInitialize)roomBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)typeCatgoryBindingSource).BeginInit();
             SuspendLayout();
             // 
             // roomNumberLabel
@@ -75,15 +77,15 @@
             bedNumberLabel.TabIndex = 2;
             bedNumberLabel.Text = "Bed Number:";
             // 
-            // roomTypeIdLabel
+            // roomTypeLabel
             // 
-            roomTypeIdLabel.AutoSize = true;
-            roomTypeIdLabel.Font = new Font("Segoe UI", 12F);
-            roomTypeIdLabel.Location = new Point(31, 157);
-            roomTypeIdLabel.Name = "roomTypeIdLabel";
-            roomTypeIdLabel.Size = new Size(81, 28);
-            roomTypeIdLabel.TabIndex = 4;
-            roomTypeIdLabel.Text = "Type ID:";
+            roomTypeLabel.AutoSize = true;
+            roomTypeLabel.Font = new Font("Segoe UI", 12F);
+            roomTypeLabel.Location = new Point(31, 157);
+            roomTypeLabel.Name = "roomTypeLabel";
+            roomTypeLabel.Size = new Size(173, 28);
+            roomTypeLabel.TabIndex = 4;
+            roomTypeLabel.Text = "Room Description:";
             // 
             // bathNumberLabel
             // 
@@ -106,14 +108,6 @@
             // roomBindingSource
             // 
             roomBindingSource.DataSource = typeof(DataAccessLibrary.Models.Room);
-            // 
-            // roomTypeIdText
-            // 
-            roomTypeIdText.DataBindings.Add(new Binding("Text", roomBindingSource, "RoomTypeId", true));
-            roomTypeIdText.Location = new Point(182, 161);
-            roomTypeIdText.Name = "roomTypeIdText";
-            roomTypeIdText.Size = new Size(167, 27);
-            roomTypeIdText.TabIndex = 8;
             // 
             // bathNumberText
             // 
@@ -163,20 +157,34 @@
             bedNumberText.Size = new Size(167, 27);
             bedNumberText.TabIndex = 14;
             // 
+            // roomTypeComboBox
+            // 
+            roomTypeComboBox.DataSource = typeCatgoryBindingSource;
+            roomTypeComboBox.DisplayMember = "Description";
+            roomTypeComboBox.FormattingEnabled = true;
+            roomTypeComboBox.Location = new Point(210, 161);
+            roomTypeComboBox.Name = "roomTypeComboBox";
+            roomTypeComboBox.Size = new Size(141, 28);
+            roomTypeComboBox.TabIndex = 15;
+            // 
+            // typeCatgoryBindingSource
+            // 
+            typeCatgoryBindingSource.DataSource = typeof(DataAccessLibrary.Models.TypeCatgory);
+            // 
             // RoomCrudForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(699, 249);
             ControlBox = false;
+            Controls.Add(roomTypeComboBox);
             Controls.Add(bedNumberText);
             Controls.Add(cancelButton);
             Controls.Add(saveButton);
             Controls.Add(floorText);
             Controls.Add(bathNumberText);
-            Controls.Add(roomTypeIdText);
             Controls.Add(roomNumberText);
-            Controls.Add(roomTypeIdLabel);
+            Controls.Add(roomTypeLabel);
             Controls.Add(bathNumberLabel);
             Controls.Add(bedNumberLabel);
             Controls.Add(floorLabel);
@@ -184,6 +192,7 @@
             Name = "RoomCrudForm";
             Text = "RoomCrudForm";
             ((System.ComponentModel.ISupportInitialize)roomBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)typeCatgoryBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -193,15 +202,16 @@
         private Label roomNumberLabel;
         private Label floorLabel;
         private Label bedNumberLabel;
-        private Label roomTypeIdLabel;
+        private Label roomTypeLabel;
         private Label bathNumberLabel;
         private TextBox roomNumberText;
-        private TextBox roomTypeIdText;
         private TextBox bathNumberText;
         private TextBox floorText;
         private Button saveButton;
         private Button cancelButton;
         private BindingSource roomBindingSource;
         private TextBox bedNumberText;
+        private ComboBox roomTypeComboBox;
+        private BindingSource typeCatgoryBindingSource;
     }
 }

@@ -9,13 +9,25 @@ namespace HotelPmsUI.Forms
     {
 
         private ModelServices.IService? currentModule;
+        private bool isClicked = false;
         public Control? NewButton { get => newButton; }
         public Control? EditButton { get => editButton; }
         public MainForm()
         {
+            var user = Program.ServiceProvider?.GetRequiredService<UserLogin>();
+
             InitializeComponent();
+            welcomeLabel.Text = $"Welcome: {user!.FullName}";
+        }
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            buttonPanel.Visible = false;
+            userCategoryButton.Visible = false;
+            roomCategoriesButton.Visible = false;
+            var seed = Program.ServiceProvider?.GetRequiredService<DataSeed>();
 
         }
+
 
         private void customerButton_Click(object sender, EventArgs e)
         {
@@ -26,12 +38,87 @@ namespace HotelPmsUI.Forms
 
             currentModule = Program.ServiceProvider?.GetService<ModelServices.CustomerService>();
 
-            currentModule?.SetPanel(mainPanel);
+            currentModule?.SetPanel(centerPanel);
 
             currentModule?.ViewData();
+        }
+
+       
+        private void categoryButton_Click(object sender, EventArgs e)
+        {
+            buttonPanel.Visible = true;
+
+            editButton.Enabled = true;
+            newButton.Enabled = true;
 
 
+            currentModule = Program.ServiceProvider?.GetService<ModelServices.CategoryService>();
 
+            currentModule?.SetPanel(centerPanel);
+            currentModule!.CategoryType = 3;
+
+            currentModule?.ViewData();
+        }
+
+        private void roomButton_Click(object sender, EventArgs e)
+        {
+            buttonPanel.Visible = true;
+
+            editButton.Enabled = true;
+            newButton.Enabled = true;
+
+            currentModule = Program.ServiceProvider?.GetService<ModelServices.RoomService>();
+
+            currentModule?.SetPanel(centerPanel);
+
+            currentModule?.ViewData();
+        }
+
+        private void userButton_Click(object sender, EventArgs e)
+        {
+            buttonPanel.Visible = true;
+
+            editButton.Enabled = true;
+            newButton.Enabled = true;
+
+            currentModule = Program.ServiceProvider?.GetService<ModelServices.UserService>();
+
+            currentModule?.SetPanel(centerPanel);
+
+            currentModule?.ViewData();
+        }
+
+        private void userCategoryButton_Click(object sender, EventArgs e)
+        {
+            buttonPanel.Visible = true;
+
+            editButton.Enabled = true;
+            newButton.Enabled = true;
+
+
+            currentModule = Program.ServiceProvider?.GetService<ModelServices.CategoryService>();
+
+            currentModule?.SetPanel(centerPanel);
+            currentModule!.CategoryType = 3;
+
+            currentModule?.ViewData();
+        }
+
+        private void roomCategoriesButton_Click(object sender, EventArgs e)
+        {
+
+            buttonPanel.Visible = true;
+
+            editButton.Enabled = true;
+            newButton.Enabled = true;
+
+
+            currentModule = Program.ServiceProvider?.GetService<ModelServices.CategoryService>();
+
+            currentModule?.SetPanel(centerPanel);
+            currentModule!.CategoryType = 2;
+
+            currentModule?.ViewData();
         }
 
         private void newButton_Click(object sender, EventArgs e)
@@ -61,73 +148,30 @@ namespace HotelPmsUI.Forms
 
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            buttonPanel.Visible = false;
-            var seed = Program.ServiceProvider?.GetRequiredService<DataSeed>();
-
-        }
-
-        private void categoryButton_Click(object sender, EventArgs e)
-        {
-            buttonPanel.Visible = true;
-
-            editButton.Enabled = true;
-            newButton.Enabled = true;
-
-
-            currentModule = Program.ServiceProvider?.GetService<ModelServices.CategoryService>();
-
-            currentModule?.SetPanel(mainPanel);
-            currentModule!.CategoryType = 3;
-
-            currentModule?.ViewData();
-        }
-
-        private void roomCategoriesButton_Click(object sender, EventArgs e)
+        private void categoriesButton_Click(object sender, EventArgs e)
         {
 
-            buttonPanel.Visible = true;
-
-            editButton.Enabled = true;
-            newButton.Enabled = true;
-
-
-            currentModule = Program.ServiceProvider?.GetService<ModelServices.CategoryService>();
-
-            currentModule?.SetPanel(mainPanel);
-            currentModule!.CategoryType = 2;
-
-            currentModule?.ViewData();
+            if (!isClicked)
+            {
+                userCategoryButton.Visible = true;
+                roomCategoriesButton.Visible = true;
+                menuPanel.Width = 246;
+                centerPanel.Controls.Clear();
+                buttonPanel.Visible = false;
+                isClicked = true;
+            }
+            else
+            {
+                userCategoryButton.Visible = false;
+                roomCategoriesButton.Visible = false;
+                menuPanel.Width = 207;
+                centerPanel.Controls.Clear();
+                buttonPanel.Visible = false;
+                isClicked = false;
+            }
         }
 
-        private void roomButton_Click(object sender, EventArgs e)
-        {
-            buttonPanel.Visible = true;
-
-            editButton.Enabled = true;
-            newButton.Enabled = true;
-
-            currentModule = Program.ServiceProvider?.GetService<ModelServices.RoomService>();
-
-            currentModule?.SetPanel(mainPanel);
-
-            currentModule?.ViewData();
-        }
-
-        private void userButton_Click(object sender, EventArgs e)
-        {
-            buttonPanel.Visible = true;
-
-            editButton.Enabled = true;
-            newButton.Enabled = true;
-
-            currentModule = Program.ServiceProvider?.GetService<ModelServices.UserService>();
-
-            currentModule?.SetPanel(mainPanel);
-
-            currentModule?.ViewData();
-        }
+       
     }
 }
 

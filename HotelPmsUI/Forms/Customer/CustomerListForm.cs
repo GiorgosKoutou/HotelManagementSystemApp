@@ -17,7 +17,7 @@ namespace HotelPmsUI.Forms.Customer
 
         private void CustomerListForm_Load(object sender, EventArgs e)
         {
-            
+
             if (customer.CurrentPage == 0)
                 previousPageButton.Enabled = false;
 
@@ -29,32 +29,27 @@ namespace HotelPmsUI.Forms.Customer
 
         private void previousPageButton_Click(object sender, EventArgs e)
         {
-            nextPageButton.Enabled = true;
+            customer.CheckPage(previousPageButton, nextPageButton);
             customer.CurrentPageDecrement = 1;
 
             customer.ViewData();
 
-            customerTable.ClearSelection();
-            customerTable.CurrentCell = null;
         }
 
         private void nextPageButton_Click(object sender, EventArgs e)
         {
-            previousPageButton.Enabled = true;
+            customer.CheckPage(previousPageButton, nextPageButton);
             customer.CurrentPageIncrement = 1;
 
             customer.ViewData();
 
-            customerTable.ClearSelection();
-            customerTable.CurrentCell = null;
 
         }
 
-        private void customerTable_RowEnter(object sender, DataGridViewCellEventArgs e)
+        private void customerDataGridView_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             customer.SetIndex(e.RowIndex);
         }
-
     }
 }
 

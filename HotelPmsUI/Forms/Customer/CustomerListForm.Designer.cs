@@ -29,7 +29,12 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            customerTable = new DataGridView();
+            customerBindingSource = new BindingSource(components);
+            previousPageButton = new Button();
+            nextPageButton = new Button();
+            buttonpanel = new Panel();
+            dataGridViewPanel = new Panel();
+            customerDataGridView = new DataGridView();
             firstNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             lastNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             tinDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -37,34 +42,80 @@
             cityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             addressDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             phoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            customerBindingSource = new BindingSource(components);
-            previousPageButton = new Button();
-            nextPageButton = new Button();
-            buttonpanel = new Panel();
-            ((System.ComponentModel.ISupportInitialize)customerTable).BeginInit();
             ((System.ComponentModel.ISupportInitialize)customerBindingSource).BeginInit();
             buttonpanel.SuspendLayout();
+            dataGridViewPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)customerDataGridView).BeginInit();
             SuspendLayout();
             // 
-            // customerTable
+            // customerBindingSource
             // 
-            customerTable.AllowUserToAddRows = false;
-            customerTable.AllowUserToDeleteRows = false;
-            customerTable.AutoGenerateColumns = false;
-            customerTable.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            customerTable.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            customerTable.Columns.AddRange(new DataGridViewColumn[] { firstNameDataGridViewTextBoxColumn, lastNameDataGridViewTextBoxColumn, tinDataGridViewTextBoxColumn, countryDataGridViewTextBoxColumn, cityDataGridViewTextBoxColumn, addressDataGridViewTextBoxColumn, phoneNumberDataGridViewTextBoxColumn });
-            customerTable.DataSource = customerBindingSource;
-            customerTable.Dock = DockStyle.Fill;
-            customerTable.Location = new Point(0, 0);
-            customerTable.MultiSelect = false;
-            customerTable.Name = "customerTable";
-            customerTable.ReadOnly = true;
-            customerTable.RowHeadersWidth = 51;
-            customerTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            customerTable.Size = new Size(1220, 1011);
-            customerTable.TabIndex = 0;
-            customerTable.RowEnter += customerTable_RowEnter;
+            customerBindingSource.DataSource = typeof(DataAccessLibrary.Models.Customer);
+            // 
+            // previousPageButton
+            // 
+            previousPageButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            previousPageButton.FlatAppearance.BorderSize = 0;
+            previousPageButton.FlatStyle = FlatStyle.Flat;
+            previousPageButton.Image = Properties.Resources.previous_arrow;
+            previousPageButton.Location = new Point(864, 5);
+            previousPageButton.Name = "previousPageButton";
+            previousPageButton.Size = new Size(94, 29);
+            previousPageButton.TabIndex = 1;
+            previousPageButton.TextAlign = ContentAlignment.MiddleLeft;
+            previousPageButton.UseVisualStyleBackColor = true;
+            previousPageButton.Click += previousPageButton_Click;
+            // 
+            // nextPageButton
+            // 
+            nextPageButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            nextPageButton.FlatAppearance.BorderSize = 0;
+            nextPageButton.FlatStyle = FlatStyle.Flat;
+            nextPageButton.Image = Properties.Resources.next_arrow;
+            nextPageButton.Location = new Point(964, 5);
+            nextPageButton.Name = "nextPageButton";
+            nextPageButton.Size = new Size(94, 29);
+            nextPageButton.TabIndex = 2;
+            nextPageButton.UseVisualStyleBackColor = true;
+            nextPageButton.Click += nextPageButton_Click;
+            // 
+            // buttonpanel
+            // 
+            buttonpanel.Controls.Add(previousPageButton);
+            buttonpanel.Controls.Add(nextPageButton);
+            buttonpanel.Dock = DockStyle.Bottom;
+            buttonpanel.Location = new Point(0, 431);
+            buttonpanel.Name = "buttonpanel";
+            buttonpanel.Size = new Size(1061, 37);
+            buttonpanel.TabIndex = 3;
+            // 
+            // dataGridViewPanel
+            // 
+            dataGridViewPanel.Controls.Add(customerDataGridView);
+            dataGridViewPanel.Dock = DockStyle.Fill;
+            dataGridViewPanel.Location = new Point(0, 0);
+            dataGridViewPanel.Name = "dataGridViewPanel";
+            dataGridViewPanel.Size = new Size(1061, 431);
+            dataGridViewPanel.TabIndex = 4;
+            // 
+            // customerDataGridView
+            // 
+            customerDataGridView.AllowUserToAddRows = false;
+            customerDataGridView.AllowUserToDeleteRows = false;
+            customerDataGridView.AutoGenerateColumns = false;
+            customerDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            customerDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            customerDataGridView.Columns.AddRange(new DataGridViewColumn[] { firstNameDataGridViewTextBoxColumn, lastNameDataGridViewTextBoxColumn, tinDataGridViewTextBoxColumn, countryDataGridViewTextBoxColumn, cityDataGridViewTextBoxColumn, addressDataGridViewTextBoxColumn, phoneNumberDataGridViewTextBoxColumn });
+            customerDataGridView.DataSource = customerBindingSource;
+            customerDataGridView.Dock = DockStyle.Fill;
+            customerDataGridView.Location = new Point(0, 0);
+            customerDataGridView.Name = "customerDataGridView";
+            customerDataGridView.ReadOnly = true;
+            customerDataGridView.RowHeadersWidth = 51;
+            customerDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            customerDataGridView.Size = new Size(1061, 431);
+            customerDataGridView.TabIndex = 0;
+            customerDataGridView.RowEnter += customerDataGridView_RowEnter;
             // 
             // firstNameDataGridViewTextBoxColumn
             // 
@@ -122,64 +173,30 @@
             phoneNumberDataGridViewTextBoxColumn.Name = "phoneNumberDataGridViewTextBoxColumn";
             phoneNumberDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // customerBindingSource
-            // 
-            customerBindingSource.DataSource = typeof(DataAccessLibrary.Models.Customer);
-            // 
-            // previousPageButton
-            // 
-            previousPageButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            previousPageButton.Location = new Point(1023, 5);
-            previousPageButton.Name = "previousPageButton";
-            previousPageButton.Size = new Size(94, 29);
-            previousPageButton.TabIndex = 1;
-            previousPageButton.Text = "<";
-            previousPageButton.UseVisualStyleBackColor = true;
-            previousPageButton.Click += previousPageButton_Click;
-            // 
-            // nextPageButton
-            // 
-            nextPageButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            nextPageButton.Location = new Point(1123, 5);
-            nextPageButton.Name = "nextPageButton";
-            nextPageButton.Size = new Size(94, 29);
-            nextPageButton.TabIndex = 2;
-            nextPageButton.Text = ">";
-            nextPageButton.UseVisualStyleBackColor = true;
-            nextPageButton.Click += nextPageButton_Click;
-            // 
-            // buttonpanel
-            // 
-            buttonpanel.Controls.Add(previousPageButton);
-            buttonpanel.Controls.Add(nextPageButton);
-            buttonpanel.Dock = DockStyle.Bottom;
-            buttonpanel.Location = new Point(0, 974);
-            buttonpanel.Name = "buttonpanel";
-            buttonpanel.Size = new Size(1220, 37);
-            buttonpanel.TabIndex = 3;
-            // 
             // CustomerListForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1220, 1011);
+            ClientSize = new Size(1061, 468);
+            Controls.Add(dataGridViewPanel);
             Controls.Add(buttonpanel);
-            Controls.Add(customerTable);
             Name = "CustomerListForm";
             Text = "CustomerList";
             Load += CustomerListForm_Load;
-            ((System.ComponentModel.ISupportInitialize)customerTable).EndInit();
             ((System.ComponentModel.ISupportInitialize)customerBindingSource).EndInit();
             buttonpanel.ResumeLayout(false);
+            dataGridViewPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)customerDataGridView).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private DataGridView customerTable;
         private BindingSource customerBindingSource;
         private Button previousPageButton;
         private Button nextPageButton;
+        private Panel buttonpanel;
+        private Panel dataGridViewPanel;
+        private DataGridView customerDataGridView;
         private DataGridViewTextBoxColumn firstNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn lastNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn tinDataGridViewTextBoxColumn;
@@ -187,6 +204,5 @@
         private DataGridViewTextBoxColumn cityDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn phoneNumberDataGridViewTextBoxColumn;
-        private Panel buttonpanel;
     }
 }

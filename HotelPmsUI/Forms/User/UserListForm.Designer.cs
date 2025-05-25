@@ -34,7 +34,6 @@
             nextPageButton = new Button();
             userDataGrid = new DataGridView();
             userBindingSource = new BindingSource(components);
-            idDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             userNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             passwordDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             fullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -81,7 +80,7 @@
             userDataGrid.AutoGenerateColumns = false;
             userDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             userDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            userDataGrid.Columns.AddRange(new DataGridViewColumn[] { idDataGridViewTextBoxColumn, userNameDataGridViewTextBoxColumn, passwordDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn });
+            userDataGrid.Columns.AddRange(new DataGridViewColumn[] { userNameDataGridViewTextBoxColumn, passwordDataGridViewTextBoxColumn, fullNameDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn });
             userDataGrid.DataSource = userBindingSource;
             userDataGrid.Dock = DockStyle.Fill;
             userDataGrid.EditMode = DataGridViewEditMode.EditProgrammatically;
@@ -96,14 +95,6 @@
             // userBindingSource
             // 
             userBindingSource.DataSource = typeof(DataAccessLibrary.Models.User);
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            idDataGridViewTextBoxColumn.HeaderText = "Id";
-            idDataGridViewTextBoxColumn.MinimumWidth = 6;
-            idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            idDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // userNameDataGridViewTextBoxColumn
             // 
@@ -158,11 +149,10 @@
         private Button previousPageButton;
         private Button nextPageButton;
         private DataGridView userDataGrid;
-        private DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private BindingSource userBindingSource;
         private DataGridViewTextBoxColumn userNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn passwordDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn fullNameDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
-        private BindingSource userBindingSource;
     }
 }

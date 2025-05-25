@@ -206,9 +206,10 @@
             addButton.Location = new Point(539, 301);
             addButton.Margin = new Padding(2);
             addButton.Name = "addButton";
-            addButton.Size = new Size(133, 37);
+            addButton.Size = new Size(145, 37);
             addButton.TabIndex = 14;
             addButton.Text = "Save";
+            addButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             addButton.UseVisualStyleBackColor = true;
             addButton.Click += AddButton_Click;
             // 
