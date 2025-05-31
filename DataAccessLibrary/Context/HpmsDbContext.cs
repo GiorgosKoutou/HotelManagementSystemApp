@@ -13,9 +13,10 @@ namespace DataAccessLibrary.Context
     public class HpmsDbContext : DbContext
     {
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<TypeCatgory> TypeCategories { get; set; }
+        public DbSet<TypeCategory> TypeCategories { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Staff> Staff { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

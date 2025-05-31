@@ -3,6 +3,7 @@ using DataAccessLibrary.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLibrary.Migrations
 {
     [DbContext(typeof(HpmsDbContext))]
-    partial class HpmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250531164520_CreateStaffTable")]
+    partial class CreateStaffTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,15 +114,15 @@ namespace DataAccessLibrary.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
                     b.Property<int>("SpecialtyType")
                         .HasColumnType("int");
 
                     b.Property<int>("Specialtyid")
                         .HasColumnType("int");
+
+                    b.Property<string>("lastName")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 

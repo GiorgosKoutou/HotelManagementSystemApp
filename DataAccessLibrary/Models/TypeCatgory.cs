@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace DataAccessLibrary.Models
 {
     [PrimaryKey(nameof(id), nameof(Type))]
-    public class TypeCatgory
+    public class TypeCategory
     {
         public int id { get; set; }
         [Column(TypeName = "Varchar(20)")]

@@ -17,8 +17,8 @@ namespace DataAccessLibrary.Models
         public int BedNumber { get; set; }
         public int BathNumber { get; set; }
 
-        public TypeCatgory RoomTypeCategory { get; set; } = new();
+        public TypeCategory RoomTypeCategory { get; set; } = new();
 
-        public string Description { get => RoomTypeCategory.Description;}
+        public string Description { get => RoomTypeCategory.Description; }
     }
 }

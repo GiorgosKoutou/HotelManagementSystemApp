@@ -29,7 +29,7 @@ namespace DataAccessLibrary.Models
         [Display(Name = "Full Name")]
         [Column(TypeName = "varchar(100)")]
         public string? FullName { get; set; }
-        public TypeCatgory UserRole { get; set; } = null!;
+        public TypeCategory UserRole { get; set; } = new();
 
         public string Description { get => UserRole.Description; }
     }
