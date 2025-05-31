@@ -15,15 +15,16 @@ namespace HotelPmsUI.Forms.Room
     public partial class RoomCrudForm : Form
     {
         private readonly ModelServices.RoomService roomService;
-        private readonly DataAccessLibrary.Models.Room model;
-        public RoomCrudForm(ModelServices.RoomService roomService, DataAccessLibrary.Models.Room model)
+
+        public ComboBox CategoryComboBox { get => roomTypeComboBox; }
+        public RoomCrudForm(ModelServices.RoomService roomService)
         {
             InitializeComponent();
             var roomDesc = Program.ServiceProvider?.GetRequiredService<StartupData>();
+            roomDesc!.LoadRoomDesc();
             this.roomService = roomService;
             roomBindingSource.DataSource = roomService.BindingSource;
             typeCatgoryBindingSource.DataSource = roomDesc!.RoomDescList;
-            this.model = model;
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -41,6 +42,13 @@ namespace HotelPmsUI.Forms.Room
             }
             else
                 return;
+        }
+
+        private void roomTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //var roomType = roomTypeComboBox.SelectedValue;
+
+            //MessageBox.Show($"Value: {roomType}");
         }
     }
 }

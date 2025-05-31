@@ -75,7 +75,7 @@
             // 
             // typeCatgoryBindingSource
             // 
-            typeCatgoryBindingSource.DataSource = typeof(DataAccessLibrary.Models.TypeCatgory);
+            typeCatgoryBindingSource.DataSource = typeof(DataAccessLibrary.Models.TypeCategory);
             // 
             // CategoriesListForm
             // 

@@ -33,11 +33,11 @@
             previousPageButton = new Button();
             nextPageButton = new Button();
             userDataGrid = new DataGridView();
-            userBindingSource = new BindingSource(components);
             userNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             passwordDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             fullNameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             descriptionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            userBindingSource = new BindingSource(components);
             buttonPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)userDataGrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)userBindingSource).BeginInit();
@@ -56,21 +56,26 @@
             // previousPageButton
             // 
             previousPageButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            previousPageButton.FlatAppearance.BorderSize = 0;
+            previousPageButton.FlatStyle = FlatStyle.Flat;
+            previousPageButton.Image = Properties.Resources.previous_arrow;
             previousPageButton.Location = new Point(594, 7);
             previousPageButton.Name = "previousPageButton";
             previousPageButton.Size = new Size(94, 29);
             previousPageButton.TabIndex = 3;
-            previousPageButton.Text = "<";
+            previousPageButton.Text = " ";
             previousPageButton.UseVisualStyleBackColor = true;
             // 
             // nextPageButton
             // 
             nextPageButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            nextPageButton.FlatAppearance.BorderSize = 0;
+            nextPageButton.FlatStyle = FlatStyle.Flat;
+            nextPageButton.Image = Properties.Resources.next_arrow;
             nextPageButton.Location = new Point(694, 7);
             nextPageButton.Name = "nextPageButton";
             nextPageButton.Size = new Size(94, 29);
             nextPageButton.TabIndex = 4;
-            nextPageButton.Text = ">";
             nextPageButton.UseVisualStyleBackColor = true;
             // 
             // userDataGrid
@@ -91,10 +96,7 @@
             userDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             userDataGrid.Size = new Size(800, 402);
             userDataGrid.TabIndex = 1;
-            // 
-            // userBindingSource
-            // 
-            userBindingSource.DataSource = typeof(DataAccessLibrary.Models.User);
+            userDataGrid.RowEnter += userDataGrid_RowEnter;
             // 
             // userNameDataGridViewTextBoxColumn
             // 
@@ -128,6 +130,10 @@
             descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
             descriptionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // userBindingSource
+            // 
+            userBindingSource.DataSource = typeof(DataAccessLibrary.Models.User);
+            // 
             // UserListForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -137,6 +143,7 @@
             Controls.Add(buttonPanel);
             Name = "UserListForm";
             Text = "UserListForm";
+            Load += UserListForm_Load;
             buttonPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)userDataGrid).EndInit();
             ((System.ComponentModel.ISupportInitialize)userBindingSource).EndInit();

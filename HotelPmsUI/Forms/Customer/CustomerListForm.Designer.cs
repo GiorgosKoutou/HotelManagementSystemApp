@@ -30,8 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             customerBindingSource = new BindingSource(components);
-            previousPageButton = new Button();
-            nextPageButton = new Button();
             buttonpanel = new Panel();
             dataGridViewPanel = new Panel();
             customerDataGridView = new DataGridView();
@@ -42,6 +40,8 @@
             cityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             addressDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             phoneNumberDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            nextPageButton = new Button();
+            previousPageButton = new Button();
             ((System.ComponentModel.ISupportInitialize)customerBindingSource).BeginInit();
             buttonpanel.SuspendLayout();
             dataGridViewPanel.SuspendLayout();
@@ -51,33 +51,6 @@
             // customerBindingSource
             // 
             customerBindingSource.DataSource = typeof(DataAccessLibrary.Models.Customer);
-            // 
-            // previousPageButton
-            // 
-            previousPageButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            previousPageButton.FlatAppearance.BorderSize = 0;
-            previousPageButton.FlatStyle = FlatStyle.Flat;
-            previousPageButton.Image = Properties.Resources.previous_arrow;
-            previousPageButton.Location = new Point(864, 5);
-            previousPageButton.Name = "previousPageButton";
-            previousPageButton.Size = new Size(94, 29);
-            previousPageButton.TabIndex = 1;
-            previousPageButton.TextAlign = ContentAlignment.MiddleLeft;
-            previousPageButton.UseVisualStyleBackColor = true;
-            previousPageButton.Click += previousPageButton_Click;
-            // 
-            // nextPageButton
-            // 
-            nextPageButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            nextPageButton.FlatAppearance.BorderSize = 0;
-            nextPageButton.FlatStyle = FlatStyle.Flat;
-            nextPageButton.Image = Properties.Resources.next_arrow;
-            nextPageButton.Location = new Point(964, 5);
-            nextPageButton.Name = "nextPageButton";
-            nextPageButton.Size = new Size(94, 29);
-            nextPageButton.TabIndex = 2;
-            nextPageButton.UseVisualStyleBackColor = true;
-            nextPageButton.Click += nextPageButton_Click;
             // 
             // buttonpanel
             // 
@@ -173,6 +146,33 @@
             phoneNumberDataGridViewTextBoxColumn.Name = "phoneNumberDataGridViewTextBoxColumn";
             phoneNumberDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // nextPageButton
+            // 
+            nextPageButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            nextPageButton.FlatAppearance.BorderSize = 0;
+            nextPageButton.FlatStyle = FlatStyle.Flat;
+            nextPageButton.Image = Properties.Resources.next_arrow;
+            nextPageButton.Location = new Point(964, 5);
+            nextPageButton.Name = "nextPageButton";
+            nextPageButton.Size = new Size(94, 29);
+            nextPageButton.TabIndex = 2;
+            nextPageButton.UseVisualStyleBackColor = true;
+            nextPageButton.Click += nextPageButton_Click;
+            // 
+            // previousPageButton
+            // 
+            previousPageButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            previousPageButton.FlatAppearance.BorderSize = 0;
+            previousPageButton.FlatStyle = FlatStyle.Flat;
+            previousPageButton.Image = Properties.Resources.previous_arrow;
+            previousPageButton.Location = new Point(864, 5);
+            previousPageButton.Name = "previousPageButton";
+            previousPageButton.Size = new Size(94, 29);
+            previousPageButton.TabIndex = 1;
+            previousPageButton.TextAlign = ContentAlignment.MiddleLeft;
+            previousPageButton.UseVisualStyleBackColor = true;
+            previousPageButton.Click += previousPageButton_Click;
+            // 
             // CustomerListForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -192,8 +192,6 @@
 
         #endregion
         private BindingSource customerBindingSource;
-        private Button previousPageButton;
-        private Button nextPageButton;
         private Panel buttonpanel;
         private Panel dataGridViewPanel;
         private DataGridView customerDataGridView;
@@ -204,5 +202,7 @@
         private DataGridViewTextBoxColumn cityDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn addressDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn phoneNumberDataGridViewTextBoxColumn;
+        private Button previousPageButton;
+        private Button nextPageButton;
     }
 }

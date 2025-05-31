@@ -1,4 +1,5 @@
-﻿using HotelPmsUI.ModelServices;
+﻿using DataAccessLibrary.Models;
+using HotelPmsUI.ModelServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,20 @@ namespace HotelPmsUI.Forms.User
             this.userService = userService;
 
             userBindingSource.DataSource = userService.BindingSource;
+        }
+
+        private void userDataGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            userService.SetIndex(e.RowIndex);
+        }
+
+        private void UserListForm_Load(object sender, EventArgs e)
+        {
+            if (userService.CurrentPage == 1)
+                previousPageButton.Enabled = false;
+
+            if (userService.CurrentPage == userService.TotalPages)
+                nextPageButton.Enabled = false;
         }
     }
 }

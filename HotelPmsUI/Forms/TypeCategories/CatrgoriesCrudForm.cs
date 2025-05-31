@@ -16,8 +16,8 @@ namespace HotelPmsUI.Forms.TypeCategories
     public partial class CatrgoriesCrudForm : Form
     {
         private readonly CategoryService categoryService;
-        private readonly DataAccessLibrary.Models.TypeCatgory model;
-        public CatrgoriesCrudForm(CategoryService categoryService, TypeCatgory model)
+        private readonly DataAccessLibrary.Models.TypeCategory model;
+        public CatrgoriesCrudForm(CategoryService categoryService, TypeCategory model)
         {
             InitializeComponent();
             this.categoryService = categoryService;

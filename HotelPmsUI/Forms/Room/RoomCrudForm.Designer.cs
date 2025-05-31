@@ -159,6 +159,7 @@
             // 
             // roomTypeComboBox
             // 
+            roomTypeComboBox.DataBindings.Add(new Binding("SelectedItem", roomBindingSource, "RoomTypeCategory", true));
             roomTypeComboBox.DataSource = typeCatgoryBindingSource;
             roomTypeComboBox.DisplayMember = "Description";
             roomTypeComboBox.FormattingEnabled = true;
@@ -166,10 +167,12 @@
             roomTypeComboBox.Name = "roomTypeComboBox";
             roomTypeComboBox.Size = new Size(141, 28);
             roomTypeComboBox.TabIndex = 15;
+            roomTypeComboBox.ValueMember = "id";
+            roomTypeComboBox.SelectedIndexChanged += roomTypeComboBox_SelectedIndexChanged;
             // 
             // typeCatgoryBindingSource
             // 
-            typeCatgoryBindingSource.DataSource = typeof(DataAccessLibrary.Models.TypeCatgory);
+            typeCatgoryBindingSource.DataSource = typeof(DataAccessLibrary.Models.TypeCategory);
             // 
             // RoomCrudForm
             // 

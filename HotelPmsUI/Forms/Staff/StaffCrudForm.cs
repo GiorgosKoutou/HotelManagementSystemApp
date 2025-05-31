@@ -1,4 +1,4 @@
-﻿using HotelPmsUI.ModelServices;
+﻿using DataAccessLibrary.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -10,31 +10,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace HotelPmsUI.Forms.User
+namespace HotelPmsUI.Forms.Staff
 {
-    public partial class UserCrudForm : Form
+    public partial class StaffCrudForm : Form
     {
-
-        private readonly ModelServices.UserService userService;
-        public UserCrudForm(UserService userService)
+        private readonly ModelServices.StaffService staffService;
+        public StaffCrudForm(ModelServices.StaffService staffService)
         {
-
-            var userDesc = Program.ServiceProvider!.GetRequiredService<StartupData>();
-            userDesc.LoadUserDesc();
-
-            this.userService = userService;
-
             InitializeComponent();
+            this.staffService = staffService;
+            staffBindingSource.DataSource = staffService.BindingSource;
+        }
 
-            userBindingSource.DataSource = userService.BindingSource;
+        private void StaffCrudForm_Load(object sender, EventArgs e)
+        {
+            var staffDesc = Program.ServiceProvider?.GetRequiredService<StartupData>();
+            staffDesc!.LoadStaffDesc();
 
-            userRoleBindingSource.DataSource = userDesc.UserDescList;
-            
+            typeCategoryBindingSource.DataSource = staffDesc.SpecialtyDesc;
         }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            userService.SaveData();
+            staffService.SaveData();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -43,7 +41,7 @@ namespace HotelPmsUI.Forms.User
 
             if (result == DialogResult.Yes)
             {
-                userService.ViewData();
+                staffService.ViewData();
             }
             else
                 return;

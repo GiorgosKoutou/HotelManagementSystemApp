@@ -249,6 +249,7 @@
             Controls.Add(firstNameLabel);
             Font = new Font("Segoe UI", 12F);
             Margin = new Padding(4, 5, 4, 5);
+            MaximizeBox = false;
             MinimizeBox = false;
             Name = "CustomerCrudForm";
             ShowIcon = false;

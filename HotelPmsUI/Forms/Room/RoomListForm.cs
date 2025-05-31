@@ -24,12 +24,12 @@ namespace HotelPmsUI.Forms.Room
 
         private void RoomListForm_Load(object sender, EventArgs e)
         {
-            if (roomService.TotalRecords >= 30)
+            if (roomService.TotalRecords > 30)
             {
                 roomButtonPanel.Visible = true;
             }
 
-            if (roomService.CurrentPage == 0)
+            if (roomService.CurrentPage == 1)
                 roomPreviousButton.Enabled = false;
 
             if (roomService.CurrentPage == roomService.TotalPages)
@@ -40,6 +40,7 @@ namespace HotelPmsUI.Forms.Room
         {
             roomService.CheckPage(roomPreviousButton, roomNextButton);
             roomService.CurrentPageDecrement = 1;
+            roomService.StartPointDecrement = 1;
 
             roomService.ViewData();
         }
@@ -48,6 +49,7 @@ namespace HotelPmsUI.Forms.Room
         {
             roomService.CheckPage(roomPreviousButton, roomNextButton);
             roomService.CurrentPageIncrement = 1;
+            roomService.StartPointIncrement = 1;
 
             roomService.ViewData();
         }

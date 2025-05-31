@@ -24,6 +24,7 @@ namespace HotelPmsUI.Forms
             buttonPanel.Visible = false;
             userCategoryButton.Visible = false;
             roomCategoriesButton.Visible = false;
+            specialtyCategoriesButton.Visible = false;
             var seed = Program.ServiceProvider?.GetRequiredService<DataSeed>();
 
         }
@@ -31,6 +32,8 @@ namespace HotelPmsUI.Forms
 
         private void customerButton_Click(object sender, EventArgs e)
         {
+            IsClicked();
+
             buttonPanel.Visible = true;
 
             editButton.Enabled = true;
@@ -43,9 +46,11 @@ namespace HotelPmsUI.Forms
             currentModule?.ViewData();
         }
 
-       
+
         private void categoryButton_Click(object sender, EventArgs e)
         {
+            IsClicked();
+
             buttonPanel.Visible = true;
 
             editButton.Enabled = true;
@@ -55,13 +60,14 @@ namespace HotelPmsUI.Forms
             currentModule = Program.ServiceProvider?.GetService<ModelServices.CategoryService>();
 
             currentModule?.SetPanel(centerPanel);
-            currentModule!.CategoryType = 3;
 
             currentModule?.ViewData();
         }
 
         private void roomButton_Click(object sender, EventArgs e)
         {
+            IsClicked();
+
             buttonPanel.Visible = true;
 
             editButton.Enabled = true;
@@ -76,6 +82,8 @@ namespace HotelPmsUI.Forms
 
         private void userButton_Click(object sender, EventArgs e)
         {
+            IsClicked();
+
             buttonPanel.Visible = true;
 
             editButton.Enabled = true;
@@ -86,6 +94,23 @@ namespace HotelPmsUI.Forms
             currentModule?.SetPanel(centerPanel);
 
             currentModule?.ViewData();
+        }
+
+        private void staffButton_Click(object sender, EventArgs e)
+        {
+            IsClicked();
+
+            buttonPanel.Visible = true;
+
+            editButton.Enabled = true;
+            newButton.Enabled = true;
+
+            currentModule = Program.ServiceProvider?.GetRequiredService<ModelServices.StaffService>();
+
+            currentModule?.SetPanel(centerPanel);
+
+            currentModule?.ViewData();
+
         }
 
         private void userCategoryButton_Click(object sender, EventArgs e)
@@ -121,6 +146,22 @@ namespace HotelPmsUI.Forms
             currentModule?.ViewData();
         }
 
+        private void specialtyCategoriesButton_Click(object sender, EventArgs e)
+        {
+            buttonPanel.Visible = true;
+
+            editButton.Enabled = true;
+            newButton.Enabled = true;
+
+
+            currentModule = Program.ServiceProvider?.GetService<ModelServices.CategoryService>();
+
+            currentModule?.SetPanel(centerPanel);
+            currentModule!.CategoryType = 1;
+
+            currentModule?.ViewData();
+        }
+
         private void newButton_Click(object sender, EventArgs e)
         {
             editButton.Enabled = false;
@@ -140,6 +181,7 @@ namespace HotelPmsUI.Forms
             if (result == DialogResult.Yes)
             {
                 currentModule?.DeleteData();
+                currentModule?.ViewData();
             }
             else
             {
@@ -150,12 +192,17 @@ namespace HotelPmsUI.Forms
 
         private void categoriesButton_Click(object sender, EventArgs e)
         {
+            IsClicked();
+        }
 
+        private void IsClicked()
+        {
             if (!isClicked)
             {
                 userCategoryButton.Visible = true;
                 roomCategoriesButton.Visible = true;
-                menuPanel.Width = 246;
+                specialtyCategoriesButton.Visible = true;
+                menuPanel.Width = 285;
                 centerPanel.Controls.Clear();
                 buttonPanel.Visible = false;
                 isClicked = true;
@@ -164,14 +211,13 @@ namespace HotelPmsUI.Forms
             {
                 userCategoryButton.Visible = false;
                 roomCategoriesButton.Visible = false;
-                menuPanel.Width = 207;
+                specialtyCategoriesButton.Visible = false;
+                menuPanel.Width = 198;
                 centerPanel.Controls.Clear();
                 buttonPanel.Visible = false;
                 isClicked = false;
             }
         }
-
-       
     }
 }
 

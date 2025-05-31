@@ -43,6 +43,7 @@
             categoriesButton = new Button();
             userCategoryButton = new Button();
             roomCategoriesButton = new Button();
+            specialtyCategoriesButton = new Button();
             subTitlePanel = new Panel();
             imageTitleContainer = new SplitContainer();
             titleLabel = new Label();
@@ -75,9 +76,9 @@
             // centerPanel
             // 
             centerPanel.Dock = DockStyle.Fill;
-            centerPanel.Location = new Point(215, 103);
+            centerPanel.Location = new Point(198, 103);
             centerPanel.Name = "centerPanel";
-            centerPanel.Size = new Size(788, 531);
+            centerPanel.Size = new Size(805, 531);
             centerPanel.TabIndex = 1;
             // 
             // topPanel
@@ -86,9 +87,9 @@
             topPanel.Controls.Add(logoutButton);
             topPanel.Controls.Add(welcomeLabel);
             topPanel.Dock = DockStyle.Top;
-            topPanel.Location = new Point(215, 0);
+            topPanel.Location = new Point(198, 0);
             topPanel.Name = "topPanel";
-            topPanel.Size = new Size(788, 103);
+            topPanel.Size = new Size(805, 103);
             topPanel.TabIndex = 2;
             // 
             // logoutButton
@@ -98,7 +99,7 @@
             logoutButton.FlatStyle = FlatStyle.Flat;
             logoutButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             logoutButton.Image = Properties.Resources.logout;
-            logoutButton.Location = new Point(626, 22);
+            logoutButton.Location = new Point(643, 22);
             logoutButton.Name = "logoutButton";
             logoutButton.Size = new Size(150, 45);
             logoutButton.TabIndex = 1;
@@ -123,10 +124,10 @@
             buttonPanel.Controls.Add(editButton);
             buttonPanel.Controls.Add(newButton);
             buttonPanel.Dock = DockStyle.Bottom;
-            buttonPanel.Location = new Point(215, 634);
+            buttonPanel.Location = new Point(198, 634);
             buttonPanel.Margin = new Padding(10);
             buttonPanel.Name = "buttonPanel";
-            buttonPanel.Size = new Size(788, 65);
+            buttonPanel.Size = new Size(805, 65);
             buttonPanel.TabIndex = 0;
             // 
             // deleteButton
@@ -193,7 +194,7 @@
             menuPanel.Location = new Point(0, 0);
             menuPanel.Margin = new Padding(5);
             menuPanel.Name = "menuPanel";
-            menuPanel.Size = new Size(215, 699);
+            menuPanel.Size = new Size(198, 699);
             menuPanel.TabIndex = 1;
             // 
             // staffButton
@@ -210,16 +211,18 @@
             staffButton.Text = "Staff";
             staffButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             staffButton.UseVisualStyleBackColor = true;
+            staffButton.Click += staffButton_Click;
             // 
             // categoriesPanel
             // 
             categoriesPanel.Controls.Add(categoriesButton);
             categoriesPanel.Controls.Add(userCategoryButton);
             categoriesPanel.Controls.Add(roomCategoriesButton);
+            categoriesPanel.Controls.Add(specialtyCategoriesButton);
             categoriesPanel.Dock = DockStyle.Bottom;
-            categoriesPanel.Location = new Point(0, 530);
+            categoriesPanel.Location = new Point(0, 502);
             categoriesPanel.Name = "categoriesPanel";
-            categoriesPanel.Size = new Size(215, 169);
+            categoriesPanel.Size = new Size(198, 197);
             categoriesPanel.TabIndex = 7;
             // 
             // categoriesButton
@@ -257,13 +260,30 @@
             roomCategoriesButton.FlatAppearance.BorderSize = 0;
             roomCategoriesButton.FlatStyle = FlatStyle.Flat;
             roomCategoriesButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            roomCategoriesButton.Location = new Point(50, 104);
+            roomCategoriesButton.Image = Properties.Resources._categories;
+            roomCategoriesButton.Location = new Point(33, 104);
             roomCategoriesButton.Name = "roomCategoriesButton";
-            roomCategoriesButton.Size = new Size(200, 41);
+            roomCategoriesButton.Size = new Size(229, 41);
             roomCategoriesButton.TabIndex = 3;
             roomCategoriesButton.Text = "Room Categories";
+            roomCategoriesButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             roomCategoriesButton.UseVisualStyleBackColor = true;
             roomCategoriesButton.Click += roomCategoriesButton_Click;
+            // 
+            // specialtyCategoriesButton
+            // 
+            specialtyCategoriesButton.FlatAppearance.BorderSize = 0;
+            specialtyCategoriesButton.FlatStyle = FlatStyle.Flat;
+            specialtyCategoriesButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            specialtyCategoriesButton.Image = Properties.Resources.specialty_categories;
+            specialtyCategoriesButton.Location = new Point(33, 153);
+            specialtyCategoriesButton.Name = "specialtyCategoriesButton";
+            specialtyCategoriesButton.Size = new Size(264, 41);
+            specialtyCategoriesButton.TabIndex = 7;
+            specialtyCategoriesButton.Text = "Specialty Categories";
+            specialtyCategoriesButton.TextImageRelation = TextImageRelation.ImageBeforeText;
+            specialtyCategoriesButton.UseVisualStyleBackColor = true;
+            specialtyCategoriesButton.Click += specialtyCategoriesButton_Click;
             // 
             // subTitlePanel
             // 
@@ -271,7 +291,7 @@
             subTitlePanel.Dock = DockStyle.Top;
             subTitlePanel.Location = new Point(0, 0);
             subTitlePanel.Name = "subTitlePanel";
-            subTitlePanel.Size = new Size(215, 135);
+            subTitlePanel.Size = new Size(198, 135);
             subTitlePanel.TabIndex = 5;
             // 
             // imageTitleContainer
@@ -282,21 +302,21 @@
             // 
             // imageTitleContainer.Panel1
             // 
-            imageTitleContainer.Panel1.BackgroundImage = Properties.Resources.hotel;
+            imageTitleContainer.Panel1.BackgroundImage = Properties.Resources.hotel_2;
             imageTitleContainer.Panel1.BackgroundImageLayout = ImageLayout.Center;
             // 
             // imageTitleContainer.Panel2
             // 
             imageTitleContainer.Panel2.Controls.Add(titleLabel);
-            imageTitleContainer.Size = new Size(215, 135);
-            imageTitleContainer.SplitterDistance = 71;
+            imageTitleContainer.Size = new Size(198, 135);
+            imageTitleContainer.SplitterDistance = 56;
             imageTitleContainer.TabIndex = 0;
             // 
             // titleLabel
             // 
             titleLabel.AllowDrop = true;
             titleLabel.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            titleLabel.Location = new Point(0, 0);
+            titleLabel.Location = new Point(3, 0);
             titleLabel.Name = "titleLabel";
             titleLabel.Size = new Size(140, 142);
             titleLabel.TabIndex = 0;
@@ -404,5 +424,6 @@
         private Button userButton;
         private Button roomButton;
         private Button customerButton;
+        private Button specialtyCategoriesButton;
     }
 }

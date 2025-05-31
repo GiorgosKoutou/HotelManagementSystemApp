@@ -13,12 +13,14 @@ namespace HotelPmsUI.Forms.Customer
             customerBindingSource.DataSource = customer.BindingSource;
         }
 
-        public BindingSource? CustomerDataBindingSource { get => customerBindingSource; }
-
         private void CustomerListForm_Load(object sender, EventArgs e)
         {
+            if(customer.TotalRecords > 30)
+            {
+                buttonpanel.Visible = true;
+            }
 
-            if (customer.CurrentPage == 0)
+            if (customer.CurrentPage == 1)
                 previousPageButton.Enabled = false;
 
             if (customer.CurrentPage == customer.TotalPages)
@@ -31,6 +33,7 @@ namespace HotelPmsUI.Forms.Customer
         {
             customer.CheckPage(previousPageButton, nextPageButton);
             customer.CurrentPageDecrement = 1;
+            customer.StartPointDecrement = 1;
 
             customer.ViewData();
 
@@ -40,6 +43,7 @@ namespace HotelPmsUI.Forms.Customer
         {
             customer.CheckPage(previousPageButton, nextPageButton);
             customer.CurrentPageIncrement = 1;
+            customer.StartPointIncrement = 1;
 
             customer.ViewData();
 
