@@ -33,7 +33,7 @@ namespace HotelPmsUI
             
             service.AddScoped<DataAccessLibrary.Models.Customer>();
             service.AddScoped<DataAccessLibrary.Models.Room>();
-            service.AddScoped<DataAccessLibrary.Models.TypeCatgory>();
+            service.AddScoped<DataAccessLibrary.Models.TypeCategory>();
             service.AddScoped<DataAccessLibrary.Models.User>();
 
             /* Register of the Services DI */
@@ -42,6 +42,7 @@ namespace HotelPmsUI
             service.AddScoped<ModelServices.RoomService>();
             service.AddScoped<ModelServices.CategoryService>();
             service.AddScoped<ModelServices.UserService>();
+            service.AddScoped<ModelServices.StaffService>();
 
             /* Register of the Forms DI */
 
@@ -54,9 +55,14 @@ namespace HotelPmsUI
             service.AddTransient<Forms.TypeCategories.CategoriesListForm>();
             service.AddTransient<Forms.User.UserCrudForm>();
             service.AddTransient<Forms.User.UserListForm>();
+            service.AddTransient<Forms.Staff.StaffCrudForm>();
+            service.AddTransient<Forms.Staff.StaffListForm>();
 
+            /* Register of General Class DI */
 
             service.AddScoped<DataSeed>();
+            service.AddScoped<UserLogin>();
+            service.AddScoped<StartupData>();
         }
     }
 }

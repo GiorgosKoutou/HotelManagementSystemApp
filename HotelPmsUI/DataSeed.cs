@@ -19,10 +19,15 @@ namespace HotelPmsUI
         {
             this.context = context;
             SeedCategories();
+            SeedUser();
+#if (DEBUG)
             SeedCustomers();
             SeedRooms();
-            SeedUser();
-            
+            SeedSatff();
+#endif
+
+
+
         }
 
 
@@ -55,11 +60,13 @@ namespace HotelPmsUI
 
         private void SeedRooms()
         {
-            if (!context.Rooms.Any())
+            var roomTypes = context.TypeCategories.FirstOrDefault(rt => rt.id == 3 && rt.Type == 2);
+            var count = context.Rooms.Count();
+            if (count < 30 || !context.Rooms.Any())
             {
                 List<DataAccessLibrary.Models.Room> rooms = [];
 
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < 31; i++)
                 {
                     rooms.Add(new()
                     {
@@ -67,8 +74,7 @@ namespace HotelPmsUI
                         Floor = 1,
                         BedNumber = 2,
                         BathNumber = 1,
-                        RoomTypeId = 3,
-                        RoomType = 2
+                        RoomTypeCategory = roomTypes!
                     });
                 }
                 context.Rooms.AddRange(rooms);
@@ -105,25 +111,60 @@ namespace HotelPmsUI
         {
             if (!context.TypeCategories.Where(x => x.Type == 3).Any())
             {
-                List<DataAccessLibrary.Models.TypeCatgory> roles =
+                List<DataAccessLibrary.Models.TypeCategory> roles =
                 [
                     new(){ id = 1, Description = "Administrator", Type = 3 },
                     new(){ id = 2, Description = "User", Type = 3}
                 ];
 
                 context.AddRange(roles);
-                context.SaveChanges();
+                
             }
 
             if (!context.TypeCategories.Where(x => x.Type == 2).Any())
             {
-                List<DataAccessLibrary.Models.TypeCatgory> roomCategories =
+                List<DataAccessLibrary.Models.TypeCategory> roomCategories =
                 [
                     new(){ id = 3, Description = "Regular", Type = 2 }
                 ];
 
                 context.AddRange(roomCategories);
-                context.SaveChanges();
+            }
+
+            if(!context.TypeCategories.Where(x => x.Type == 1).Any())
+            {
+                List<DataAccessLibrary.Models.TypeCategory> specialties = 
+                [
+                    new() {id = 7, Description = "Groom", Type = 1}
+                    
+                ];
+
+                context.AddRange(specialties);
+                
+            }
+
+            context.SaveChanges();
+        }
+
+        private void SeedSatff()
+        {
+            var specialty = context.TypeCategories.Where(tc => tc.id == 7 && tc.Type == 1).FirstOrDefault();
+
+            if (!context.Staff.Any())
+            {
+               for (int i = 0; i < 52; i++)
+                {
+                    DataAccessLibrary.Models.Staff staff = new()
+                    {
+                        FirstName = "name" + (i + 1).ToString(),
+                        LastName = "lastname" + (i + 1).ToString(),
+                        Specialty = specialty!
+                    };
+
+                    context.Add(staff);
+                }
+
+               context.SaveChanges();
             }
         }
     }
