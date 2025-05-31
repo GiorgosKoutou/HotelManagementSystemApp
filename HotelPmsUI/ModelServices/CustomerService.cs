@@ -26,61 +26,35 @@ namespace HotelPmsUI.ModelServices
             currentRecord.Tin = currentRecord.Tin?.Trim();
 
             var message = CheckFields();
-
-            var tinExists = Context.Customers.FirstOrDefault(c => c.Tin == currentRecord.Tin);
-
-            if(message != null)
+            if (message != null)
             {
                 MessageBox.Show(message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                transaction?.Rollback();
                 return;
             }
+            
+            var tinExists = Context.Customers.FirstOrDefault(c => c.Tin == currentRecord.Tin);
 
-            if ( tinExists != null )
+            var entry = Context.Entry(currentRecord);
+            var originalTin = entry.OriginalValues["Tin"].ToString();
+            var tinAfterEdit = entry.CurrentValues["Tin"].ToString();
+
+            tinAfterEdit = (originalTin.Equals(tinAfterEdit)) ? string.Empty : entry.CurrentValues["Tin"].ToString();
+
+            if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Modified && (tinExists == null || !tinAfterEdit.Equals(tinExists.Tin)))
+            {
+                base.SaveData();
+                return;
+
+            }
+
+            
+            if ( tinExists != null)
             {
                 MessageBox.Show("Tax Identification Number already exists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                transaction?.Rollback();
                 return;
             }
 
-            try
-            {
-                if (isNew)
-                    MessageBox.Show("Customer added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
-                    MessageBox.Show("Customer Updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                base.SaveData();
-                transaction?.Commit();
-               
-                
-            }
-            catch (DbUpdateException e)
-            {
-
-                string errorMessage = e.InnerException!.Message;
-                isAdded = false;
-                MessageBox.Show($"Error: {errorMessage}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                transaction?.Rollback();
-            }
-        }
-
-        public override void DeleteData()
-        {
-
-            try
-            {
-                base.DeleteData();
-                MessageBox.Show("Delete Success");
-            }
-            catch (ArgumentNullException e)
-            {
-                MessageBox.Show("Please select a customer");
-            }
-            catch (NullReferenceException)
-            {
-                MessageBox.Show("Customer not found");
-            }
+                base.SaveData();             
         }
     }
 }

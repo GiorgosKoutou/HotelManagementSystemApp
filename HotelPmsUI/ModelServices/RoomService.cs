@@ -1,5 +1,7 @@
 ﻿using DataAccessLibrary.Context;
 using DataAccessLibrary.Models;
+using HotelPmsUI.Forms.Room;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -11,26 +13,27 @@ namespace HotelPmsUI.ModelServices
 {
     public class RoomService : BaseService<DataAccessLibrary.Models.Room, Forms.Room.RoomCrudForm, Forms.Room.RoomListForm>
     {
-        public RoomService(HpmsDbContext context) : base(context) { }
+        public RoomService(HpmsDbContext context) : base(context) 
+        {
+            var table = context.Rooms
+                                .Include(r => r.RoomTypeCategory)
+                                .OrderBy(r => r.Id);
+            SetRecords(table);
+        }
 
         public override void SaveData()
         {
-            try
-            {
-                if (isNew)
-                    MessageBox.Show("Room added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
-                    MessageBox.Show("Room Updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ((Room)BindingSource.Current).RoomType = 2;
-                base.SaveData();
-                transaction.Commit();
-            }
-            catch (DbException ex)
-            {
-                string msg = ex.Message;
-                MessageBox.Show($"Error: {msg}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            ((Room)BindingSource!.Current).RoomTypeCategory.Type = 2;
+            base.SaveData();
         }
+
+        public override void NewData()
+        {
+            
+            base.NewData();
+            //formCrud!.CategoryComboBox.SelectedIndex = 0;
+        }
+
             
     }
 

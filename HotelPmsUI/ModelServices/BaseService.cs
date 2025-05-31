@@ -1,9 +1,12 @@
 ﻿using HotelPmsUI.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -18,22 +21,23 @@ namespace HotelPmsUI.ModelServices
     {
         internal Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction? transaction;
 
-        private int currentPage = 0;
+        private int currentPage = 1;
+        private int startPoint = 0;
         private int skippedRecords;
         private int recordsPerPage = 30;
-        private int totalRecords = context.Set<TModel>().Count();
+        private int totalRecords;
         private int totalPages = 0;
         private int currentIndex = -1;
-        internal bool isNew = false;
         private int categoryType;
         internal bool isAdded = false;
 
         internal TModel? initialRecord;
         internal IQueryable<TModel>? records;
+        internal EntityEntry? entry;
 
 
-        private TFormCrud? formCrud;
-        private TFormList? formList;
+        internal TFormCrud? formCrud;
+        internal TFormList? formList;
         private Forms.MainForm? mainForm = Program.ServiceProvider?.GetRequiredService<Forms.MainForm>();
         private Control? mainPanel;
 
@@ -43,6 +47,8 @@ namespace HotelPmsUI.ModelServices
         public int CurrentPage { get => currentPage; }
         public int CurrentPageIncrement { set => currentPage += value; }
         public int CurrentPageDecrement { set => currentPage -= value; }
+        public int StartPointIncrement { set => startPoint += value; }
+        public int StartPointDecrement { set => startPoint -= value; }
         public int RecordsPerPage { get => recordsPerPage; }
         public int TotalRecords { get => totalRecords; }
         public int TotalPages { get => totalPages; }
@@ -53,21 +59,46 @@ namespace HotelPmsUI.ModelServices
         public DataAccessLibrary.Context.HpmsDbContext Context { get => context; }
         public int CategoryType { get => categoryType; set => categoryType = value; }
 
+        private void CalculatePages()
+        {
+            totalPages = totalRecords / recordsPerPage;
+            totalPages += (totalRecords % recordsPerPage > 0) ? 1 : 0;
+            
+        }
+
         private void LoadData()
         {
-            CalculatePages();
-            skippedRecords = currentPage * recordsPerPage;
-
             records ??= context.Set<TModel>();
+            totalRecords = context.Set<TModel>().Count();
+            CalculatePages();
 
-            var entity = records.Skip(skippedRecords).Take(recordsPerPage).ToList();
+            skippedRecords = startPoint * recordsPerPage;
+            var entity = records!.Skip(skippedRecords).Take(recordsPerPage).ToList();
+
+            if (entity.Count == 0 && currentPage > 1)
+            {
+                currentPage--;
+                startPoint--;
+                skippedRecords = startPoint * recordsPerPage;
+                entity = [.. records!.Skip(skippedRecords).Take(recordsPerPage)];
+            }
+
             bindingSource!.DataSource = entity;
+
         }
+               
 
         public virtual void ViewData()
         {
-
-            LoadData();
+            try
+            {
+                LoadData();
+            }
+            catch (DbException ex)
+            {
+                string errorMessage = ex.Message;
+                MessageBox.Show($"Error: {errorMessage}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             mainForm!.NewButton!.Enabled = true;
             mainForm!.EditButton!.Enabled = true;
@@ -77,29 +108,47 @@ namespace HotelPmsUI.ModelServices
 
         public virtual void SaveData()
         {
-            transaction = context.Database.BeginTransaction();
-            var currentRecord = (TModel)bindingSource!.Current;
+            try
+            {
+                transaction = context.Database.BeginTransaction();
 
-            if (isNew)
-            {
-                context.Add(currentRecord);
+                var currentRecord = (TModel)bindingSource!.Current;
+
+                entry = context.Entry(currentRecord);
+
+
+                if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Detached)
+                {
+                    context.Add(currentRecord);
+                    MessageBox.Show($"{currentRecord.GetType().Name} added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    bindingSource.DataSource = initialRecord;
+                }
+                else
+                {
+                    context.Update(currentRecord);
+                    MessageBox.Show($"{currentRecord.GetType().Name} Updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                    
+
                 context.SaveChanges();
-                bindingSource.DataSource = initialRecord;
-                isNew = false;
+                transaction.Commit();
             }
-            else
+            catch (DbUpdateException e)
             {
-                context.Update(currentRecord);
-                context.SaveChanges();
+
+                string errorMessage = e.InnerException!.Message;
+                isAdded = false;
+                MessageBox.Show($"Error: {errorMessage}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                transaction?.Rollback();
             }
+            
 
         }
 
         public virtual void NewData()
         {
-            isNew = true;
             var newRecord = bindingSource?.AddNew();
-            initialRecord = ((TModel)newRecord).CopyData();
+            initialRecord = ((TModel)newRecord!).CopyData();
             bindingSource!.DataSource = newRecord;
 
             ShowCrudForm();
@@ -107,7 +156,6 @@ namespace HotelPmsUI.ModelServices
 
         public virtual void EditData()
         {
-            isNew = false;
             var entity = (TModel)bindingSource![currentIndex];
             bindingSource.DataSource = entity;
 
@@ -118,16 +166,42 @@ namespace HotelPmsUI.ModelServices
         public virtual void DeleteData()
         {
             var entity = (TModel)bindingSource![currentIndex];
-            context.Set<TModel>().Remove(entity);
-            context.SaveChanges();
-            ViewData();
 
+            if(currentIndex == -1)
+            {
+                MessageBox.Show($"Please select a {entity.GetType().Name}");
+                return;
+            }
+
+            if(entity == null)
+            {
+                MessageBox.Show($"{entity?.GetType().Name} not found");
+                return;
+            }
+
+            context.Set<TModel>().Remove(entity);
+            MessageBox.Show($"{entity.GetType().Name} deleted successfully");
+            context.SaveChanges();
 
         }
 
-        private void CalculatePages()
+
+        public void CheckPage(Control previousButton, Control nextButton)
         {
-            totalPages = totalRecords / recordsPerPage;
+            if(currentPage == 1)
+            {
+                previousButton.Enabled = false;
+            }
+
+            if(currentPage > 1)
+            {
+                previousButton.Enabled = true;
+            }
+
+            if(currentPage == totalPages)
+            {
+                nextButton.Enabled = false;
+            }
         }
 
         public virtual void ShowCrudForm()
@@ -185,7 +259,7 @@ namespace HotelPmsUI.ModelServices
 
 
                 if ((prop!.IsDefined(typeof(RequiredAttribute), true) 
-                        || prop.IsDefined(typeof(DataAccessLibrary.AttributeMarkerClasses.RequiredForReflection)) )
+                        || prop.IsDefined(typeof(DataAccessLibrary.AttributeMarkerClasses.RequiredForValidation)) )
                         && string.IsNullOrEmpty(value?.ToString()))
                 {
 
