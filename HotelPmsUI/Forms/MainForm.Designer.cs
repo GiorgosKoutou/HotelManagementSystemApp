@@ -76,9 +76,9 @@
             // centerPanel
             // 
             centerPanel.Dock = DockStyle.Fill;
-            centerPanel.Location = new Point(198, 103);
+            centerPanel.Location = new Point(216, 103);
             centerPanel.Name = "centerPanel";
-            centerPanel.Size = new Size(805, 531);
+            centerPanel.Size = new Size(787, 531);
             centerPanel.TabIndex = 1;
             // 
             // topPanel
@@ -87,9 +87,9 @@
             topPanel.Controls.Add(logoutButton);
             topPanel.Controls.Add(welcomeLabel);
             topPanel.Dock = DockStyle.Top;
-            topPanel.Location = new Point(198, 0);
+            topPanel.Location = new Point(216, 0);
             topPanel.Name = "topPanel";
-            topPanel.Size = new Size(805, 103);
+            topPanel.Size = new Size(787, 103);
             topPanel.TabIndex = 2;
             // 
             // logoutButton
@@ -99,13 +99,14 @@
             logoutButton.FlatStyle = FlatStyle.Flat;
             logoutButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             logoutButton.Image = Properties.Resources.logout;
-            logoutButton.Location = new Point(643, 22);
+            logoutButton.Location = new Point(625, 22);
             logoutButton.Name = "logoutButton";
             logoutButton.Size = new Size(150, 45);
             logoutButton.TabIndex = 1;
             logoutButton.Text = "LogOut";
             logoutButton.TextImageRelation = TextImageRelation.ImageBeforeText;
             logoutButton.UseVisualStyleBackColor = true;
+            logoutButton.Click += logoutButton_Click;
             // 
             // welcomeLabel
             // 
@@ -124,10 +125,10 @@
             buttonPanel.Controls.Add(editButton);
             buttonPanel.Controls.Add(newButton);
             buttonPanel.Dock = DockStyle.Bottom;
-            buttonPanel.Location = new Point(198, 634);
+            buttonPanel.Location = new Point(216, 634);
             buttonPanel.Margin = new Padding(10);
             buttonPanel.Name = "buttonPanel";
-            buttonPanel.Size = new Size(805, 65);
+            buttonPanel.Size = new Size(787, 65);
             buttonPanel.TabIndex = 0;
             // 
             // deleteButton
@@ -194,7 +195,7 @@
             menuPanel.Location = new Point(0, 0);
             menuPanel.Margin = new Padding(5);
             menuPanel.Name = "menuPanel";
-            menuPanel.Size = new Size(198, 699);
+            menuPanel.Size = new Size(216, 699);
             menuPanel.TabIndex = 1;
             // 
             // staffButton
@@ -204,7 +205,7 @@
             staffButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             staffButton.Image = Properties.Resources.staff;
             staffButton.ImageAlign = ContentAlignment.MiddleLeft;
-            staffButton.Location = new Point(12, 379);
+            staffButton.Location = new Point(3, 300);
             staffButton.Name = "staffButton";
             staffButton.Size = new Size(176, 41);
             staffButton.TabIndex = 8;
@@ -222,7 +223,7 @@
             categoriesPanel.Dock = DockStyle.Bottom;
             categoriesPanel.Location = new Point(0, 502);
             categoriesPanel.Name = "categoriesPanel";
-            categoriesPanel.Size = new Size(198, 197);
+            categoriesPanel.Size = new Size(216, 197);
             categoriesPanel.TabIndex = 7;
             // 
             // categoriesButton
@@ -291,7 +292,7 @@
             subTitlePanel.Dock = DockStyle.Top;
             subTitlePanel.Location = new Point(0, 0);
             subTitlePanel.Name = "subTitlePanel";
-            subTitlePanel.Size = new Size(198, 135);
+            subTitlePanel.Size = new Size(216, 135);
             subTitlePanel.TabIndex = 5;
             // 
             // imageTitleContainer
@@ -308,8 +309,8 @@
             // imageTitleContainer.Panel2
             // 
             imageTitleContainer.Panel2.Controls.Add(titleLabel);
-            imageTitleContainer.Size = new Size(198, 135);
-            imageTitleContainer.SplitterDistance = 56;
+            imageTitleContainer.Size = new Size(216, 135);
+            imageTitleContainer.SplitterDistance = 61;
             imageTitleContainer.TabIndex = 0;
             // 
             // titleLabel
@@ -330,7 +331,7 @@
             userButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             userButton.Image = Properties.Resources.users;
             userButton.ImageAlign = ContentAlignment.MiddleLeft;
-            userButton.Location = new Point(12, 309);
+            userButton.Location = new Point(3, 412);
             userButton.Name = "userButton";
             userButton.Size = new Size(176, 41);
             userButton.TabIndex = 4;
@@ -346,7 +347,7 @@
             roomButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roomButton.Image = Properties.Resources.rooms;
             roomButton.ImageAlign = ContentAlignment.MiddleLeft;
-            roomButton.Location = new Point(12, 242);
+            roomButton.Location = new Point(3, 229);
             roomButton.Name = "roomButton";
             roomButton.Size = new Size(176, 41);
             roomButton.TabIndex = 2;
@@ -364,7 +365,7 @@
             customerButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             customerButton.Image = Properties.Resources.customers;
             customerButton.ImageAlign = ContentAlignment.MiddleLeft;
-            customerButton.Location = new Point(3, 175);
+            customerButton.Location = new Point(3, 157);
             customerButton.Name = "customerButton";
             customerButton.Size = new Size(185, 49);
             customerButton.TabIndex = 0;
@@ -380,6 +381,7 @@
             ClientSize = new Size(1003, 699);
             Controls.Add(backroundPanel);
             Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
             Load += MainForm_Load;
             backroundPanel.ResumeLayout(false);

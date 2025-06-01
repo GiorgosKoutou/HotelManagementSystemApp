@@ -1,4 +1,5 @@
 ﻿using DataAccessLibrary.Models;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,13 @@ namespace HotelPmsUI.Forms.Staff
         private readonly ModelServices.StaffService staffService;
         public StaffCrudForm(ModelServices.StaffService staffService)
         {
-            InitializeComponent();
-            this.staffService = staffService;
-            staffBindingSource.DataSource = staffService.BindingSource;
-        }
-
-        private void StaffCrudForm_Load(object sender, EventArgs e)
-        {
             var staffDesc = Program.ServiceProvider?.GetRequiredService<StartupData>();
             staffDesc!.LoadStaffDesc();
+
+            InitializeComponent();
+
+            this.staffService = staffService;
+            staffBindingSource.DataSource = staffService.BindingSource;
 
             typeCategoryBindingSource.DataSource = staffDesc.SpecialtyDesc;
         }

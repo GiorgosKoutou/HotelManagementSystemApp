@@ -18,6 +18,8 @@ namespace HotelPmsUI.Forms.User
         public UserListForm(UserService userService)
         {
             InitializeComponent();
+            buttonPanel.Visible = false;
+
             this.userService = userService;
 
             userBindingSource.DataSource = userService.BindingSource;
@@ -30,6 +32,9 @@ namespace HotelPmsUI.Forms.User
 
         private void UserListForm_Load(object sender, EventArgs e)
         {
+            if(userService.TotalRecords > 30)
+                buttonPanel.Visible = true;
+
             if (userService.CurrentPage == 1)
                 previousPageButton.Enabled = false;
 

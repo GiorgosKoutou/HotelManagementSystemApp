@@ -151,7 +151,6 @@
             Margin = new Padding(4);
             Name = "StaffCrudForm";
             Text = "StaffCrudForm";
-            Load += StaffCrudForm_Load;
             ((System.ComponentModel.ISupportInitialize)staffBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)typeCategoryBindingSource).EndInit();
             ResumeLayout(false);

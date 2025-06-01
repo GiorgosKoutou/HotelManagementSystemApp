@@ -1,3 +1,4 @@
+using HotelPmsUI.Extensions;
 using HotelPmsUI.Forms.Customer;
 using HotelPmsUI.ModelServices;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,29 +10,41 @@ namespace HotelPmsUI.Forms
     {
 
         private ModelServices.IService? currentModule;
+
         private bool isClicked = false;
         public Control? NewButton { get => newButton; }
         public Control? EditButton { get => editButton; }
         public MainForm()
         {
-            var user = Program.ServiceProvider?.GetRequiredService<UserLogin>();
-
             InitializeComponent();
-            welcomeLabel.Text = $"Welcome: {user!.FullName}";
+
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
+            var seed = Program.ServiceProvider?.GetRequiredService<DataSeed>();
+
+            var login = Program.ServiceProvider?.GetRequiredService<LoginForm>();
+            this.CenterForm(login!);
+            login!.ShowDialog();
+
+            welcomeLabel.Text = $"Welcome: {login.LoginInfo.FullName}";
+
+            if (!login.LoginInfo.Description!.Equals("Administrator"))
+            {
+                userButton.Visible = false;
+            }
+
             buttonPanel.Visible = false;
             userCategoryButton.Visible = false;
             roomCategoriesButton.Visible = false;
             specialtyCategoriesButton.Visible = false;
-            var seed = Program.ServiceProvider?.GetRequiredService<DataSeed>();
 
         }
 
 
         private void customerButton_Click(object sender, EventArgs e)
         {
+            isClicked = true;
             IsClicked();
 
             buttonPanel.Visible = true;
@@ -46,26 +59,9 @@ namespace HotelPmsUI.Forms
             currentModule?.ViewData();
         }
 
-
-        private void categoryButton_Click(object sender, EventArgs e)
-        {
-            IsClicked();
-
-            buttonPanel.Visible = true;
-
-            editButton.Enabled = true;
-            newButton.Enabled = true;
-
-
-            currentModule = Program.ServiceProvider?.GetService<ModelServices.CategoryService>();
-
-            currentModule?.SetPanel(centerPanel);
-
-            currentModule?.ViewData();
-        }
-
         private void roomButton_Click(object sender, EventArgs e)
         {
+            isClicked = true;
             IsClicked();
 
             buttonPanel.Visible = true;
@@ -82,6 +78,7 @@ namespace HotelPmsUI.Forms
 
         private void userButton_Click(object sender, EventArgs e)
         {
+            isClicked = true;
             IsClicked();
 
             buttonPanel.Visible = true;
@@ -98,6 +95,7 @@ namespace HotelPmsUI.Forms
 
         private void staffButton_Click(object sender, EventArgs e)
         {
+            isClicked = true;
             IsClicked();
 
             buttonPanel.Visible = true;
@@ -111,6 +109,24 @@ namespace HotelPmsUI.Forms
 
             currentModule?.ViewData();
 
+        }
+
+        private void categoryButton_Click(object sender, EventArgs e)
+        {
+
+            IsClicked();
+
+            buttonPanel.Visible = true;
+
+            editButton.Enabled = true;
+            newButton.Enabled = true;
+
+
+            currentModule = Program.ServiceProvider?.GetService<ModelServices.CategoryService>();
+
+            currentModule?.SetPanel(centerPanel);
+
+            currentModule?.ViewData();
         }
 
         private void userCategoryButton_Click(object sender, EventArgs e)
@@ -212,10 +228,24 @@ namespace HotelPmsUI.Forms
                 userCategoryButton.Visible = false;
                 roomCategoriesButton.Visible = false;
                 specialtyCategoriesButton.Visible = false;
-                menuPanel.Width = 198;
+                menuPanel.Width = 214;
                 centerPanel.Controls.Clear();
                 buttonPanel.Visible = false;
                 isClicked = false;
+            }
+        }
+
+        private void logoutButton_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Are you sure you want to exit?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                this.Hide();
+                var login = Program.ServiceProvider?.GetRequiredService<LoginForm>();
+                this.CenterForm(login!);
+                login!.ShowDialog();
+
             }
         }
     }

@@ -17,6 +17,8 @@ namespace HotelPmsUI.Forms.Staff
         {
             InitializeComponent();
 
+            buttonPanel.Visible = false;
+
             this.staffService = staffService;
 
             staffBindingSource.DataSource = staffService.BindingSource;
