@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
+using System.Windows.Markup;
 
 namespace HotelPmsUI.ModelServices
 {
@@ -260,33 +261,68 @@ namespace HotelPmsUI.ModelServices
 
                 if ((prop!.IsDefined(typeof(RequiredAttribute), true) 
                         || prop.IsDefined(typeof(DataAccessLibrary.AttributeMarkerClasses.RequiredForValidation)) )
-                        && string.IsNullOrEmpty(value?.ToString()))
+                        && !IsValid(value!))
                 {
 
                     var displayName = prop?.GetCustomAttribute<DisplayAttribute>()!.Name;
+                    string innerMessage = GetMessage(value!);
 
-                    message.Append($"{displayName}, ");
+                    message.AppendLine($"Field: {displayName} {innerMessage}");
                     count++;
                 }
             }
 
-            if (count == 1)
-            {
-                message.Length -= 2;
-                message.Insert(0, "Field: ");
-                message.Append(" cannot be empty.");
+            if (count >= 1)
+                return message;
 
+            return null!;
+        }
+
+        private static bool IsValid(object value)
+        {
+            var type = value.GetType();
+            
+            
+            if ((type == typeof(int) || type == typeof(long)) && (value.Equals(0) || value is null))
+                return false;
+
+            if ((type == typeof(float) || type == typeof(double)) && (value!.Equals(0.0) || value is null))
+                return false;
+
+            if (type == typeof(string) && (string.IsNullOrEmpty(value!.ToString()) || value is null))
+                return false;
+
+            if(type == typeof(object) && value is null)
+                return false;
+
+            return true;
+        }
+
+        private static string GetMessage(object value)
+        {
+            string message = string.Empty;
+
+            if (value.GetType() == typeof(int) || value.GetType() == typeof(long))
+            {
+                message = "cannot be 0";
                 return message;
             }
-            else if (count > 1)
-            {
-                message.Length -= 2;
-                message.Insert(0, "Fields: ");
-                message.Append(" cannot be empty.");
+                
 
+            if(value.GetType() == typeof(float) || value.GetType() == typeof(double))
+            {
+                message = "cannot be 0.0";
                 return message;
             }
-                return null!;
+                
+
+            if (value.GetType() == typeof(string))
+            {
+                message = "cannot be empty";
+                return message;
+            }
+                
+            return null!;
         }
     }
 }

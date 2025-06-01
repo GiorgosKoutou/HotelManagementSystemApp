@@ -35,12 +35,12 @@ namespace HotelPmsUI.ModelServices
             var tinExists = Context.Customers.FirstOrDefault(c => c.Tin == currentRecord.Tin);
 
             var entry = Context.Entry(currentRecord);
-            var originalTin = entry.OriginalValues["Tin"].ToString();
-            var tinAfterEdit = entry.CurrentValues["Tin"].ToString();
+            var originalTin = entry.OriginalValues["Tin"]!.ToString();
+            var tinAfterEdit = entry.CurrentValues["Tin"]!.ToString();
 
-            tinAfterEdit = (originalTin.Equals(tinAfterEdit)) ? string.Empty : entry.CurrentValues["Tin"].ToString();
+            tinAfterEdit = (originalTin!.Equals(tinAfterEdit)) ? string.Empty : entry?.CurrentValues["Tin"]!.ToString();
 
-            if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Modified && (tinExists == null || !tinAfterEdit.Equals(tinExists.Tin)))
+            if (entry!.State == Microsoft.EntityFrameworkCore.EntityState.Modified && (tinExists == null || !tinAfterEdit!.Equals(tinExists.Tin)))
             {
                 base.SaveData();
                 return;

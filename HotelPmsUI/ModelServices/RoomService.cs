@@ -23,6 +23,12 @@ namespace HotelPmsUI.ModelServices
 
         public override void SaveData()
         {
+            StringBuilder message = CheckFields();
+            if (message != null) 
+            {
+                MessageBox.Show(message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             ((Room)BindingSource!.Current).RoomTypeCategory.Type = 2;
             base.SaveData();
         }
