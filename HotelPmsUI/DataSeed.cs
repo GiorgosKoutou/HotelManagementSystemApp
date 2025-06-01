@@ -99,11 +99,12 @@ namespace HotelPmsUI
                 };
 
                 Argon2 hash = new();
+                
                 user.Password = hash.HashPassword(user.Password);
 
                 context.Add(user);
                 context.SaveChanges();
-
+                
             }
         }
 

@@ -21,22 +21,37 @@ namespace HotelPmsUI
         public void LoadRoomDesc()
         {
             var roomDesc = context.TypeCategories.Where(rc => rc.Type == 2).ToList();
-            RoomDescList.Add(new() { id = 0 });
-            RoomDescList.AddRange(roomDesc);
+
+            if (RoomDescList.Count == 0)
+            {
+                RoomDescList.Add(new() { id = 0 });
+                RoomDescList.AddRange(roomDesc);
+            }
+            
         }
 
         public void LoadUserDesc()
         {
             var userDesc = context.TypeCategories.Where(uc => uc.Type == 3).ToList();
-            UserDescList.Add(new() { id = 0 });
-            UserDescList.AddRange(userDesc);
+
+            if (UserDescList.Count == 0)
+            {
+                UserDescList.Add(new() { id = 0 });
+                UserDescList.AddRange(userDesc);
+            }
+           
         }
 
         public void LoadStaffDesc()
         {
             var staffDesc = context.TypeCategories.Where(tc => tc.Type == 1).ToList();
-            SpecialtyDesc.Add(new() { id = 0 });
-            SpecialtyDesc.AddRange(staffDesc);
+
+            if (SpecialtyDesc.Count == 0) 
+            {
+                SpecialtyDesc.Add(new() { id = 0 });
+                SpecialtyDesc.AddRange(staffDesc);
+            }
+            
         }
     }
 }

@@ -47,6 +47,7 @@ namespace HotelPmsUI
             /* Register of the Forms DI */
 
             service.AddScoped<Forms.MainForm>();
+            service.AddScoped<Forms.LoginForm>();
             service.AddTransient<Forms.Customer.CustomerCrudForm>();
             service.AddTransient<Forms.Customer.CustomerListForm>();
             service.AddTransient<Forms.Room.RoomListForm>();
@@ -57,6 +58,7 @@ namespace HotelPmsUI
             service.AddTransient<Forms.User.UserListForm>();
             service.AddTransient<Forms.Staff.StaffCrudForm>();
             service.AddTransient<Forms.Staff.StaffListForm>();
+            
 
             /* Register of General Class DI */
 
