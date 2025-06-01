@@ -28,7 +28,7 @@ namespace DataAccessLibrary.Models
         [DataAccessLibrary.AttributeMarkerClasses.RequiredForValidation]
         [Display(Name = "Full Name")]
         [Column(TypeName = "varchar(100)")]
-        public string? FullName { get; set; }
+        public string? FullName { get; set; } = string.Empty;
         public TypeCategory UserRole { get; set; } = new();
 
         public string Description { get => UserRole.Description; }

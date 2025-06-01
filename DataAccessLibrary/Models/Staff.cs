@@ -14,10 +14,12 @@ namespace DataAccessLibrary.Models
 
         [Column(TypeName = "varchar(100)")]
         [Display(Name = "First Name")]
+        [AttributeMarkerClasses.RequiredForValidation]
         public string FirstName { get; set; } = string.Empty;
 
         [Column(TypeName = "varchar(100)")]
         [Display(Name = "Last Name")]
+        [AttributeMarkerClasses.RequiredForValidation]
         public string LastName { get; set; } = string.Empty;
         public TypeCategory Specialty { get; set; } = new();
         public string Description { get => Specialty.Description; }
