@@ -1,13 +1,17 @@
 ﻿using HotelPmsUI.Extensions;
+using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System.CodeDom;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 using System.Diagnostics;
+using System.DirectoryServices.ActiveDirectory;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -17,8 +21,8 @@ using System.Windows.Markup;
 
 namespace HotelPmsUI.ModelServices
 {
-    public class BaseService<TModel, TFormCrud, TFormList>(DataAccessLibrary.Context.HpmsDbContext context) : IService
-            where TModel : class where TFormCrud : Form where TFormList : Form
+    public class BaseService<TModel, TFormCrud, TFormList, TFormFilter>(DataAccessLibrary.Context.HpmsDbContext context) : IService
+            where TModel : class where TFormCrud : Form where TFormList : Form where TFormFilter : Form
     {
         internal Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction? transaction;
 
@@ -39,6 +43,7 @@ namespace HotelPmsUI.ModelServices
 
         internal TFormCrud? formCrud;
         internal TFormList? formList;
+        internal TFormFilter? formFilter;
         private Forms.MainForm? mainForm = Program.ServiceProvider?.GetRequiredService<Forms.MainForm>();
         private Control? mainPanel;
 
@@ -122,7 +127,9 @@ namespace HotelPmsUI.ModelServices
                 {
                     context.Add(currentRecord);
                     MessageBox.Show($"{currentRecord.GetType().Name} added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    bindingSource.DataSource = initialRecord;
+                    var newRecord = bindingSource?.AddNew();
+                    initialRecord = ((TModel)newRecord!).CopyData();
+                    bindingSource!.DataSource = initialRecord;
                 }
                 else
                 {
@@ -216,9 +223,12 @@ namespace HotelPmsUI.ModelServices
 
         }
 
-        public void ShowListForm()
+        public virtual void ShowListForm()
         {
             formCrud?.Close();
+
+            formFilter?.Close();
+
             mainPanel?.Controls.Clear();
 
             formList = Program.ServiceProvider?.GetRequiredService<TFormList>();
@@ -230,6 +240,16 @@ namespace HotelPmsUI.ModelServices
 
             mainPanel?.Controls.Add(formList);
             formList?.Show();
+        }
+
+        public virtual void ShowFilterForm()
+        {
+            formList?.Close();
+            mainPanel?.Controls.Clear();
+
+            formFilter = Program.ServiceProvider?.GetRequiredService<TFormFilter>();
+            mainForm?.CenterForm(formFilter!);
+            formFilter?.ShowDialog();
         }
 
         public void SetIndex(int index)
@@ -324,5 +344,55 @@ namespace HotelPmsUI.ModelServices
                 
             return null!;
         }
+
+        internal void Filter()
+        {
+            var predicate = PredicateBuilder.New<TModel>();
+
+            var formType = typeof(TFormFilter);
+
+            
+
+            foreach (var prop in formType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+            {
+                var columnName = string.Empty;
+
+                if (prop!.IsDefined(typeof(DataAccessLibrary.AttributeMarkerClasses.ColumnNames), true))
+                {
+                    var rawValue = prop?.GetValue(formFilter);
+                    var stringValue = rawValue!.ToString();
+                    columnName = prop!.GetCustomAttribute<DataAccessLibrary.AttributeMarkerClasses.ColumnNames>()!.Name;
+
+                    if (stringValue!.Contains('*'))
+                        stringValue = stringValue.Replace('*', '%');
+
+                    if (!string.IsNullOrEmpty(stringValue) && stringValue.Contains('%'))
+                    {
+                        predicate = predicate.And(x => EF.Functions.Like(EF.Property<string>(x, columnName!), stringValue));
+                        continue;
+                    }
+                        
+                    
+                    if (!string.IsNullOrEmpty(stringValue) && !prop!.Name.Contains("From") && !prop.Name.Contains("To"))
+                    {
+                        predicate = predicate.And(x => EF.Property<string>(x, columnName!) == stringValue);
+                        continue;
+                    }
+
+                    if (!string.IsNullOrEmpty(stringValue) && prop!.Name.Contains("From"))
+                        predicate = predicate.And(x => String.Compare(EF.Property<string>(x, columnName!), stringValue) >= 0);
+
+                    else if (!string.IsNullOrEmpty(stringValue) && prop!.Name.Contains("To"))
+                        predicate = predicate.And(x => String.Compare(EF.Property<string>(x, columnName!), stringValue) <= 0);
+                }
+               
+            }
+
+            var filteredTable = context.Set<TModel>().Where(predicate).ToList();
+            bindingSource!.DataSource = filteredTable;
+            ShowListForm();
+
+        }
+
     }
 }
