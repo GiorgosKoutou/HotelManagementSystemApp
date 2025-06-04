@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace HotelPmsUI.ModelServices
 {
-    public class StaffService : BaseService<DataAccessLibrary.Models.Staff, Forms.Staff.StaffCrudForm, Forms.Staff.StaffListForm>
+    public class StaffService : BaseService<DataAccessLibrary.Models.Staff, 
+                                            Forms.Staff.StaffCrudForm, Forms.Staff.StaffListForm,Forms.Staff.StaffFilterForm>
     {
         public StaffService(HpmsDbContext context) : base(context)
         {

@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace HotelPmsUI.ModelServices
 {
-    public class RoomService : BaseService<DataAccessLibrary.Models.Room, Forms.Room.RoomCrudForm, Forms.Room.RoomListForm>
+    public class RoomService : BaseService<DataAccessLibrary.Models.Room,
+                                            Forms.Room.RoomCrudForm, Forms.Room.RoomListForm,Forms.Room.RoomFilterForm>
     {
         public RoomService(HpmsDbContext context) : base(context) 
         {

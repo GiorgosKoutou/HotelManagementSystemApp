@@ -1,4 +1,5 @@
-﻿using DataAccessLibrary.Context;
+﻿
+using DataAccessLibrary.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace HotelPmsUI.ModelServices
 {
-    public class UserService : BaseService<DataAccessLibrary.Models.User, Forms.User.UserCrudForm, Forms.User.UserListForm>
+    public class UserService : BaseService<DataAccessLibrary.Models.User, 
+                                        Forms.User.UserCrudForm, Forms.User.UserListForm, Forms.User.UserFilterForm>
     {
         public UserService(HpmsDbContext context) : base(context)
         {

@@ -17,6 +17,7 @@ namespace HotelPmsUI.ModelServices
 
         void ShowListForm();
         void ShowCrudForm();
+        void ShowFilterForm();
         void SetPanel(Control panel);
 
         int CategoryType { get; set; }

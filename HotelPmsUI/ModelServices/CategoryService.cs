@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace HotelPmsUI.ModelServices
 {
-    public class CategoryService : BaseService<DataAccessLibrary.Models.TypeCategory, Forms.TypeCategories.CatrgoriesCrudForm, Forms.TypeCategories.CategoriesListForm>
+    public class CategoryService : BaseService<DataAccessLibrary.Models.TypeCategory, 
+                                Forms.TypeCategories.CatrgoriesCrudForm, Forms.TypeCategories.CategoriesListForm, Form>
     {
         public CategoryService(HpmsDbContext context) : base(context) {
 
