@@ -58,6 +58,10 @@ namespace HotelPmsUI
             service.AddTransient<Forms.User.UserListForm>();
             service.AddTransient<Forms.Staff.StaffCrudForm>();
             service.AddTransient<Forms.Staff.StaffListForm>();
+            service.AddTransient<Forms.Customer.CustomerFilterForm>();
+            service.AddTransient<Forms.Room.RoomFilterForm>();
+            service.AddTransient<Forms.Staff.StaffFilterForm>();
+            service.AddTransient<Forms.User.UserFilterForm>();
             
 
             /* Register of General Class DI */
