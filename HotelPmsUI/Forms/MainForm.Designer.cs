@@ -34,6 +34,7 @@
             logoutButton = new Button();
             welcomeLabel = new Label();
             buttonPanel = new Panel();
+            searchButton = new Button();
             deleteButton = new Button();
             editButton = new Button();
             newButton = new Button();
@@ -84,6 +85,7 @@
             // topPanel
             // 
             topPanel.BackColor = Color.Silver;
+            topPanel.BorderStyle = BorderStyle.FixedSingle;
             topPanel.Controls.Add(logoutButton);
             topPanel.Controls.Add(welcomeLabel);
             topPanel.Dock = DockStyle.Top;
@@ -99,7 +101,7 @@
             logoutButton.FlatStyle = FlatStyle.Flat;
             logoutButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             logoutButton.Image = Properties.Resources.logout;
-            logoutButton.Location = new Point(625, 22);
+            logoutButton.Location = new Point(623, 22);
             logoutButton.Name = "logoutButton";
             logoutButton.Size = new Size(150, 45);
             logoutButton.TabIndex = 1;
@@ -121,6 +123,8 @@
             // buttonPanel
             // 
             buttonPanel.BackColor = Color.Silver;
+            buttonPanel.BorderStyle = BorderStyle.FixedSingle;
+            buttonPanel.Controls.Add(searchButton);
             buttonPanel.Controls.Add(deleteButton);
             buttonPanel.Controls.Add(editButton);
             buttonPanel.Controls.Add(newButton);
@@ -131,6 +135,22 @@
             buttonPanel.Size = new Size(787, 65);
             buttonPanel.TabIndex = 0;
             // 
+            // searchButton
+            // 
+            searchButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            searchButton.FlatAppearance.BorderSize = 0;
+            searchButton.FlatStyle = FlatStyle.Flat;
+            searchButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            searchButton.Image = Properties.Resources.serach;
+            searchButton.Location = new Point(659, 0);
+            searchButton.Name = "searchButton";
+            searchButton.Size = new Size(123, 63);
+            searchButton.TabIndex = 3;
+            searchButton.Text = "Search";
+            searchButton.TextImageRelation = TextImageRelation.ImageBeforeText;
+            searchButton.UseVisualStyleBackColor = true;
+            searchButton.Click += searchButton_Click;
+            // 
             // deleteButton
             // 
             deleteButton.AutoSize = true;
@@ -139,9 +159,9 @@
             deleteButton.FlatStyle = FlatStyle.Flat;
             deleteButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             deleteButton.Image = Properties.Resources.delete;
-            deleteButton.Location = new Point(246, 0);
+            deleteButton.Location = new Point(202, 0);
             deleteButton.Name = "deleteButton";
-            deleteButton.Size = new Size(123, 65);
+            deleteButton.Size = new Size(123, 63);
             deleteButton.TabIndex = 2;
             deleteButton.Text = "Delete";
             deleteButton.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -156,9 +176,9 @@
             editButton.FlatStyle = FlatStyle.Flat;
             editButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             editButton.Image = Properties.Resources.edit;
-            editButton.Location = new Point(123, 0);
+            editButton.Location = new Point(103, 0);
             editButton.Name = "editButton";
-            editButton.Size = new Size(123, 65);
+            editButton.Size = new Size(99, 63);
             editButton.TabIndex = 1;
             editButton.Text = "Edit";
             editButton.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -175,7 +195,7 @@
             newButton.Image = Properties.Resources._new;
             newButton.Location = new Point(0, 0);
             newButton.Name = "newButton";
-            newButton.Size = new Size(123, 65);
+            newButton.Size = new Size(103, 63);
             newButton.TabIndex = 0;
             newButton.Text = "New";
             newButton.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -185,6 +205,7 @@
             // menuPanel
             // 
             menuPanel.BackColor = Color.Silver;
+            menuPanel.BorderStyle = BorderStyle.FixedSingle;
             menuPanel.Controls.Add(staffButton);
             menuPanel.Controls.Add(categoriesPanel);
             menuPanel.Controls.Add(subTitlePanel);
@@ -221,9 +242,9 @@
             categoriesPanel.Controls.Add(roomCategoriesButton);
             categoriesPanel.Controls.Add(specialtyCategoriesButton);
             categoriesPanel.Dock = DockStyle.Bottom;
-            categoriesPanel.Location = new Point(0, 502);
+            categoriesPanel.Location = new Point(0, 500);
             categoriesPanel.Name = "categoriesPanel";
-            categoriesPanel.Size = new Size(216, 197);
+            categoriesPanel.Size = new Size(214, 197);
             categoriesPanel.TabIndex = 7;
             // 
             // categoriesButton
@@ -292,7 +313,7 @@
             subTitlePanel.Dock = DockStyle.Top;
             subTitlePanel.Location = new Point(0, 0);
             subTitlePanel.Name = "subTitlePanel";
-            subTitlePanel.Size = new Size(216, 135);
+            subTitlePanel.Size = new Size(214, 135);
             subTitlePanel.TabIndex = 5;
             // 
             // imageTitleContainer
@@ -309,8 +330,8 @@
             // imageTitleContainer.Panel2
             // 
             imageTitleContainer.Panel2.Controls.Add(titleLabel);
-            imageTitleContainer.Size = new Size(216, 135);
-            imageTitleContainer.SplitterDistance = 61;
+            imageTitleContainer.Size = new Size(214, 135);
+            imageTitleContainer.SplitterDistance = 60;
             imageTitleContainer.TabIndex = 0;
             // 
             // titleLabel
@@ -382,7 +403,7 @@
             Controls.Add(backroundPanel);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form1";
+            Text = "Hotel Managment System";
             Load += MainForm_Load;
             backroundPanel.ResumeLayout(false);
             topPanel.ResumeLayout(false);
@@ -427,5 +448,6 @@
         private Button roomButton;
         private Button customerButton;
         private Button specialtyCategoriesButton;
+        private Button searchButton;
     }
 }

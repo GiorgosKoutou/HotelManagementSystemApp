@@ -206,6 +206,11 @@ namespace HotelPmsUI.Forms
 
         }
 
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            currentModule?.ShowFilterForm();
+        }
+
         private void categoriesButton_Click(object sender, EventArgs e)
         {
             IsClicked();
@@ -248,6 +253,8 @@ namespace HotelPmsUI.Forms
 
             }
         }
+
+        
     }
 }
 

@@ -18,7 +18,6 @@ namespace HotelPmsUI.Forms.Customer
             customerBindingSource.DataSource = customer.BindingSource;
             this.customerModel = customerModel;
         }
-        public BindingSource? CustomerBindingSource { get => customerBindingSource; }
 
 
         private void AddButton_Click(object sender, EventArgs e)
