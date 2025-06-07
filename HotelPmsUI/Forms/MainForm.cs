@@ -14,6 +14,8 @@ namespace HotelPmsUI.Forms
         private bool isClicked = false;
         public Control? NewButton { get => newButton; }
         public Control? EditButton { get => editButton; }
+        public Control? UserButton { get => userButton; }
+        public Label WelcomeLabel { get => welcomeLabel;}
         public MainForm()
         {
             InitializeComponent();
@@ -21,18 +23,14 @@ namespace HotelPmsUI.Forms
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
+
             var seed = Program.ServiceProvider?.GetRequiredService<DataSeed>();
 
             var login = Program.ServiceProvider?.GetRequiredService<LoginForm>();
             this.CenterForm(login!);
             login!.ShowDialog();
 
-            welcomeLabel.Text = $"Welcome: {login.LoginInfo.FullName}";
 
-            if (!login.LoginInfo.Description!.Equals("Administrator"))
-            {
-                userButton.Visible = false;
-            }
 
             buttonPanel.Visible = false;
             userCategoryButton.Visible = false;
@@ -246,11 +244,12 @@ namespace HotelPmsUI.Forms
 
             if (result == DialogResult.Yes)
             {
+                centerPanel.Controls.Clear();
+                buttonPanel.Visible = false;
                 this.Hide();
                 var login = Program.ServiceProvider?.GetRequiredService<LoginForm>();
                 this.CenterForm(login!);
                 login!.ShowDialog();
-
             }
         }
 

@@ -159,7 +159,6 @@
         private Panel dataGridViewPanel;
         private Panel buttonPanel;
         private DataGridView staffDataGridView;
-        private DataGridViewTextBoxColumn lastNameDataGridViewTextBoxColumn;
         private BindingSource staffBindingSource;
         private Button nextButton;
         private Button previousButton;

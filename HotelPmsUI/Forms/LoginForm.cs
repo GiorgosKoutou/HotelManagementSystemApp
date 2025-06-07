@@ -19,22 +19,31 @@ namespace HotelPmsUI.Forms
 
         private readonly UserLogin login;
 
+        private readonly MainForm mainForm;
+
         public UserLogin LoginInfo { get => login; }
 
-        public LoginForm(ModelServices.UserService userService, DataAccessLibrary.Context.HpmsDbContext context, UserLogin login)
+        public LoginForm(ModelServices.UserService userService, DataAccessLibrary.Context.HpmsDbContext context, UserLogin login, MainForm mainForm)
         {
             InitializeComponent();
             this.userService = userService;
             this.context = context;
             this.login = login;
+            this.mainForm = mainForm;
         }
 
         private void loginButton_Click(object sender, EventArgs e)
         {
 
-            if (login.ChechLoginInfo(usernameText, passwordText))
+            if (login.CheckLoginInfo(usernameText, passwordText))
             {
                 this.Close();
+
+                if (!login.Description!.Equals("Administrator"))
+                    mainForm.UserButton!.Visible = false;
+
+                mainForm.WelcomeLabel.Text = $"Welcome: {login.FullName}";
+                mainForm.Show();
             }
         }
 
@@ -42,16 +51,21 @@ namespace HotelPmsUI.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (login.ChechLoginInfo(usernameText, passwordText))
+                if (login.CheckLoginInfo(usernameText, passwordText))
                 {
                     this.Close();
+
+                    if (!login.Description!.Equals("Administrator"))
+                        mainForm.UserButton!.Visible = false;
+
+                    mainForm.WelcomeLabel.Text = $"Welcome: {login.FullName}";
+                    mainForm.Show();
                 }
             }
         }
 
         private void exitButton_Click(object sender, EventArgs e)
         {
-            var mainForm = Program.ServiceProvider?.GetRequiredService<MainForm>();
 
             mainForm?.Close();
         }

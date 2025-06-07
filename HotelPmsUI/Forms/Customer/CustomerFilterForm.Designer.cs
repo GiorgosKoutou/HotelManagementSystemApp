@@ -41,7 +41,17 @@
             cancelButton = new Button();
             firstNameLabel = new Label();
             firstNameText = new TextBox();
-            firstNameRangeButton = new CheckBox();
+            firstNameRangeCheckBox = new CheckBox();
+            lastnameFromLabel = new Label();
+            lastnameToLabel = new Label();
+            tinToLabel = new Label();
+            tinFromLabel = new Label();
+            lastnameFromText = new TextBox();
+            lastnameToText = new TextBox();
+            tinFromText = new TextBox();
+            tinToText = new TextBox();
+            tinRangeCheckBox = new CheckBox();
+            lastnameRangeCheckBox = new CheckBox();
             SuspendLayout();
             // 
             // firstnameFromLabel
@@ -77,7 +87,7 @@
             // tinLabel
             // 
             tinLabel.AutoSize = true;
-            tinLabel.Location = new Point(13, 197);
+            tinLabel.Location = new Point(16, 232);
             tinLabel.Margin = new Padding(4, 0, 4, 0);
             tinLabel.Name = "tinLabel";
             tinLabel.Size = new Size(255, 28);
@@ -86,7 +96,7 @@
             // 
             // tinText
             // 
-            tinText.Location = new Point(275, 194);
+            tinText.Location = new Point(278, 229);
             tinText.Name = "tinText";
             tinText.Size = new Size(218, 34);
             tinText.TabIndex = 4;
@@ -114,10 +124,10 @@
             // 
             // clearButton
             // 
+            clearButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             clearButton.FlatAppearance.BorderSize = 0;
-            clearButton.FlatStyle = FlatStyle.Flat;
             clearButton.Image = Properties.Resources.clear_filters;
-            clearButton.Location = new Point(673, 13);
+            clearButton.Location = new Point(978, 12);
             clearButton.Name = "clearButton";
             clearButton.Size = new Size(47, 31);
             clearButton.TabIndex = 8;
@@ -128,7 +138,7 @@
             // 
             searchButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             searchButton.Image = Properties.Resources.serach;
-            searchButton.Location = new Point(537, 289);
+            searchButton.Location = new Point(775, 347);
             searchButton.Name = "searchButton";
             searchButton.Size = new Size(138, 38);
             searchButton.TabIndex = 9;
@@ -140,7 +150,7 @@
             // cancelButton
             // 
             cancelButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            cancelButton.Location = new Point(681, 289);
+            cancelButton.Location = new Point(919, 347);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(106, 35);
             cancelButton.TabIndex = 10;
@@ -164,25 +174,123 @@
             firstNameText.Size = new Size(218, 34);
             firstNameText.TabIndex = 13;
             // 
-            // firstNameRangeButton
+            // firstNameRangeCheckBox
             // 
-            firstNameRangeButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            firstNameRangeButton.AutoSize = true;
-            firstNameRangeButton.Location = new Point(631, 74);
-            firstNameRangeButton.Name = "firstNameRangeButton";
-            firstNameRangeButton.Size = new Size(89, 32);
-            firstNameRangeButton.TabIndex = 14;
-            firstNameRangeButton.Text = "Range";
-            firstNameRangeButton.UseVisualStyleBackColor = true;
-            firstNameRangeButton.CheckedChanged += firstNameRangeButton_CheckedChanged;
+            firstNameRangeCheckBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            firstNameRangeCheckBox.AutoSize = true;
+            firstNameRangeCheckBox.Location = new Point(936, 73);
+            firstNameRangeCheckBox.Name = "firstNameRangeCheckBox";
+            firstNameRangeCheckBox.Size = new Size(89, 32);
+            firstNameRangeCheckBox.TabIndex = 14;
+            firstNameRangeCheckBox.Text = "Range";
+            firstNameRangeCheckBox.UseVisualStyleBackColor = true;
+            firstNameRangeCheckBox.CheckedChanged += firstNameRangeButton_CheckedChanged;
+            // 
+            // lastnameFromLabel
+            // 
+            lastnameFromLabel.AutoSize = true;
+            lastnameFromLabel.Location = new Point(19, 182);
+            lastnameFromLabel.Name = "lastnameFromLabel";
+            lastnameFromLabel.Size = new Size(103, 28);
+            lastnameFromLabel.TabIndex = 15;
+            lastnameFromLabel.Text = "Lastname: ";
+            // 
+            // lastnameToLabel
+            // 
+            lastnameToLabel.AutoSize = true;
+            lastnameToLabel.Location = new Point(349, 182);
+            lastnameToLabel.Name = "lastnameToLabel";
+            lastnameToLabel.Size = new Size(20, 28);
+            lastnameToLabel.TabIndex = 16;
+            lastnameToLabel.Text = "-";
+            // 
+            // tinToLabel
+            // 
+            tinToLabel.AutoSize = true;
+            tinToLabel.Location = new Point(502, 284);
+            tinToLabel.Name = "tinToLabel";
+            tinToLabel.Size = new Size(20, 28);
+            tinToLabel.TabIndex = 17;
+            tinToLabel.Text = "-";
+            // 
+            // tinFromLabel
+            // 
+            tinFromLabel.AutoSize = true;
+            tinFromLabel.Location = new Point(19, 284);
+            tinFromLabel.Name = "tinFromLabel";
+            tinFromLabel.Size = new Size(260, 28);
+            tinFromLabel.TabIndex = 18;
+            tinFromLabel.Text = "Tax Identificational Number: ";
+            // 
+            // lastnameFromText
+            // 
+            lastnameFromText.Location = new Point(125, 179);
+            lastnameFromText.Name = "lastnameFromText";
+            lastnameFromText.Size = new Size(218, 34);
+            lastnameFromText.TabIndex = 19;
+            // 
+            // lastnameToText
+            // 
+            lastnameToText.Location = new Point(375, 179);
+            lastnameToText.Name = "lastnameToText";
+            lastnameToText.Size = new Size(218, 34);
+            lastnameToText.TabIndex = 20;
+            // 
+            // tinFromText
+            // 
+            tinFromText.Location = new Point(278, 281);
+            tinFromText.Name = "tinFromText";
+            tinFromText.Size = new Size(218, 34);
+            tinFromText.TabIndex = 21;
+            // 
+            // tinToText
+            // 
+            tinToText.Location = new Point(528, 281);
+            tinToText.Name = "tinToText";
+            tinToText.Size = new Size(218, 34);
+            tinToText.TabIndex = 22;
+            // 
+            // tinRangeCheckBox
+            // 
+            tinRangeCheckBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            tinRangeCheckBox.AutoSize = true;
+            tinRangeCheckBox.Location = new Point(936, 280);
+            tinRangeCheckBox.Name = "tinRangeCheckBox";
+            tinRangeCheckBox.Size = new Size(89, 32);
+            tinRangeCheckBox.TabIndex = 23;
+            tinRangeCheckBox.Text = "Range";
+            tinRangeCheckBox.UseVisualStyleBackColor = true;
+            tinRangeCheckBox.CheckedChanged += tinRangeCheckBox_CheckedChanged;
+            // 
+            // lastnameRangeCheckBox
+            // 
+            lastnameRangeCheckBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            lastnameRangeCheckBox.AutoSize = true;
+            lastnameRangeCheckBox.Location = new Point(936, 181);
+            lastnameRangeCheckBox.Name = "lastnameRangeCheckBox";
+            lastnameRangeCheckBox.Size = new Size(89, 32);
+            lastnameRangeCheckBox.TabIndex = 24;
+            lastnameRangeCheckBox.Text = "Range";
+            lastnameRangeCheckBox.UseVisualStyleBackColor = true;
+            lastnameRangeCheckBox.CheckedChanged += lastnameCheckBox_CheckedChanged;
             // 
             // CustomerFilterForm
             // 
             AutoScaleDimensions = new SizeF(11F, 28F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(799, 339);
+            ClientSize = new Size(1037, 397);
             ControlBox = false;
-            Controls.Add(firstNameRangeButton);
+            Controls.Add(lastnameRangeCheckBox);
+            Controls.Add(tinRangeCheckBox);
+            Controls.Add(tinToText);
+            Controls.Add(tinFromText);
+            Controls.Add(lastnameToText);
+            Controls.Add(lastnameFromText);
+            Controls.Add(tinFromLabel);
+            Controls.Add(tinToLabel);
+            Controls.Add(lastnameToLabel);
+            Controls.Add(lastnameFromLabel);
+            Controls.Add(firstNameRangeCheckBox);
             Controls.Add(firstNameText);
             Controls.Add(firstNameLabel);
             Controls.Add(cancelButton);
@@ -221,6 +329,16 @@
         private Button cancelButton;
         private Label firstNameLabel;
         private TextBox firstNameText;
-        private CheckBox firstNameRangeButton;
+        private CheckBox firstNameRangeCheckBox;
+        private Label lastnameFromLabel;
+        private Label lastnameToLabel;
+        private Label tinToLabel;
+        private Label tinFromLabel;
+        private TextBox lastnameFromText;
+        private TextBox lastnameToText;
+        private TextBox tinFromText;
+        private TextBox tinToText;
+        private CheckBox tinRangeCheckBox;
+        private CheckBox lastnameRangeCheckBox;
     }
 }
