@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using System.CodeDom;
 using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,7 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
 using System.Linq.Expressions;
+using System.Net.WebSockets;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -34,6 +36,10 @@ namespace HotelPmsUI.ModelServices
         private int totalPages = 0;
         private int currentIndex = -1;
         private int categoryType;
+
+        private string includeEntity = string.Empty;
+        private bool needsInclude = false;
+
         internal bool isAdded = false;
 
         internal TModel? initialRecord;
@@ -303,13 +309,13 @@ namespace HotelPmsUI.ModelServices
             var type = value.GetType();
             
             
-            if ((type == typeof(int) || type == typeof(long)) && (value.Equals(0) || value is null))
+            if ((type == typeof(int) || type == typeof(long)) && (value is null || value.Equals(0)))
                 return false;
 
-            if ((type == typeof(float) || type == typeof(double)) && (value!.Equals(0.0) || value is null))
+            if ((type == typeof(float) || type == typeof(double)) && (value is null || value!.Equals(0.0)))
                 return false;
 
-            if (type == typeof(string) && (string.IsNullOrEmpty(value!.ToString()) || value is null))
+            if (type == typeof(string) && (value is null || string.IsNullOrEmpty(value!.ToString())))
                 return false;
 
             if(type == typeof(object) && value is null)
@@ -347,11 +353,9 @@ namespace HotelPmsUI.ModelServices
 
         internal void Filter()
         {
-            var predicate = PredicateBuilder.New<TModel>();
+            var predicate = PredicateBuilder.New<TModel>(true);
 
             var formType = typeof(TFormFilter);
-
-            
 
             foreach (var prop in formType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
             {
@@ -360,38 +364,114 @@ namespace HotelPmsUI.ModelServices
                 if (prop!.IsDefined(typeof(DataAccessLibrary.AttributeMarkerClasses.ColumnNames), true))
                 {
                     var rawValue = prop?.GetValue(formFilter);
-                    var stringValue = rawValue!.ToString();
                     columnName = prop!.GetCustomAttribute<DataAccessLibrary.AttributeMarkerClasses.ColumnNames>()!.Name;
+                    var query = PredicateQuery(predicate, rawValue!, prop!, columnName!, includeEntity, needsInclude);
 
-                    if (stringValue!.Contains('*'))
-                        stringValue = stringValue.Replace('*', '%');
-
-                    if (!string.IsNullOrEmpty(stringValue) && stringValue.Contains('%'))
-                    {
-                        predicate = predicate.And(x => EF.Functions.Like(EF.Property<string>(x, columnName!), stringValue));
+                    if(query is null)
                         continue;
-                    }
-                        
-                    
-                    if (!string.IsNullOrEmpty(stringValue) && !prop!.Name.Contains("From") && !prop.Name.Contains("To"))
-                    {
-                        predicate = predicate.And(x => EF.Property<string>(x, columnName!) == stringValue);
-                        continue;
-                    }
 
-                    if (!string.IsNullOrEmpty(stringValue) && prop!.Name.Contains("From"))
-                        predicate = predicate.And(x => String.Compare(EF.Property<string>(x, columnName!), stringValue) >= 0);
+                    predicate = query; 
 
-                    else if (!string.IsNullOrEmpty(stringValue) && prop!.Name.Contains("To"))
-                        predicate = predicate.And(x => String.Compare(EF.Property<string>(x, columnName!), stringValue) <= 0);
                 }
-               
+                    
             }
 
-            var filteredTable = context.Set<TModel>().Where(predicate).ToList();
+            List<TModel> filteredTable = null!;
+
+
+            if (needsInclude)
+                filteredTable =  [.. context.Set<TModel>().Where(predicate).Include(i => EF.Property<object>(i, includeEntity))];
+            else
+                filteredTable = [.. context.Set<TModel>().Where(predicate)];
+
+            if (filteredTable.Count == 0)
+            {
+                var modelName = typeof(TModel).Name;
+                MessageBox.Show($"{modelName} not found!");
+            }
+                
+
             bindingSource!.DataSource = filteredTable;
             ShowListForm();
+            needsInclude = false;
+        }
 
+        private Expression<Func<TModel, bool>> PredicateQuery(Expression<Func<TModel, bool>> predicate, object value,
+                                                              PropertyInfo prop,
+                                                              string columnName,
+                                                              string includeEntity,
+                                                              bool needsInclude)
+        {
+
+            if (value is string)
+            {
+                var stringValue = value.ToString();
+
+                if (string.IsNullOrEmpty(stringValue)) 
+                    return null!;
+
+                if (stringValue!.Contains('*'))
+                    stringValue = stringValue.Replace('*', '%');
+
+
+                if (!string.IsNullOrEmpty(stringValue) && stringValue.Contains('%'))
+                {
+                    predicate = predicate.And(x => EF.Functions.Like(EF.Property<string>(x, columnName!), stringValue));
+                    return predicate;
+                }
+
+                if (!string.IsNullOrEmpty(stringValue) && prop!.Name.Contains("From"))
+                {
+                    predicate = predicate.And((x => String.Compare(EF.Property<string>(x, columnName!), stringValue) >= 0));
+                    
+                }
+                else if (!string.IsNullOrEmpty(stringValue) && prop!.Name.Contains("To"))
+                {
+                    predicate = predicate.And(x => String.Compare(EF.Property<string>(x, columnName!), stringValue) <= 0);
+                    return predicate;
+                }
+                    
+                if (!string.IsNullOrEmpty(stringValue) && prop!.Name.Contains("Box"))
+                {
+                    predicate = predicate.And(x => EF.Property<object>(EF.Property<string>(x, columnName!), "Description").Equals(stringValue));
+                    includeEntity = columnName!;
+                    needsInclude = true;
+                    return predicate;
+                }
+
+                if (!string.IsNullOrEmpty(stringValue) && !prop!.Name.Contains("From") && !prop.Name.Contains("To") && !prop!.Name.Contains("Box"))
+                {
+                    predicate = predicate.And(x => EF.Property<object>(x, columnName!).Equals(stringValue));
+                    return predicate;
+                }
+
+            }
+
+            if(value is int )
+            {
+                int intValue = Convert.ToInt32(value);
+
+                if (intValue == 0)
+                    return null!;
+
+                predicate = predicate.And(x => EF.Property<int>(x, columnName) == intValue);
+                
+                return predicate;
+            }
+
+            if (value is double)
+            {
+                double doubleValue = Convert.ToDouble(value);
+
+                if (doubleValue == 0.0)
+                    return null!;
+
+                predicate = predicate.And(x => EF.Property<double>(x, columnName) == doubleValue);
+
+                return predicate;
+            }
+
+            return null!;
         }
 
     }
