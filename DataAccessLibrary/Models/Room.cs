@@ -13,7 +13,7 @@ namespace DataAccessLibrary.Models
     {
         public int Id { get; set; }
 
-        [Column(TypeName = "varchar(20)")]
+        [Column(TypeName = "varchar(50)")]
         [Display(Name = "Room Number")]
         [AttributeMarkerClasses.RequiredForValidation]
         public string RoomNumber { get; set; } = string.Empty;

@@ -18,16 +18,18 @@ namespace DataAccessLibrary.Models
         [Required]
         [Display(Name = "User Name")]
         [Column(TypeName = "varchar(100)")]
+        [AttributeMarkerClasses.RequiredForValidation]
         public string UserName { get; set; } = string.Empty;
 
         [Required]
         [Display(Name = "Password")]
         [Column(TypeName = "varchar(100)")]
+        [AttributeMarkerClasses.RequiredForValidation]
         public string Password { get; set; } = string.Empty;
 
-        [DataAccessLibrary.AttributeMarkerClasses.RequiredForValidation]
         [Display(Name = "Full Name")]
         [Column(TypeName = "varchar(100)")]
+        [DataAccessLibrary.AttributeMarkerClasses.RequiredForValidation]
         public string? FullName { get; set; } = string.Empty;
         public TypeCategory UserRole { get; set; } = new();
 

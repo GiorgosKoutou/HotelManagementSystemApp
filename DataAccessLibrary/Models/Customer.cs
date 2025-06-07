@@ -12,31 +12,31 @@ namespace DataAccessLibrary.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        [Column(TypeName = "varchar(50)")]
+        [AttributeMarkerClasses.RequiredForValidation]
+        [Column(TypeName = "varchar(100)")]
         [Display(Name = "Firts Name")]
         public string? FirstName { get; set; } = string.Empty;
 
-        [Required]
-        [Column(TypeName = "varchar(50)")]
+        [AttributeMarkerClasses.RequiredForValidation]
+        [Column(TypeName = "varchar(100)")]
         [Display(Name = "Last Name")]
         public string? LastName { get; set; } = string.Empty;
 
-        [Required]
-        [Column(TypeName = "varchar(50)")]
+        [AttributeMarkerClasses.RequiredForValidation]
+        [Column(TypeName = "varchar(100)")]
         [Display(Name = "Tax Identification Number")]
         public string? Tin { get; set; } = string.Empty;
 
-        [Column(TypeName = "varchar(50)")]
+        [Column(TypeName = "varchar(100)")]
         public string Country { get; set; } = string.Empty;
 
-        [Column(TypeName = "varchar(50)")]
+        [Column(TypeName = "varchar(100)")]
         public string City { get; set; } = string.Empty;
 
-        [Column(TypeName = "varchar(50)")]
+        [Column(TypeName = "varchar(100)")]
         public string Address { get; set; } = string.Empty;
 
-        [Column(TypeName = "varchar(50)")]
+        [Column(TypeName = "varchar(100)")]
         public string PhoneNumber { get; set; } = string.Empty;
     }
 }

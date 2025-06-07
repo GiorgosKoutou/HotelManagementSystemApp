@@ -22,10 +22,6 @@ namespace DataAccessLibrary.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Customer>()
-                        .HasIndex(c => c.Tin)
-                        .IsUnique();
-
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
