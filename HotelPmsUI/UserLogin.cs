@@ -17,7 +17,7 @@ namespace HotelPmsUI
         public string? Description { get => user!.Description; }
         public string? Password { get => user!.Password; }
 
-        public bool ChechLoginInfo(TextBox usernameText, TextBox passwordText)
+        public bool CheckLoginInfo(TextBox usernameText, TextBox passwordText)
         {
             user = context.Users.FirstOrDefault(u => u.UserName == usernameText.Text.Trim());
             
