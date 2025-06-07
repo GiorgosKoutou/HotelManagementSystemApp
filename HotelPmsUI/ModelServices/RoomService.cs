@@ -19,17 +19,42 @@ namespace HotelPmsUI.ModelServices
             var table = context.Rooms
                                 .Include(r => r.RoomTypeCategory)
                                 .OrderBy(r => r.Id);
+            //var table = context.Rooms.Where(r => r.RoomTypeCategory.Description.Equals("Quad Room")).Include(i => i.RoomTypeCategory);
             SetRecords(table);
+
+            
         }
 
         public override void SaveData()
         {
+            var currentRecord = (DataAccessLibrary.Models.Room)BindingSource!.Current;
+            currentRecord.RoomNumber = currentRecord.RoomNumber.Trim();
+
+            var roomNumberExists = Context.Rooms.FirstOrDefault(r => r.RoomNumber == currentRecord.RoomNumber);
+
+            var entry = Context.Entry(currentRecord);
+
             StringBuilder message = CheckFields();
-            if (message != null) 
+            if (message != null)
             {
                 MessageBox.Show(message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+
+            if (entry.State == EntityState.Modified)
+            {
+                base.SaveData();
+                return;
+            }
+
+
+            if (roomNumberExists is not null)
+            {
+                MessageBox.Show("Room Number Exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             ((Room)BindingSource!.Current).RoomTypeCategory.Type = 2;
             base.SaveData();
         }
@@ -38,7 +63,6 @@ namespace HotelPmsUI.ModelServices
         {
             
             base.NewData();
-            //formCrud!.CategoryComboBox.SelectedIndex = 0;
         }
 
             

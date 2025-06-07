@@ -16,5 +16,21 @@ namespace HotelPmsUI.ModelServices
             var table = context.Staff.Include(i => i.Specialty).OrderBy(s => s.Id);
             SetRecords(table);
         }
+
+        public override void SaveData()
+        {
+            var currentRecord = (DataAccessLibrary.Models.Staff)BindingSource!.Current;
+            currentRecord.FirstName = currentRecord.FirstName.Trim();
+            currentRecord.LastName = currentRecord.LastName.Trim();
+
+            StringBuilder messsage = CheckFields();
+            if(messsage is not null)
+            {
+                MessageBox.Show(messsage.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            base.SaveData();
+        }
     }
 }
