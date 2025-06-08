@@ -83,6 +83,16 @@ namespace HotelPmsUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap booking {
+            get {
+                object obj = ResourceManager.GetObject("booking", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap categories {
             get {
                 object obj = ResourceManager.GetObject("categories", resourceCulture);
@@ -176,6 +186,16 @@ namespace HotelPmsUI.Properties {
         internal static System.Drawing.Bitmap previous_arrow {
             get {
                 object obj = ResourceManager.GetObject("previous_arrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reservation {
+            get {
+                object obj = ResourceManager.GetObject("reservation", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
