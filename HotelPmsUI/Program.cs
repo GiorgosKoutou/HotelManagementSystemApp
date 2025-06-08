@@ -43,6 +43,7 @@ namespace HotelPmsUI
             service.AddScoped<ModelServices.CategoryService>();
             service.AddScoped<ModelServices.UserService>();
             service.AddScoped<ModelServices.StaffService>();
+            service.AddScoped<ModelServices.ReservationService>();
 
             /* Register of the Forms DI */
 
@@ -62,6 +63,8 @@ namespace HotelPmsUI
             service.AddTransient<Forms.Room.RoomFilterForm>();
             service.AddTransient<Forms.Staff.StaffFilterForm>();
             service.AddTransient<Forms.User.UserFilterForm>();
+            service.AddTransient<Forms.Reservation.ReservationBookForm>();
+            service.AddTransient<Forms.Reservation.ReservationCheckForm>();
             
 
             /* Register of General Class DI */
