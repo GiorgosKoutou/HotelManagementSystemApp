@@ -5,18 +5,13 @@ namespace HotelPmsUI.Forms.Customer
 {
     public partial class CustomerCrudForm : Form
     {
-
-
         private readonly CustomerService customer;
-        private readonly DataAccessLibrary.Models.Customer customerModel;
 
-
-        public CustomerCrudForm(CustomerService customer, DataAccessLibrary.Models.Customer customerModel)
+        public CustomerCrudForm(CustomerService customer)
         {
             InitializeComponent();
             this.customer = customer;
             customerBindingSource.DataSource = customer.BindingSource;
-            this.customerModel = customerModel;
         }
 
 

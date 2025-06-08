@@ -11,11 +11,12 @@ namespace HotelPmsUI.Forms
 
         private ModelServices.IService? currentModule;
 
-        private bool isClicked = false;
+        private bool isCategoriesClicked = false;
+        private bool isReservationsClicked = false;
         public Control? NewButton { get => newButton; }
         public Control? EditButton { get => editButton; }
         public Control? UserButton { get => userButton; }
-        public Label WelcomeLabel { get => welcomeLabel;}
+        public Label WelcomeLabel { get => welcomeLabel; }
         public MainForm()
         {
             InitializeComponent();
@@ -36,19 +37,25 @@ namespace HotelPmsUI.Forms
             userCategoryButton.Visible = false;
             roomCategoriesButton.Visible = false;
             specialtyCategoriesButton.Visible = false;
+            bookButton.Visible = false;
+            checkInOutButton.Visible = false;
 
         }
 
 
         private void customerButton_Click(object sender, EventArgs e)
         {
-            isClicked = true;
-            IsClicked();
+            isCategoriesClicked = true;
+            isReservationsClicked = true;
+
+            CategoriesClicked();
+            ReservationsClicked();
 
             buttonPanel.Visible = true;
 
             editButton.Enabled = true;
             newButton.Enabled = true;
+            searchButton.Visible = true;
 
             currentModule = Program.ServiceProvider?.GetService<ModelServices.CustomerService>();
 
@@ -59,13 +66,17 @@ namespace HotelPmsUI.Forms
 
         private void roomButton_Click(object sender, EventArgs e)
         {
-            isClicked = true;
-            IsClicked();
+            isCategoriesClicked = true;
+            isReservationsClicked = true;
+
+            CategoriesClicked();
+            ReservationsClicked();
 
             buttonPanel.Visible = true;
 
             editButton.Enabled = true;
             newButton.Enabled = true;
+            searchButton.Visible = true;
 
             currentModule = Program.ServiceProvider?.GetService<ModelServices.RoomService>();
 
@@ -76,13 +87,17 @@ namespace HotelPmsUI.Forms
 
         private void userButton_Click(object sender, EventArgs e)
         {
-            isClicked = true;
-            IsClicked();
+            isReservationsClicked = true;
+            isCategoriesClicked = true;
+
+            CategoriesClicked();
+            ReservationsClicked();
 
             buttonPanel.Visible = true;
 
             editButton.Enabled = true;
             newButton.Enabled = true;
+            searchButton.Visible = true;
 
             currentModule = Program.ServiceProvider?.GetService<ModelServices.UserService>();
 
@@ -93,13 +108,17 @@ namespace HotelPmsUI.Forms
 
         private void staffButton_Click(object sender, EventArgs e)
         {
-            isClicked = true;
-            IsClicked();
+            isCategoriesClicked = true;
+            isReservationsClicked = true;
+
+            CategoriesClicked();
+            ReservationsClicked();
 
             buttonPanel.Visible = true;
 
             editButton.Enabled = true;
             newButton.Enabled = true;
+            searchButton.Visible = true;
 
             currentModule = Program.ServiceProvider?.GetRequiredService<ModelServices.StaffService>();
 
@@ -109,26 +128,39 @@ namespace HotelPmsUI.Forms
 
         }
 
-        private void categoryButton_Click(object sender, EventArgs e)
+        private void reservationsButton_Click(object sender, EventArgs e)
         {
+            isCategoriesClicked = true;
+            CategoriesClicked();
+            ReservationsClicked();
+        }
 
-            IsClicked();
+        private void bookButton_Click(object sender, EventArgs e)
+        {
+            var reservation = Program.ServiceProvider?.GetRequiredService<Forms.Reservation.ReservationBookForm>();
 
-            buttonPanel.Visible = true;
+            reservation!.ShowBookForm(centerPanel);
+        }
 
-            editButton.Enabled = true;
-            newButton.Enabled = true;
+        private void checkInOutButton_Click(object sender, EventArgs e)
+        {
+            var reservation = Program.ServiceProvider?.GetRequiredService<Forms.Reservation.ReservationCheckForm>();
 
+            reservation!.ShowCheckInOutForm(centerPanel);
+        }
 
-            currentModule = Program.ServiceProvider?.GetService<ModelServices.CategoryService>();
+        private void CategoriesButton_Click(object sender, EventArgs e)
+        {
+            isReservationsClicked = true;
+            ReservationsClicked();
+            CategoriesClicked();
 
-            currentModule?.SetPanel(centerPanel);
-
-            currentModule?.ViewData();
         }
 
         private void userCategoryButton_Click(object sender, EventArgs e)
         {
+            searchButton.Visible = false;
+
             buttonPanel.Visible = true;
 
             editButton.Enabled = true;
@@ -145,6 +177,7 @@ namespace HotelPmsUI.Forms
 
         private void roomCategoriesButton_Click(object sender, EventArgs e)
         {
+            searchButton.Visible = false;
 
             buttonPanel.Visible = true;
 
@@ -162,6 +195,8 @@ namespace HotelPmsUI.Forms
 
         private void specialtyCategoriesButton_Click(object sender, EventArgs e)
         {
+            searchButton.Visible = false;
+
             buttonPanel.Visible = true;
 
             editButton.Enabled = true;
@@ -209,22 +244,17 @@ namespace HotelPmsUI.Forms
             currentModule?.ShowFilterForm();
         }
 
-        private void categoriesButton_Click(object sender, EventArgs e)
+        private void CategoriesClicked()
         {
-            IsClicked();
-        }
-
-        private void IsClicked()
-        {
-            if (!isClicked)
+            if (!isCategoriesClicked)
             {
                 userCategoryButton.Visible = true;
                 roomCategoriesButton.Visible = true;
                 specialtyCategoriesButton.Visible = true;
-                menuPanel.Width = 285;
+                menuPanel.Width = 276;
                 centerPanel.Controls.Clear();
                 buttonPanel.Visible = false;
-                isClicked = true;
+                isCategoriesClicked = true;
             }
             else
             {
@@ -234,7 +264,29 @@ namespace HotelPmsUI.Forms
                 menuPanel.Width = 214;
                 centerPanel.Controls.Clear();
                 buttonPanel.Visible = false;
-                isClicked = false;
+                isCategoriesClicked = false;
+            }
+        }
+
+        private void ReservationsClicked()
+        {
+            if (!isReservationsClicked)
+            {
+                bookButton.Visible = true;
+                checkInOutButton.Visible = true;
+                menuPanel.Width = 222;
+                centerPanel.Controls.Clear();
+                buttonPanel.Visible = false;
+                isReservationsClicked = true;
+            }
+            else
+            {
+                bookButton.Visible = false;
+                checkInOutButton.Visible = false;
+                menuPanel.Width = 213;
+                centerPanel.Controls.Clear();
+                buttonPanel.Visible = false;
+                isReservationsClicked = false;
             }
         }
 
@@ -252,8 +304,6 @@ namespace HotelPmsUI.Forms
                 login!.ShowDialog();
             }
         }
-
-        
     }
 }
 
