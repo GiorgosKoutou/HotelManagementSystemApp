@@ -38,5 +38,7 @@ namespace DataAccessLibrary.Models
 
         [Column(TypeName = "varchar(100)")]
         public string PhoneNumber { get; set; } = string.Empty;
+
+        public string Fullname { get => $"{FirstName} {LastName}"; }
     }
 }

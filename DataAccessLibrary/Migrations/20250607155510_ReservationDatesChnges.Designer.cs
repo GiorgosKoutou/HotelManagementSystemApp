@@ -4,6 +4,7 @@ using DataAccessLibrary.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLibrary.Migrations
 {
     [DbContext(typeof(HpmsDbContext))]
-    partial class HpmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250607155510_ReservationDatesChnges")]
+    partial class ReservationDatesChnges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,10 +72,10 @@ namespace DataAccessLibrary.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("CheckInDate")
-                        .HasColumnType("datetime(0)");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("CheckOutDate")
-                        .HasColumnType("datetime(0)");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
@@ -81,10 +84,10 @@ namespace DataAccessLibrary.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime>("ReservationDateFrom")
-                        .HasColumnType("datetime(0)");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("ReservationDateTo")
-                        .HasColumnType("datetime(0)");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<double>("ReservationPrice")
                         .HasColumnType("double");
