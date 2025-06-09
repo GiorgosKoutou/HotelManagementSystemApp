@@ -1,5 +1,6 @@
 ﻿using DataAccessLibrary.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,9 @@ namespace DataAccessLibrary.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Staff> Staff { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Period> Period { get; set; }
+        public DbSet<PriceList> PriceList { get; set; }
+        public DbSet<PriceListDetail> PriceListDetail { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

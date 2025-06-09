@@ -4,6 +4,7 @@ using DataAccessLibrary.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLibrary.Migrations
 {
     [DbContext(typeof(HpmsDbContext))]
-    partial class HpmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250609085510_PeriodTableCreation")]
+    partial class PeriodTableCreation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,51 +83,6 @@ namespace DataAccessLibrary.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Period");
-                });
-
-            modelBuilder.Entity("DataAccessLibrary.Models.PriceList", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("PeriodId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PeriodId");
-
-                    b.ToTable("PriceList");
-                });
-
-            modelBuilder.Entity("DataAccessLibrary.Models.PriceListDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<double>("Price")
-                        .HasColumnType("double");
-
-                    b.Property<int>("PriceListId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoomTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PriceListId");
-
-                    b.ToTable("PriceListDetail");
                 });
 
             modelBuilder.Entity("DataAccessLibrary.Models.Reservation", b =>
@@ -283,28 +241,6 @@ namespace DataAccessLibrary.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DataAccessLibrary.Models.PriceList", b =>
-                {
-                    b.HasOne("DataAccessLibrary.Models.Period", "Period")
-                        .WithMany()
-                        .HasForeignKey("PeriodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Period");
-                });
-
-            modelBuilder.Entity("DataAccessLibrary.Models.PriceListDetail", b =>
-                {
-                    b.HasOne("DataAccessLibrary.Models.PriceList", "PriceList")
-                        .WithMany("Details")
-                        .HasForeignKey("PriceListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PriceList");
-                });
-
             modelBuilder.Entity("DataAccessLibrary.Models.Reservation", b =>
                 {
                     b.HasOne("DataAccessLibrary.Models.Customer", "Customer")
@@ -355,11 +291,6 @@ namespace DataAccessLibrary.Migrations
                         .IsRequired();
 
                     b.Navigation("UserRole");
-                });
-
-            modelBuilder.Entity("DataAccessLibrary.Models.PriceList", b =>
-                {
-                    b.Navigation("Details");
                 });
 #pragma warning restore 612, 618
         }
