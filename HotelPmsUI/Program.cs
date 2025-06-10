@@ -31,10 +31,10 @@ namespace HotelPmsUI
 
             /* Register of the DB Models DI */
             
-            service.AddScoped<DataAccessLibrary.Models.Customer>();
-            service.AddScoped<DataAccessLibrary.Models.Room>();
-            service.AddScoped<DataAccessLibrary.Models.TypeCategory>();
-            service.AddScoped<DataAccessLibrary.Models.User>();
+            //service.AddScoped<DataAccessLibrary.Models.Customer>();
+            //service.AddScoped<DataAccessLibrary.Models.Room>();
+            //service.AddScoped<DataAccessLibrary.Models.TypeCategory>();
+            //service.AddScoped<DataAccessLibrary.Models.User>();
 
             /* Register of the Services DI */
 
@@ -44,6 +44,9 @@ namespace HotelPmsUI
             service.AddScoped<ModelServices.UserService>();
             service.AddScoped<ModelServices.StaffService>();
             service.AddScoped<ModelServices.ReservationService>();
+            service.AddScoped<ModelServices.PeriodService>();
+            service.AddScoped<ModelServices.PriceListService>();
+
 
             /* Register of the Forms DI */
 
@@ -65,6 +68,10 @@ namespace HotelPmsUI
             service.AddTransient<Forms.User.UserFilterForm>();
             service.AddTransient<Forms.Reservation.ReservationBookForm>();
             service.AddTransient<Forms.Reservation.ReservationCheckForm>();
+            service.AddTransient<Forms.Period.PeriodCrudForm>();
+            service.AddTransient<Forms.Period.PeriodListForm>();
+            service.AddTransient<Forms.PriceList.PriceListCrudForm>();
+            service.AddTransient<Forms.PriceList.PriceListListForm>();
             
 
             /* Register of General Class DI */
