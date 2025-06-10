@@ -39,16 +39,18 @@
             editButton = new Button();
             newButton = new Button();
             menuPanel = new Panel();
+            priceListButton = new Button();
+            periodButton = new Button();
             reservationPanel = new Panel();
             checkInOutButton = new Button();
             bookButton = new Button();
             reservationsButton = new Button();
-            staffButton = new Button();
             categoriesPanel = new Panel();
             categoriesButton = new Button();
             userCategoryButton = new Button();
             roomCategoriesButton = new Button();
             specialtyCategoriesButton = new Button();
+            staffButton = new Button();
             subTitlePanel = new Panel();
             imageTitleContainer = new SplitContainer();
             titleLabel = new Label();
@@ -76,15 +78,15 @@
             backroundPanel.Dock = DockStyle.Fill;
             backroundPanel.Location = new Point(0, 0);
             backroundPanel.Name = "backroundPanel";
-            backroundPanel.Size = new Size(1003, 1055);
+            backroundPanel.Size = new Size(979, 832);
             backroundPanel.TabIndex = 1;
             // 
             // centerPanel
             // 
             centerPanel.Dock = DockStyle.Fill;
-            centerPanel.Location = new Point(233, 103);
+            centerPanel.Location = new Point(226, 103);
             centerPanel.Name = "centerPanel";
-            centerPanel.Size = new Size(770, 887);
+            centerPanel.Size = new Size(753, 664);
             centerPanel.TabIndex = 1;
             // 
             // topPanel
@@ -94,9 +96,9 @@
             topPanel.Controls.Add(logoutButton);
             topPanel.Controls.Add(welcomeLabel);
             topPanel.Dock = DockStyle.Top;
-            topPanel.Location = new Point(233, 0);
+            topPanel.Location = new Point(226, 0);
             topPanel.Name = "topPanel";
-            topPanel.Size = new Size(770, 103);
+            topPanel.Size = new Size(753, 103);
             topPanel.TabIndex = 2;
             // 
             // logoutButton
@@ -106,7 +108,7 @@
             logoutButton.FlatStyle = FlatStyle.Flat;
             logoutButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             logoutButton.Image = Properties.Resources.logout;
-            logoutButton.Location = new Point(606, 22);
+            logoutButton.Location = new Point(589, 22);
             logoutButton.Name = "logoutButton";
             logoutButton.Size = new Size(150, 45);
             logoutButton.TabIndex = 1;
@@ -134,10 +136,10 @@
             buttonPanel.Controls.Add(editButton);
             buttonPanel.Controls.Add(newButton);
             buttonPanel.Dock = DockStyle.Bottom;
-            buttonPanel.Location = new Point(233, 990);
+            buttonPanel.Location = new Point(226, 767);
             buttonPanel.Margin = new Padding(10);
             buttonPanel.Name = "buttonPanel";
-            buttonPanel.Size = new Size(770, 65);
+            buttonPanel.Size = new Size(753, 65);
             buttonPanel.TabIndex = 0;
             // 
             // searchButton
@@ -147,7 +149,7 @@
             searchButton.FlatStyle = FlatStyle.Flat;
             searchButton.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             searchButton.Image = Properties.Resources.serach;
-            searchButton.Location = new Point(642, 0);
+            searchButton.Location = new Point(625, 0);
             searchButton.Name = "searchButton";
             searchButton.Size = new Size(123, 63);
             searchButton.TabIndex = 3;
@@ -211,9 +213,11 @@
             // 
             menuPanel.BackColor = Color.Silver;
             menuPanel.BorderStyle = BorderStyle.FixedSingle;
+            menuPanel.Controls.Add(priceListButton);
+            menuPanel.Controls.Add(periodButton);
             menuPanel.Controls.Add(reservationPanel);
-            menuPanel.Controls.Add(staffButton);
             menuPanel.Controls.Add(categoriesPanel);
+            menuPanel.Controls.Add(staffButton);
             menuPanel.Controls.Add(subTitlePanel);
             menuPanel.Controls.Add(userButton);
             menuPanel.Controls.Add(roomButton);
@@ -222,15 +226,51 @@
             menuPanel.Location = new Point(0, 0);
             menuPanel.Margin = new Padding(5);
             menuPanel.Name = "menuPanel";
-            menuPanel.Size = new Size(233, 1055);
+            menuPanel.Size = new Size(226, 832);
             menuPanel.TabIndex = 1;
+            // 
+            // priceListButton
+            // 
+            priceListButton.AutoSize = true;
+            priceListButton.BackColor = Color.Silver;
+            priceListButton.FlatAppearance.BorderSize = 0;
+            priceListButton.FlatStyle = FlatStyle.Flat;
+            priceListButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            priceListButton.Image = Properties.Resources.price_list;
+            priceListButton.ImageAlign = ContentAlignment.MiddleLeft;
+            priceListButton.Location = new Point(3, 463);
+            priceListButton.Name = "priceListButton";
+            priceListButton.Size = new Size(185, 49);
+            priceListButton.TabIndex = 12;
+            priceListButton.Text = "PriceList";
+            priceListButton.TextImageRelation = TextImageRelation.ImageBeforeText;
+            priceListButton.UseVisualStyleBackColor = false;
+            priceListButton.Click += priceListButton_Click;
+            // 
+            // periodButton
+            // 
+            periodButton.AutoSize = true;
+            periodButton.BackColor = Color.Silver;
+            periodButton.FlatAppearance.BorderSize = 0;
+            periodButton.FlatStyle = FlatStyle.Flat;
+            periodButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            periodButton.Image = Properties.Resources.period;
+            periodButton.ImageAlign = ContentAlignment.MiddleLeft;
+            periodButton.Location = new Point(6, 368);
+            periodButton.Name = "periodButton";
+            periodButton.Size = new Size(185, 49);
+            periodButton.TabIndex = 11;
+            periodButton.Text = "Period";
+            periodButton.TextImageRelation = TextImageRelation.ImageBeforeText;
+            periodButton.UseVisualStyleBackColor = false;
+            periodButton.Click += periodButton_Click;
             // 
             // reservationPanel
             // 
             reservationPanel.Controls.Add(checkInOutButton);
             reservationPanel.Controls.Add(bookButton);
             reservationPanel.Controls.Add(reservationsButton);
-            reservationPanel.Location = new Point(2, 448);
+            reservationPanel.Location = new Point(3, 550);
             reservationPanel.Name = "reservationPanel";
             reservationPanel.Size = new Size(220, 148);
             reservationPanel.TabIndex = 10;
@@ -283,32 +323,15 @@
             reservationsButton.UseVisualStyleBackColor = true;
             reservationsButton.Click += reservationsButton_Click;
             // 
-            // staffButton
-            // 
-            staffButton.FlatAppearance.BorderSize = 0;
-            staffButton.FlatStyle = FlatStyle.Flat;
-            staffButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            staffButton.Image = Properties.Resources.staff;
-            staffButton.ImageAlign = ContentAlignment.MiddleLeft;
-            staffButton.Location = new Point(3, 357);
-            staffButton.Name = "staffButton";
-            staffButton.Size = new Size(176, 41);
-            staffButton.TabIndex = 8;
-            staffButton.Text = "Staff";
-            staffButton.TextImageRelation = TextImageRelation.ImageBeforeText;
-            staffButton.UseVisualStyleBackColor = true;
-            staffButton.Click += staffButton_Click;
-            // 
             // categoriesPanel
             // 
             categoriesPanel.Controls.Add(categoriesButton);
             categoriesPanel.Controls.Add(userCategoryButton);
             categoriesPanel.Controls.Add(roomCategoriesButton);
             categoriesPanel.Controls.Add(specialtyCategoriesButton);
-            categoriesPanel.Dock = DockStyle.Bottom;
-            categoriesPanel.Location = new Point(0, 856);
+            categoriesPanel.Location = new Point(-1, 691);
             categoriesPanel.Name = "categoriesPanel";
-            categoriesPanel.Size = new Size(231, 197);
+            categoriesPanel.Size = new Size(226, 197);
             categoriesPanel.TabIndex = 7;
             // 
             // categoriesButton
@@ -371,13 +394,29 @@
             specialtyCategoriesButton.UseVisualStyleBackColor = true;
             specialtyCategoriesButton.Click += specialtyCategoriesButton_Click;
             // 
+            // staffButton
+            // 
+            staffButton.FlatAppearance.BorderSize = 0;
+            staffButton.FlatStyle = FlatStyle.Flat;
+            staffButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            staffButton.Image = Properties.Resources.staff;
+            staffButton.ImageAlign = ContentAlignment.MiddleLeft;
+            staffButton.Location = new Point(3, 290);
+            staffButton.Name = "staffButton";
+            staffButton.Size = new Size(176, 41);
+            staffButton.TabIndex = 8;
+            staffButton.Text = "Staff";
+            staffButton.TextImageRelation = TextImageRelation.ImageBeforeText;
+            staffButton.UseVisualStyleBackColor = true;
+            staffButton.Click += staffButton_Click;
+            // 
             // subTitlePanel
             // 
             subTitlePanel.Controls.Add(imageTitleContainer);
             subTitlePanel.Dock = DockStyle.Top;
             subTitlePanel.Location = new Point(0, 0);
             subTitlePanel.Name = "subTitlePanel";
-            subTitlePanel.Size = new Size(231, 135);
+            subTitlePanel.Size = new Size(224, 135);
             subTitlePanel.TabIndex = 5;
             // 
             // imageTitleContainer
@@ -394,8 +433,8 @@
             // imageTitleContainer.Panel2
             // 
             imageTitleContainer.Panel2.Controls.Add(titleLabel);
-            imageTitleContainer.Size = new Size(231, 135);
-            imageTitleContainer.SplitterDistance = 62;
+            imageTitleContainer.Size = new Size(224, 135);
+            imageTitleContainer.SplitterDistance = 60;
             imageTitleContainer.TabIndex = 0;
             // 
             // titleLabel
@@ -416,7 +455,7 @@
             userButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             userButton.Image = Properties.Resources.users;
             userButton.ImageAlign = ContentAlignment.MiddleLeft;
-            userButton.Location = new Point(2, 750);
+            userButton.Location = new Point(6, 921);
             userButton.Name = "userButton";
             userButton.Size = new Size(176, 41);
             userButton.TabIndex = 4;
@@ -432,7 +471,7 @@
             roomButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             roomButton.Image = Properties.Resources.rooms;
             roomButton.ImageAlign = ContentAlignment.MiddleLeft;
-            roomButton.Location = new Point(3, 256);
+            roomButton.Location = new Point(5, 221);
             roomButton.Name = "roomButton";
             roomButton.Size = new Size(176, 41);
             roomButton.TabIndex = 2;
@@ -450,7 +489,7 @@
             customerButton.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             customerButton.Image = Properties.Resources.customers;
             customerButton.ImageAlign = ContentAlignment.MiddleLeft;
-            customerButton.Location = new Point(0, 159);
+            customerButton.Location = new Point(3, 145);
             customerButton.Name = "customerButton";
             customerButton.Size = new Size(185, 49);
             customerButton.TabIndex = 0;
@@ -463,7 +502,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1003, 1055);
+            ClientSize = new Size(979, 832);
             Controls.Add(backroundPanel);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
@@ -518,5 +557,7 @@
         private Button reservationsButton;
         private Button checkInOutButton;
         private Button bookButton;
+        private Button priceListButton;
+        private Button periodButton;
     }
 }

@@ -43,7 +43,7 @@ namespace HotelPmsUI.Forms
                     mainForm.UserButton!.Visible = false;
 
                 mainForm.WelcomeLabel.Text = $"Welcome: {login.FullName}";
-                mainForm.Show();
+                mainForm.BackroundPanel.Visible = true;
             }
         }
 
@@ -59,7 +59,7 @@ namespace HotelPmsUI.Forms
                         mainForm.UserButton!.Visible = false;
 
                     mainForm.WelcomeLabel.Text = $"Welcome: {login.FullName}";
-                    mainForm.Show();
+                    mainForm.BackroundPanel.Visible = true;
                 }
             }
         }

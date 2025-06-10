@@ -30,6 +30,8 @@ namespace HotelPmsUI.Forms.Room
         private void saveButton_Click(object sender, EventArgs e)
         {
             roomService.SaveData();
+            if (roomService.IsNew)
+                roomTypeComboBox.SelectedIndex = -1;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

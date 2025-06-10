@@ -32,6 +32,8 @@ namespace HotelPmsUI.Forms.Staff
         private void saveButton_Click(object sender, EventArgs e)
         {
             staffService.SaveData();
+            if (staffService.IsNew)
+                specialtyComboBox.SelectedIndex = -1;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

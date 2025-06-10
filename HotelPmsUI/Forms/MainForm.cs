@@ -17,20 +17,22 @@ namespace HotelPmsUI.Forms
         public Control? EditButton { get => editButton; }
         public Control? UserButton { get => userButton; }
         public Label WelcomeLabel { get => welcomeLabel; }
+        public Panel BackroundPanel { get => backroundPanel; }
         public MainForm()
         {
             InitializeComponent();
-
+            var seed = Program.ServiceProvider?.GetRequiredService<DataSeed>();
+            this.WindowState = FormWindowState.Maximized;
+            //this.Bounds = Screen.PrimaryScreen!.Bounds;
+            //this.MaximizeBox = false;
+            backroundPanel.Visible = false;
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
 
-            var seed = Program.ServiceProvider?.GetRequiredService<DataSeed>();
-
             var login = Program.ServiceProvider?.GetRequiredService<LoginForm>();
             this.CenterForm(login!);
             login!.ShowDialog();
-
 
 
             buttonPanel.Visible = false;
@@ -39,23 +41,14 @@ namespace HotelPmsUI.Forms
             specialtyCategoriesButton.Visible = false;
             bookButton.Visible = false;
             checkInOutButton.Visible = false;
+            backroundPanel.Visible = true;
 
         }
 
 
         private void customerButton_Click(object sender, EventArgs e)
         {
-            isCategoriesClicked = true;
-            isReservationsClicked = true;
-
-            CategoriesClicked();
-            ReservationsClicked();
-
-            buttonPanel.Visible = true;
-
-            editButton.Enabled = true;
-            newButton.Enabled = true;
-            searchButton.Visible = true;
+            SetUi();
 
             currentModule = Program.ServiceProvider?.GetService<ModelServices.CustomerService>();
 
@@ -66,17 +59,7 @@ namespace HotelPmsUI.Forms
 
         private void roomButton_Click(object sender, EventArgs e)
         {
-            isCategoriesClicked = true;
-            isReservationsClicked = true;
-
-            CategoriesClicked();
-            ReservationsClicked();
-
-            buttonPanel.Visible = true;
-
-            editButton.Enabled = true;
-            newButton.Enabled = true;
-            searchButton.Visible = true;
+            SetUi();
 
             currentModule = Program.ServiceProvider?.GetService<ModelServices.RoomService>();
 
@@ -87,17 +70,7 @@ namespace HotelPmsUI.Forms
 
         private void userButton_Click(object sender, EventArgs e)
         {
-            isReservationsClicked = true;
-            isCategoriesClicked = true;
-
-            CategoriesClicked();
-            ReservationsClicked();
-
-            buttonPanel.Visible = true;
-
-            editButton.Enabled = true;
-            newButton.Enabled = true;
-            searchButton.Visible = true;
+            SetUi();
 
             currentModule = Program.ServiceProvider?.GetService<ModelServices.UserService>();
 
@@ -108,17 +81,7 @@ namespace HotelPmsUI.Forms
 
         private void staffButton_Click(object sender, EventArgs e)
         {
-            isCategoriesClicked = true;
-            isReservationsClicked = true;
-
-            CategoriesClicked();
-            ReservationsClicked();
-
-            buttonPanel.Visible = true;
-
-            editButton.Enabled = true;
-            newButton.Enabled = true;
-            searchButton.Visible = true;
+            SetUi();
 
             currentModule = Program.ServiceProvider?.GetRequiredService<ModelServices.StaffService>();
 
@@ -149,6 +112,25 @@ namespace HotelPmsUI.Forms
             reservation!.ShowCheckInOutForm(centerPanel);
         }
 
+        private void periodButton_Click(object sender, EventArgs e)
+        {
+            SetUi();
+            searchButton.Visible = false;
+            currentModule = Program.ServiceProvider?.GetRequiredService<ModelServices.PeriodService>();
+
+            currentModule?.SetPanel(centerPanel);
+            currentModule?.ViewData();
+
+        }
+
+        private void priceListButton_Click(object sender, EventArgs e)
+        {
+            SetUi();
+            currentModule = Program.ServiceProvider?.GetRequiredService <ModelServices.PriceListService>();
+            currentModule?.SetPanel(centerPanel);
+            currentModule?.ViewData();
+        }
+
         private void CategoriesButton_Click(object sender, EventArgs e)
         {
             isReservationsClicked = true;
@@ -160,6 +142,7 @@ namespace HotelPmsUI.Forms
         private void userCategoryButton_Click(object sender, EventArgs e)
         {
             searchButton.Visible = false;
+            deleteButton.Visible = false;
 
             buttonPanel.Visible = true;
 
@@ -178,6 +161,7 @@ namespace HotelPmsUI.Forms
         private void roomCategoriesButton_Click(object sender, EventArgs e)
         {
             searchButton.Visible = false;
+            deleteButton.Visible = false;
 
             buttonPanel.Visible = true;
 
@@ -196,6 +180,7 @@ namespace HotelPmsUI.Forms
         private void specialtyCategoriesButton_Click(object sender, EventArgs e)
         {
             searchButton.Visible = false;
+            deleteButton.Visible = false;
 
             buttonPanel.Visible = true;
 
@@ -296,14 +281,30 @@ namespace HotelPmsUI.Forms
 
             if (result == DialogResult.Yes)
             {
-                centerPanel.Controls.Clear();
-                buttonPanel.Visible = false;
-                this.Hide();
+                backroundPanel.Visible = false;
                 var login = Program.ServiceProvider?.GetRequiredService<LoginForm>();
                 this.CenterForm(login!);
                 login!.ShowDialog();
             }
         }
+
+        private void SetUi()
+        {
+            isCategoriesClicked = true;
+            isReservationsClicked = true;
+
+            CategoriesClicked();
+            ReservationsClicked();
+
+            buttonPanel.Visible = true;
+
+            editButton.Enabled = true;
+            newButton.Enabled = true;
+            searchButton.Visible = true;
+            deleteButton.Visible = true;
+        }
+
+       
     }
 }
 

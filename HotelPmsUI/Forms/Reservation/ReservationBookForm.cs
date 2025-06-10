@@ -19,7 +19,6 @@ namespace HotelPmsUI.Forms.Reservation
     {
         private readonly DataAccessLibrary.Context.HpmsDbContext context;
         private readonly ModelServices.ReservationService service;
-        private int index = -1;
         public ReservationBookForm(DataAccessLibrary.Context.HpmsDbContext context, ModelServices.ReservationService service)
         {
             InitializeComponent();

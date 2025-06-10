@@ -35,6 +35,8 @@ namespace HotelPmsUI.Forms.User
         private void saveButton_Click(object sender, EventArgs e)
         {
             userService.SaveData();
+            if (userService.IsNew)
+                userRoleBox.SelectedIndex = -1;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
