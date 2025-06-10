@@ -40,7 +40,7 @@ namespace HotelPmsUI.ModelServices
         private string includeEntity = string.Empty;
         private bool needsInclude = false;
 
-        internal bool isAdded = false;
+        internal bool isNew = false;
 
         internal TModel? initialRecord;
         internal IQueryable<TModel>? records;
@@ -55,6 +55,7 @@ namespace HotelPmsUI.ModelServices
 
         private BindingSource? bindingSource = new();
 
+        public bool IsNew { get => isNew; }
 
         public int CurrentPage { get => currentPage; }
         public int CurrentPageIncrement { set => currentPage += value; }
@@ -129,29 +130,31 @@ namespace HotelPmsUI.ModelServices
                 entry = context.Entry(currentRecord);
 
 
-                if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Detached)
+                if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Detached || entry.State == Microsoft.EntityFrameworkCore.EntityState.Added)
                 {
                     context.Add(currentRecord);
                     MessageBox.Show($"{currentRecord.GetType().Name} added successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     var newRecord = bindingSource?.AddNew();
                     initialRecord = ((TModel)newRecord!).CopyData();
                     bindingSource!.DataSource = initialRecord;
+                    isNew = true;
                 }
-                else
+                else if (entry.State == Microsoft.EntityFrameworkCore.EntityState.Modified || entry.State == Microsoft.EntityFrameworkCore.EntityState.Unchanged)
                 {
                     context.Update(currentRecord);
                     MessageBox.Show($"{currentRecord.GetType().Name} Updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    isNew = false;
                 }
                     
 
                 context.SaveChanges();
                 transaction.Commit();
+                
             }
             catch (DbUpdateException e)
             {
 
                 string errorMessage = e.InnerException!.Message;
-                isAdded = false;
                 MessageBox.Show($"Error: {errorMessage}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 transaction?.Rollback();
             }
@@ -423,11 +426,13 @@ namespace HotelPmsUI.ModelServices
                 if (!string.IsNullOrEmpty(stringValue) && prop!.Name.Contains("From"))
                 {
                     predicate = predicate.And((x => String.Compare(EF.Property<string>(x, columnName!), stringValue) >= 0));
+                    return predicate;
                     
                 }
                 else if (!string.IsNullOrEmpty(stringValue) && prop!.Name.Contains("To"))
                 {
-                    predicate = predicate.And(x => String.Compare(EF.Property<string>(x, columnName!), stringValue) <= 0);
+                    char uperBound = (char)(stringValue[0] + 1);
+                    predicate = predicate.And(x => String.Compare(EF.Property<string>(x, columnName!), uperBound.ToString()) <= 0);
                     return predicate;
                 }
                     

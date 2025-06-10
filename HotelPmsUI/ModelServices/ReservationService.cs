@@ -52,7 +52,8 @@ namespace HotelPmsUI.ModelServices
 
             if (!freeRooms.Any())
             {
-                MessageBox.Show("");
+                roomSource.DataSource = freeRooms;
+                MessageBox.Show("Room not found in the given date.", "Not Found",MessageBoxButtons.OK,MessageBoxIcon.Asterisk);
                 return;
             }
 
@@ -64,6 +65,12 @@ namespace HotelPmsUI.ModelServices
             var reservation = context.Reservations.Where(r => r.ReservationDateFrom.Date == from.Value.Date &&
                                                                         r.Customer == box.SelectedItem)
                                                     .Include(ir => ir.Room).Include(ic => ic.Customer).ToList();
+            if (!reservation.Any())
+            {
+                reservationSource.DataSource = reservation;
+                MessageBox.Show("Resrvation not found in the given date.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return;
+            }
 
             reservationSource.DataSource = reservation;
 
@@ -163,10 +170,22 @@ namespace HotelPmsUI.ModelServices
 
         public void SetTotalPrice(double roomPrice)
         {
+            var fromDate = ((DataAccessLibrary.Models.Reservation)reservationSource[index]).ReservationDateFrom.Date;
+            var roomNumber = ((DataAccessLibrary.Models.Reservation)reservationSource[index]).RoomNumber;
+
             var dateFrom = ((DataAccessLibrary.Models.Reservation)reservationSource[index]).ReservationDateFrom.Day;
             var dateTo = ((DataAccessLibrary.Models.Reservation)reservationSource[index]).ReservationDateTo.Day;
 
-            totalPrice = (dateFrom - dateTo) * roomPrice;
+            var period = context.Period.FirstOrDefault(p => p.StartDate.Date <= fromDate.Date && p.EndDate.Date >= fromDate.Date);
+            var priceListId = context.PriceList?.FirstOrDefault(pl => pl.Period == period)!.Id;
+            var roomTypeId = context.Rooms.Where(r => r.RoomNumber == roomNumber).Include(i => i.RoomTypeCategory).Select(r => r.RoomTypeCategory.id).FirstOrDefault();
+
+            var rooomPrice = context.PriceListDetail.FirstOrDefault(pld => pld.PriceListId == priceListId && pld.RoomTypeId == roomTypeId)!.Price;
+
+            if(dateFrom > dateTo)
+                totalPrice = (dateFrom - dateTo) * rooomPrice;
+            else
+                totalPrice = (dateTo - dateFrom) * rooomPrice;
         }
 
         public void SetCustomerComboBox(ComboBox box)
