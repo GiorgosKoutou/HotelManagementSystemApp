@@ -110,6 +110,7 @@ bash
 Copy
 Edit
 dotnet tool install --global dotnet-ef
+
 Author
 Georgios Koutourinis
 IVT AKMI – Semester D
