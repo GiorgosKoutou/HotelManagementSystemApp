@@ -53,7 +53,7 @@ A small but meaningful use of Reflection is present inside the `BaseService` cla
 - **Example Scenario:**  
   This technique is applied in a generic filtering method that dynamically inspects filter form properties (marked with custom attributes) and builds LINQ queries to filter any entity type.
 
-This implementation demonstrates practical use of **generic programming** and **runtime type inspection (Reflection)** to create adaptable and maintainable data access methods.
+This was mainly implemented to experiment with Reflection and understand its use in real-world scenarios.
 
 ---
 
