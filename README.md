@@ -1,4 +1,5 @@
 Hotel Management System App
+
 A simple Hotel Property Management System (PMS) desktop application built with C#, WinForms, and Entity Framework Core.
 The goal of this project was to apply modern .NET development techniques while keeping the structure understandable and approachable for entry-level development.
 
