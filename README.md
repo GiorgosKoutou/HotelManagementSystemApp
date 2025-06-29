@@ -127,19 +127,18 @@ dotnet add package Pomelo.EntityFrameworkCore.MySql
 dotnet add package Microsoft.EntityFrameworkCore.Tools
 dotnet add package Microsoft.EntityFrameworkCore.Design
 EF Core CLI tools (optional but recommended for database commands like migrations):
+```
+---
 
-bash
-Copy
-Edit
-dotnet tool install --global dotnet-ef
-
-Author
+## Author  
 Georgios Koutourinis
 IVT AKMI – Semester D
 Department: Software Engineer
 Academic Year: 2024–2025
 
-Final Notes
+---
+
+## Final Notes  
 This project was built as part of my personal learning journey into .NET development, desktop app design, and database-driven applications.
 It focuses on clean code, separation of concerns, and trying out advanced features like EF Core, LINQ, and Reflection, even at an entry level.
 
