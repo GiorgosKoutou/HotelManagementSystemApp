@@ -10,11 +10,13 @@ The goal of this project was to apply modern .NET development techniques while k
 - **C# (.NET 8)**
 - **WinForms (UI Layer)**
 - **Entity Framework Core (ORM)**
-- **MySQL (Database)**
-- **Layered Architecture (UI Layer / Data Access Layer separation)**
 - **LINQ**
 - **Generics**
 - **Reflection**
+- **Dependency Injection (DI)**
+- **MySQL (Database)**
+- **Layered Architecture (UI Layer / Data Access Layer separation)**
+
 
 ---
 
@@ -38,6 +40,26 @@ The project uses Entity Framework Core (EF Core) as the Object-Relational Mapper
 
 - **Provider:**  
   The application uses the `Pomelo.EntityFrameworkCore.MySql` provider to connect EF Core with MySQL.
+
+---
+
+---
+
+## Use of Dependency Injection (DI)
+
+**Specifically:**
+
+- **Service Registration in Program.cs:**
+All the required services and the DbContext are registered inside the Program.cs file using the default .NET Generic Host and DI Container.
+
+- **Constructor Injection:**
+Services like CustomerService, RoomService, etc., are injected directly into WinForms Forms via constructor parameters.
+
+- **Benefits:**
+This makes the application more testable, reduces coupling, and follows modern dependency management patterns even inside a desktop WinForms app.
+
+- **Example Scenario:**
+When opening a form like CustomerForm, the necessary service is automatically injected by the DI container, avoiding manual instantiation.
 
 ---
 
