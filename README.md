@@ -49,16 +49,20 @@ The project uses Entity Framework Core (EF Core) as the Object-Relational Mapper
 
 **Specifically:**
 
-- **Service Registration in Program.cs:** 
+- **Service Registration in Program.cs:**
+  
   All the required services and the DbContext are registered inside the Program.cs file using the default .NET Generic Host and DI Container.
 
-- **Constructor Injection:** 
+- **Constructor Injection:**
+  
   Services like CustomerService, RoomService, etc., are injected directly into WinForms Forms via constructor parameters.
 
-- **Benefits:** 
+- **Benefits:**
+  
   This makes the application more testable, reduces coupling, and follows modern dependency management patterns even inside a desktop WinForms app.
 
-- **Example Scenario:**  
+- **Example Scenario:**
+  
   When opening a form like CustomerForm, the necessary service is automatically injected by the DI container, avoiding manual instantiation.
 
 ---
