@@ -131,10 +131,10 @@ EF Core CLI tools (optional but recommended for database commands like migration
 ---
 
 ## Author  
-Georgios Koutourinis
-IVT AKMI – Semester D
-Department: Software Engineer
-Academic Year: 2024–2025
+Georgios Koutourinis  
+IVT AKMI – Semester D  
+Department: Software Engineer  
+Academic Year: 2024–2025  
 
 ---
 
